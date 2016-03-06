@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+    	
+    	<!-- Generic Entity Manager -->
+    	<parameter key="asf_product.entity.manager.class">ASF\ProductBundle\Entity\Manager\ASFProductManager</parameter>
+		
+		<!-- Product Manager -->
+		<parameter key="asf_product.product.entity.class">ASF\ProductBundle\Entity\Product</parameter>
+
+		<!-- ProductCategory Manager -->
+		<parameter key="asf_product.product_category.entity.class">ASF\ContactBundle\Entity\ProductCategory</parameter>
+
+    </parameters>
+
+    <services>
+        
+         <!-- Product Entity Manager -->
+        <service id="asf_product.product.manager" class="%asf_product.entity.manager.class%">
+            <tag name="asf_core.manager" entity="%asf_product.product.entity.class%" />
+        </service>
+        
+        <!-- ProductCategory Entity Manager -->
+        <service id="asf_product.product_category.manager" class="%asf_product.entity.manager.class%">
+            <tag name="asf_core.manager" entity="%asf_product.product_category.entity.class%" />
+        </service>
+        
+    </services>
+    
+</container>

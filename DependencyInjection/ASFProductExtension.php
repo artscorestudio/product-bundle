@@ -31,5 +31,9 @@ class ASFProductExtension extends ASFExtension
 	    $config = $this->processConfiguration($configuration, $configs);
 	    
 	    $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+	    
+	    if ( isset($config['enable_core_support']) && true === $config['enable_core_support'] ) {
+	    	$loader->load('services/enable_core_support/services.xml');
+	    }
     }
 }

@@ -23,10 +23,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ASF\ProductBundle\DependencyInjection\Configuration
      */
-	public function testDefaultConfiguration()
-	{
-		$processor = new Processor();
-		$config = $processor->processConfiguration(new Configuration(), array());
-		$this->assertCount(0, $config);
-	}
+    public function testEnableASFCoreSupportParameterInDefaultConfiguration()
+    {
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), array());
+        $this->assertFalse($config['enable_core_support']);
+    }
 }
