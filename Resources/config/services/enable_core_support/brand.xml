@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+	
+		<!-- Brand Manager -->
+		<parameter key="asf_product.brand.entity.class">ASF\ProductBundle\Entity\Brand</parameter>
+		
+    </parameters>
+
+    <services>
+        
+         <!-- Product Entity Manager -->
+        <service id="asf_product.brand.manager" class="%asf_product.entity.manager.class%">
+            <tag name="asf_core.manager" entity="%asf_product.brand.entity.class%" />
+        </service>
+        
+    </services>
+    
+</container>

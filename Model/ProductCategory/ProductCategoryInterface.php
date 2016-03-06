@@ -17,5 +17,53 @@ namespace ASF\ProductBundle\Model\ProductCategory;
  */
 interface ProductCategoryInterface
 {
-
+	/**
+	 * @return string
+	 */
+	public function getName();
+	
+	/**
+	 * @param string $name
+	 * @return \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 */
+	public function setName($name);
+	
+	/**
+	 * @return string
+	 */
+	public function getState();
+	
+	/**
+	 * @param string $state
+	 * @return \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 */
+	public function setState($state);
+	
+	/**
+	 * @return string
+	 */
+	public function getParent();
+	
+	/**
+	 * @param \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface $category
+	 * @return \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 */
+	public function setParent(ProductCategoryInterface $category);
+	
+	/**
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */
+	public function getChildren();
+	
+	/**
+	 * @param \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface $category
+	 * @return \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 */
+	public function addChild(ProductCategoryInterface $category);
+	
+	/**
+	 * @param \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface $category
+	 * @return \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 */
+	public function removeChild(ProductCategoryInterface $category);
 }

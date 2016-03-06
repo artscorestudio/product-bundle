@@ -34,6 +34,10 @@ class ASFProductExtension extends ASFExtension
 	    
 	    if ( isset($config['enable_core_support']) && true === $config['enable_core_support'] ) {
 	    	$loader->load('services/enable_core_support/services.xml');
+	    	
+	    	if ( isset($config['enable_brand_entity']) && true === $config['enable_brand_entity'] ) {
+	    		$loader->load('services/enable_core_support/brand.xml');
+	    	}
 	    }
     }
 }
