@@ -1,0 +1,27 @@
+{
+	"name" : "artscorestudio/product-bundle",
+	"license" : "MIT",
+	"type" : "library",
+	"description" : "Product Bundle is a Symfony 2/3 bundle for create and manage products in your Symfony 2/3 application. This package is a part of Artscore Studio Framework.",
+	"homepage" : "https://github.com/artscorestudio/product-bundle",
+	"authors" : [{
+		"name" : "Nicolas Claverie",
+		"email" : "info@artscore-studio.fr"
+	}, {
+		"name" : "Artscore Studio",
+		"homepage" : "http://www.artscore-studio.fr"
+	}
+	],
+	"require" : {
+		"php" : ">=5.3.9",
+		"symfony/framework-bundle": "~2.8|~3.0",
+		"symfony/expression-language": "~2.8|~3.0",
+		"artscorestudio/core-bundle": "1.0.3"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"ASF\\ProductBundle\\" : ""
+		}
+	},
+	"minimum-stability" : "dev"
+}
