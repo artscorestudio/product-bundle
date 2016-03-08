@@ -18,6 +18,9 @@
 		"symfony/expression-language": "~2.8|~3.0",
 		"artscorestudio/core-bundle": "~1.0@dev"
 	},
+	"require-dev": {
+	    "artscorestudio/layout-bundle": "~1.0@dev"
+	},
 	"autoload" : {
 		"psr-4" : {
 			"ASF\\ProductBundle\\" : ""
