@@ -13,7 +13,7 @@
 
     <services>
         
-         <!-- Product Entity Manager -->
+         <!-- Brand Entity Manager -->
         <service id="asf_product.brand.manager" class="%asf_product.entity.manager.class%">
             <tag name="asf_core.manager" entity="%asf_product.brand.entity.class%" />
         </service>
