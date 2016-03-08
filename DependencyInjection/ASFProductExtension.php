@@ -32,6 +32,8 @@ class ASFProductExtension extends ASFExtension
 	    
 	    $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 	    
+	    $container->setParameter('asf_product.enable_brand_entity', $config['enable_brand_entity']);
+	    
 	    if ( isset($config['enable_core_support']) && true === $config['enable_core_support'] ) {
 	    	$loader->load('services/enable_core_support/services.xml');
 	    	
