@@ -1,0 +1,58 @@
+{% trans_default_domain 'asf_product' %}
+
+<div class="container-fluid">
+	<form>
+		<h3>{{ 'Products form our database'|trans }}</h3>
+		<div class="alert alert-info">{{ 'Check at first if your product does not exist in our database. If this is the case select it by checking the appropriate checkbox.'|trans }}</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th></th>
+							<th>{{ 'Product name'|trans }}</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% if products|length > 0 %}
+					{% for id,name in products %}
+						<tr>
+							<td><input type="checkbox" class="selected_product" name="selected_product" value="{{ name }}" /></td>
+							<td>{{ name }}</td>
+						</tr>
+					{% endfor %}
+					{% else %}
+						<tr>
+							<td colspan="2" class="warning">{{ 'No products match with this product name.'|trans }}</td>
+						</tr>
+					{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<h3>{{ 'Suggested product name'|trans }}</h3>
+		<div class="alert alert-info">{{ 'Otherwise, confirm the information below about your product.'|trans }}</div>
+		
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label>{{ 'Product name'|trans }}</label>
+				<input type="text" class="form-control product-name" name="product-name" value="{{ product_name }}" />
+			</div>
+			<div class="form-group col-sm-3">
+				<label>{{ 'Brand name'|trans }}</label>
+				<input type="text" class="form-control brand-name" name="brand-name" value="{{ brand_name }}" />
+			</div>
+			<div class="form-group col-sm-2">
+				<label>{{ 'Weight (Kg)'|trans }}</label>
+				<input type="text" class="form-control weight" name="weight" value="{{ weight }}" />
+			</div>
+			<div class="form-group col-sm-3">
+				<label>{{ 'Capacity (Liter)'|trans }}</label>
+				<input type="text" class="form-control capacity" name="capacity" value="{{ capacity }}" />
+			</div>
+		</div>
+		
+	</form>
+</div>

@@ -1,0 +1,25 @@
+{% extends 'AsfProductBundle::layout.html.twig' %}
+
+{% trans_default_domain 'asf_product' %}
+
+{% block title %}{{ 'Brand list'|trans }}{% endblock %}
+
+{% block asf_product_content %}
+
+	{% block page_title %}{{ 'Brand list'|trans }}{% endblock %}
+	
+	{% block breadcrumbs_tree %}
+	 > <a href="{{ path('asf_product_brand_list') }}" title="{{ 'Brand list'|trans }}">{{ 'Brand list'|trans }}</a>
+	{% endblock %}
+	
+	{% block asf_content_cmd %}
+	<a class="btn btn-default" href="{{ path('asf_product_brand_add') }}" title="{{ 'Add new brand'|trans }}">{{ 'Add new brand'|trans }}</a>
+	{% endblock asf_content_cmd %}
+	
+	<div class="row">
+		<div class="col-xs-12">
+			{{ grid(grid, '::datagrid-grid-template.html.twig') }}
+		</div>
+	</div>
+	
+{% endblock %}

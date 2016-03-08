@@ -1,0 +1,33 @@
+{% extends 'AsfProductBundle::layout.html.twig' %}
+
+{% block title %}{{ category.getName() }}{% endblock %}
+
+{% trans_default_domain 'asf_product' %}
+
+{% form_theme form 'AsfProductBundle:Form:form_div_layout.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+{{ form_stylesheet(form) }}
+{% endblock stylesheets %}
+        
+{% block javascripts %}
+{{ parent() }}
+{{ form_javascript(form) }}
+{{ tinymce_init() }}
+{% endblock javascripts %}
+
+{% block asf_product_content %}
+	{% block breadcrumbs_tree %}
+	 > <a href="{{ path('asf_product_category_list') }}" title="{{ 'Category list'|trans }}">{{ 'Category list'|trans }}</a>
+	{% if category.getId() is not null %}
+	 > <a href="{{ path('asf_product_category_edit', {id: category.getId()}) }}" title="{{ category.getName() }}">{{ category.getName() }}</a>
+	{% else %}
+	 > <a href="{{ path('asf_product_category_add') }}" title="{{ category.getName() }}">{{ category.getName() }}</a>
+	{% endif %}
+	{% endblock %}
+	
+	<div class="container-fluid">
+		{{ form(form) }}
+	</div>
+{% endblock %}
