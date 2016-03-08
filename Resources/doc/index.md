@@ -69,3 +69,4 @@ Now you have completed the basic installation and configuration of the ASFProduc
 The following documents are available :
 * [Overriding Default ASFProductBundle Templates](templates.md)
 * [Overriding Default ASFProductBundle Controllers](controllers.md)
+* [ASFProductBundle Entities](entities.md)
