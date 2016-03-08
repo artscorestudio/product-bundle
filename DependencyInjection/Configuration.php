@@ -38,6 +38,9 @@ class Configuration implements ConfigurationInterface
 		        ->booleanNode('enable_brand_entity')
 		        	->defaultFalse()
 		        ->end()
+		        ->booleanNode('enable_productPack_entity')
+		          ->defaultFalse()
+		        ->end()
 		    ->end();
         
         return $treeBuilder;

@@ -29,4 +29,24 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = $processor->processConfiguration(new Configuration(), array());
         $this->assertFalse($config['enable_core_support']);
     }
+    
+    /**
+     * @covers ASF\ProductBundle\DependencyInjection\Configuration
+     */
+    public function testEnableBrandEntityParameterInDefaultConfiguration()
+    {
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), array());
+        $this->assertFalse($config['enable_brand_entity']);
+    }
+    
+    /**
+     * @covers ASF\ProductBundle\DependencyInjection\Configuration
+     */
+    public function testEnableProductPackEntityParameterInDefaultConfiguration()
+    {
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), array());
+        $this->assertFalse($config['enable_productPack_entity']);
+    }
 }
