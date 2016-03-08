@@ -9,6 +9,10 @@
 		<!-- Brand Manager -->
 		<parameter key="asf_product.brand.entity.class">ASF\ProductBundle\Entity\Brand</parameter>
 		
+		<!-- Forms -->
+		<parameter key="asf_product.form.type.brand.class">ASF\ProductBundle\Form\Type\BrandType</parameter>
+		<parameter key="asf_product.form.type.search_brand.class">ASF\ProductBundle\Form\Type\SearchBrandType</parameter>
+		
     </parameters>
 
     <services>
@@ -16,6 +20,17 @@
          <!-- Brand Entity Manager -->
         <service id="asf_product.brand.manager" class="%asf_product.entity.manager.class%">
             <tag name="asf_core.manager" entity="%asf_product.brand.entity.class%" />
+        </service>
+        
+        <!-- Forms -->
+        <service id="asf_product.form.type.brand" class="%asf_product.form.type.brand.class%">
+        	<argument type="service" id="asf_product.brand.manager" />
+            <tag name="form.type" alias="brand_type" />
+        </service>
+        
+        <service id="asf_product.form.type.search_brand" class="%asf_product.form.type.search_brand.class%">
+        	<argument type="service" id="asf_product.brand.manager" />
+            <tag name="form.type" alias="search_brand" />
         </service>
         
     </services>
