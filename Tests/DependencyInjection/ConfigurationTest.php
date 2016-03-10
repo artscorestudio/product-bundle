@@ -49,4 +49,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = $processor->processConfiguration(new Configuration(), array());
         $this->assertFalse($config['enable_productPack_entity']);
     }
+    
+    /**
+     * @covers ASF\ProductBundle\DependencyInjection\Configuration
+     */
+    public function testTwigFormThemeParameterInDefaultConfiguration()
+    {
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), array());
+        $this->assertArrayHasKey('form_theme', $config);
+    }
 }

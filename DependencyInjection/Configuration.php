@@ -41,6 +41,9 @@ class Configuration implements ConfigurationInterface
 		        ->booleanNode('enable_productPack_entity')
 		          ->defaultFalse()
 		        ->end()
+		        ->scalarNode('form_theme')
+		          ->defaultValue('ASFProductBundle:Form:fields.html.twig')
+		        ->end()
 		    ->end();
         
         return $treeBuilder;

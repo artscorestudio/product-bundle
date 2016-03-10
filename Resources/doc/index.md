@@ -70,3 +70,4 @@ The following documents are available :
 * [Overriding Default ASFProductBundle Templates](templates.md)
 * [Overriding Default ASFProductBundle Controllers](controllers.md)
 * [ASFProductBundle Entities](entities.md)
+* [ASFProductBundle Configuration Reference](configuration.md)
