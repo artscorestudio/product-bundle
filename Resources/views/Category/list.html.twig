@@ -1,27 +1,19 @@
-{% extends 'AsfProductBundle::layout.html.twig' %}
+{% extends 'ASFProductBundle::layout.html.twig' %}
 
 {% trans_default_domain 'asf_product' %}
 
-{% block title %}{{ 'Category list'|trans }}{% endblock %}
+{% block title %}{{ 'Categories list'|trans }}{% endblock %}
 
 {% block asf_product_content %}
 
-	{% block page_title %}{{ 'Category list'|trans }}{% endblock %}
-	
-	{% block breadcrumbs_tree %}
-	 > <a href="{{ path('asf_product_category_list') }}" title="{{ 'Category list'|trans }}">{{ 'Category list'|trans }}</a>
-	{% endblock %}
-	
-	{% block asf_content_cmd %}
+	<h1>{{ 'Categories list'|trans }}</h1>
+
 	<a class="btn btn-default" href="{{ path('asf_product_category_add') }}" title="{{ 'Add new category'|trans }}">{{ 'Add new category'|trans }}</a>
-	{% endblock asf_content_cmd %}
-	
-	{% block page_content %}
+
 	<div class="row">
 		<div class="col-xs-12">
-			{{ grid(grid, '::datagrid-grid-template.html.twig') }}
+			{{ grid(grid) }}
 		</div>
 	</div>
-	{% endblock %}
 	
 {% endblock %}
