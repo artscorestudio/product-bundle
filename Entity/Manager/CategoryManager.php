@@ -9,6 +9,10 @@
  */
 namespace ASF\ProductBundle\Entity\Manager;
 
+use ASF\ProductBundle\Model\Category\CategoryInterface;
+use Doctrine\ORM\EntityManager;
+use ASF\ProductBundle\Model\Category\CategoryModel;
+
 /**
  * Product Category Entity Manager
  * 
@@ -17,6 +21,22 @@ namespace ASF\ProductBundle\Entity\Manager;
  */
 class CategoryManager extends ASFProductManager
 {
+    /**
+     * @var ASFProductManagerInterface
+     */
+    protected $productManager;
+    
+    /**
+     * @param EntityManager              $entity_manager
+     * @param string                     $entity_name
+     * @param ASFProductManagerInterface $product_manager
+     */
+    public function __construct(EntityManager $entity_manager, $entity_name, ASFProductManagerInterface $product_manager)
+    {
+       parent::__construct($entity_manager, $entity_name);
+       $this->productManager = $product_manager;
+    }
+    
     /**
      * Removing category
      *
@@ -28,7 +48,7 @@ class CategoryManager extends ASFProductManager
     public function removeCategory(CategoryInterface $category)
     {
         // Get products linked to this category
-        $productManager = $this->container->get('asf_product.product.manager');
+        $productManager = $this->productManager;
         $products = $productManager->getRepository()->findProductsByCategory($category);
     
         // Get categories linked to this category
