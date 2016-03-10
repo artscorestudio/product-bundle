@@ -13,8 +13,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 
-use ASF\ProductBundle\Model\Category\CategoryInterface;
-
 /**
  * Brand Repository
  *

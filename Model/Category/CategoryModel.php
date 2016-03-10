@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace ASF\ProductBundle\Model\ProductCategory;
+namespace ASF\ProductBundle\Model\Category;
 
 /**
  * Product Category
@@ -15,7 +15,7 @@ namespace ASF\ProductBundle\Model\ProductCategory;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-abstract class ProductCategoryModel extends ProductCategoryInterface
+abstract class CategoryModel implements CategoryInterface
 {
 	/**
 	 * All product category' states are hardcoded in constantes.
@@ -42,7 +42,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	protected $state;
 	
 	/**
-	 * @var \ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface
+	 * @var \ASF\ProductBundle\Model\Category\CategoryInterface
 	 */
 	protected $parent;
 	
@@ -66,7 +66,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::getName()
+	 * @see \ASF\ProductBundle\Model\Category\Category::getName()
 	 */
 	public function getName()
 	{
@@ -75,7 +75,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::setName()
+	 * @see \ASF\ProductBundle\Model\Category\Category::setName()
 	 */
 	public function setName($name)
 	{
@@ -85,7 +85,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::getState()
+	 * @see \ASF\ProductBundle\Model\Category\Category::getState()
 	 */
 	public function getState()
 	{
@@ -94,7 +94,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::setState()
+	 * @see \ASF\ProductBundle\Model\Category\Category::setState()
 	 */
 	public function setState($state)
 	{
@@ -104,7 +104,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::getParent()
+	 * @see \ASF\ProductBundle\Model\Category\Category::getParent()
 	 */
 	public function getParent()
 	{
@@ -113,9 +113,9 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::setParent()
+	 * @see \ASF\ProductBundle\Model\Category\CategoryInterface::setParent()
 	 */
-	public function setParent(ProductCategoryInterface $category)
+	public function setParent(CategoryInterface $category)
 	{
 		$this->parent = $category;
 		return $this;
@@ -123,7 +123,7 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::getChildren()
+	 * @see \ASF\ProductBundle\Model\Category\CategoryInterface::getChildren()
 	 */
 	public function getChildren()
 	{
@@ -132,9 +132,9 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::addChild()
+	 * @see \ASF\ProductBundle\Model\Category\CategoryInterface::addChild()
 	 */
-	public function addChild(ProductCategoryInterface $category)
+	public function addChild(CategoryInterface $category)
 	{
 		$this->children->add($category);
 		return $this;
@@ -142,9 +142,9 @@ abstract class ProductCategoryModel extends ProductCategoryInterface
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see \ASF\ProductBundle\Model\ProductCategory\ProductCategory::removeChild()
+	 * @see \ASF\ProductBundle\Model\Category\CategoryInterface::removeChild()
 	 */
-	public function removeChild(ProductCategoryInterface $category)
+	public function removeChild(CategoryInterface $category)
 	{
 		$this->children->removeElement($category);
 		return $this;

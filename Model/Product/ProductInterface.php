@@ -9,7 +9,7 @@
  */
 namespace ASF\ProductBundle\Model\Product;
 
-use ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface;
+use ASF\ProductBundle\Model\Category\CategoryInterface;
 
 /**
  * Product Interface
@@ -50,13 +50,13 @@ interface ProductInterface
 	 * @param \ASF\ProductBundle\Model\Category\CategoryInterface $category
 	 * @return \ASF\ProductBundle\Model\Product\ProductInterface
 	 */
-	public function addCategory(ProductCategoryInterface $category);
+	public function addCategory(CategoryInterface $category);
 	
 	/**
 	 * @param \ASF\ProductBundle\Model\Category\CategoryInterface $category
 	 * @return \ASF\ProductBundle\Model\Product\ProductInterface
 	 */
-	public function removeCategory(ProductCategoryInterface $category);
+	public function removeCategory(CategoryInterface $category);
 	
 	/**
 	 * @return \DateTime

@@ -10,7 +10,8 @@
 namespace ASF\ProductBundle\Model\Product;
 
 use ASF\ProductBundle\Model\Brand\BrandInterface;
-use ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface;
+use ASF\ProductBundle\Model\Category\CategoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product Model
@@ -18,7 +19,7 @@ use ASF\ProductBundle\Model\ProductCategory\ProductCategoryInterface;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-abstract class ProductModel extends ProductInterface
+abstract class ProductModel implements ProductInterface
 {
 	/**
 	 * All product's states are hardcoded in constantes.
@@ -39,14 +40,6 @@ abstract class ProductModel extends ProductInterface
 	 * @var integer
 	 */
 	protected $id;
-	
-	/**
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	/**
 	 * @var string
@@ -248,7 +241,7 @@ abstract class ProductModel extends ProductInterface
 	 * (non-PHPdoc)
 	 * @see \ASF\ProductBundle\Model\Product\ProductInterface::addCategories()
 	 */
-	public function addCategory(ProductCategoryInterface $category)
+	public function addCategory(CategoryInterface $category)
 	{
 		$this->categories->add($category);
 		return $this;
@@ -258,7 +251,7 @@ abstract class ProductModel extends ProductInterface
 	 * (non-PHPdoc)
 	 * @see \ASF\ProductBundle\Model\Product\ProductInterface::removeCategories()
 	 */
-	public function removeCategory(ProductCategoryInterface $category)
+	public function removeCategory(CategoryInterface $category)
 	{
 		$this->categories->removeElement($category);
 		return $this;

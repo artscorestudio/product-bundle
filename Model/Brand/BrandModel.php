@@ -17,7 +17,7 @@ use ASF\ProductBundle\Model\Product\ProductInterface;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-abstract class BrandModel extends BrandInterface
+abstract class BrandModel implements BrandInterface
 {
 	/**
 	 * All brand's states are hardcoded in constantes.
@@ -32,14 +32,6 @@ abstract class BrandModel extends BrandInterface
 	 * @var integer
 	 */
 	protected $id;
-	
-	/**
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	/**
 	 * @var string
