@@ -35,6 +35,13 @@ asf_product_product_create_ajax_request:
     options:
         expose: true 
         
+# Category
+asf_product_ajax_request_category_by_name:
+    path: /search/category/by/name
+    defaults: { _controller: "ASFProductBundle:AjaxRequest:searchCategoryByName" }
+    options:
+        expose: true
+        
 # Brand
 asf_product_brand_ajax_request:
     path: /ajax/request
