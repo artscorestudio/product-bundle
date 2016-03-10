@@ -13,6 +13,8 @@ use ASF\CoreBundle\Form\Handler\FormHandlerModel;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Category Form Handler
@@ -23,18 +25,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class CategoryFormHandler extends FormHandlerModel
 {
 	/**
-	 * @var ContainerInterface
+	 * @var ASFEntityManagerInterface
 	 */
-	protected $container;
+	protected $categoryManager;
 	
 	/**
-	 * @param FormInterface      $form
-	 * @param ContainerInterface $container
+	 * @param FormInterface             $form
+	 * @param Request                   $request
+	 * @param ASFEntityManagerInterface $category_manager
 	 */
-	public function __construct(FormInterface $form, ContainerInterface $container)
+	public function __construct(FormInterface $form, Request $request, ASFEntityManagerInterface $category_manager)
 	{
-		parent::__construct($form);
-		$this->container = $container;
+		parent::__construct($form, $request);
+		$this->categoryManager = $category_manager;
 	}
 	
 	/**
@@ -45,7 +48,7 @@ class CategoryFormHandler extends FormHandlerModel
 	public function processForm($model)
 	{
 		try {
-		    $categoryManager = $this->container->get('asf_product.product_category.manager');
+		    $categoryManager = $this->categoryManager;
 			$category = $model;
 			
 			if ( is_null($category->getId()) ) {
