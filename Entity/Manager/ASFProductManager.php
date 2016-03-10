@@ -17,4 +17,4 @@ use ASF\CoreBundle\Entity\Manager\ASFEntityManager;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-class ASFProductManager extends ASFEntityManager implements ASFProductEntityManagerInterface {}
+class ASFProductManager extends ASFEntityManager implements ASFProductManagerInterface {}
