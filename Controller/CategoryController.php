@@ -1,27 +1,25 @@
 <?php
-/**
- * This file is part of Artscore Studio Framework package
+/*
+ * This file is part of the Artscore Studio Framework package.
  *
- * (c) 2012-2015 Nicolas Claverie <info@artscore-studio.fr>
+ * (c) Nicolas Claverie <info@artscore-studio.fr>
  *
- * This dource file is subject to the MIT Licence that is bundled
- * with this source code in the file LICENSE.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-namespace Asf\Bundle\ProductBundle\Controller;
+namespace ASF\ProductBundle\Controller;
 
-use Asf\Bundle\ApplicationBundle\Controller\AsfController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
-
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Asf\Bundle\ProductBundle\Entity\CategoryModel;
+use ASF\ProductBundle\Entity\CategoryModel;
+use ASF\ProductBundle\Form\Type\CategoryType;
+use ASF\ProductBundle\Form\Handler\CategoryFormHandler;
+
 
 /**
  * Artscore Studio Product Category Controller
@@ -29,7 +27,7 @@ use Asf\Bundle\ProductBundle\Entity\CategoryModel;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-class CategoryController extends AsfController
+class CategoryController extends Controller
 {
 	/**
 	 * List all categories
@@ -39,8 +37,8 @@ class CategoryController extends AsfController
 	 */
 	public function listAction()
 	{
-		if ( !$this->get('security.context')->isGranted('ROLE_ADMIN') )
-			throw new AccessDeniedException();
+        if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
+            throw new AccessDeniedException();
 		
 		// Set Datagrid source
 		$source = new Entity($this->get('asf_product.category.manager')->getClassName());
@@ -77,10 +75,10 @@ class CategoryController extends AsfController
 			->setOperatorsVisible(false)
 			->setSelectFrom('values')
 			->setValues(array(
-				CategoryModel::STATE_DRAFT => $this->getTranslator()->trans('Draft', array(), 'asf_product'), 
-				CategoryModel::STATE_WAITING => $this->getTranslator()->trans('Waiting', array(), 'asf_product'),
-				CategoryModel::STATE_PUBLISHED => $this->getTranslator()->trans('Published', array(), 'asf_product'),
-				CategoryModel::STATE_DELETED => $this->getTranslator()->trans('Deleted', array(), 'asf_product')
+				CategoryModel::STATE_DRAFT => $this->get('translator')->trans('Draft', array(), 'asf_product'), 
+				CategoryModel::STATE_WAITING => $this->get('translator')->trans('Waiting', array(), 'asf_product'),
+				CategoryModel::STATE_PUBLISHED => $this->get('translator')->trans('Published', array(), 'asf_product'),
+				CategoryModel::STATE_DELETED => $this->get('translator')->trans('Deleted', array(), 'asf_product')
 			));
 	
 		$editAction = new RowAction('btn_edit', 'asf_product_category_edit');
@@ -92,33 +90,30 @@ class CategoryController extends AsfController
 			->setConfirmMessage($this->get('translator')->trans('Do you want to delete this category ?', array(), 'asf_product'));
 		$grid->addRowAction($deleteAction);
 	
-		$grid->setNoDataMessage($this->getTranslator()->trans('No category was found.', array(), 'asf_product'));
+		$grid->setNoDataMessage($this->get('translator')->trans('No category was found.', array(), 'asf_product'));
 		
-		return $grid->getGridResponse('AsfProductBundle:Category:list.html.twig');
+		return $grid->getGridResponse('ASFProductBundle:Category:list.html.twig');
 	}
 	
 	/**
 	 * Add or edit a category
 	 * 
-	 * @param  integer $id           AsfProductBundle:Category Entity ID
+	 * @param  integer $id           ASFProductBundle:Category Entity ID
 	 * @throws AccessDeniedException If user does not have ACL's rights for edit the category
 	 * @throws \Exception            Error on category not found  
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction($id = null)
 	{
-		$securityContext = $this->get('security.context');
+		if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
+            throw new AccessDeniedException();
 		
 		if ( !is_null($id) ) {
 			$category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
-			if (false === $securityContext->isGranted('EDIT', $category))
-				throw new AccessDeniedException();
-			
 			$success_message = $this->getTranslator()->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
 			$category = $this->get('asf_product.category.manager')->createInstance();
-
 			$category->setName($this->getTranslator()->trans('New category', array(), 'asf_product'));
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
@@ -126,20 +121,29 @@ class CategoryController extends AsfController
 		if ( is_null($category) )
 			throw new \Exception($this->getTranslator()->trans('An error occurs when generating or getting the category', array(), 'asf_product'));
 
-		$form = $this->get('asf_product.form.category')->setData($category);
-		$formHandler = $this->get('asf_product.form.handler.category');
+		$form = $this->createForm(CategoryType::class, $category);
+		$formHandler = new CategoryFormHandler($form, $this->container);
 		
 		if ( true === $formHandler->process() ) {
 			try {
-				$this->get('asf_ui.flash_message')->success($success_message);
+			    if ( is_null($category->getId()) ) {
+			        $this->get('asf_product.category.manager')->getEntityManager()->persist($category);
+			    }
+			    $this->get('asf_product.category.manager')->getEntityManager()->flush();
+			     
+			    if ( $this->has('asf_layout.flash_message') ) {
+			        $this->get('asf_layout.flash_message')->success($success_message);
+			    }
 				return $this->redirect($this->get('router')->generate('asf_product_category_edit', array('id' => $category->getId())));
 				
 			} catch(\Exception $e) {
-				$this->get('asf_ui.flash_message')->danger($e->getMessage());
+                if ( $this->has('asf_layout.flash_message') ) {
+			        $this->get('asf_layout.flash_message')->danger($e->getMessage());
+			    }
 			}
 		}
 		
-		return $this->render('AsfProductBundle:Category:edit.html.twig', array(
+		return $this->render('ASFProductBundle:Category:edit.html.twig', array(
 			'category' => $category, 
 			'form' => $form->createView()
 		));
@@ -148,26 +152,30 @@ class CategoryController extends AsfController
 	/**
 	 * Delete a category
 	 *
-	 * @param  integer $id           AsfProductBundle:Category Entity ID
+	 * @param  integer $id           ASFProductBundle:Category Entity ID
 	 * @throws AccessDeniedException If user does not have ACL's rights for delete the category
 	 * @throws \Exception            Error on category not found or on removing element from DB
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction($id)
 	{
-		$securityContext = $this->get('security.context');
+		if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
+            throw new AccessDeniedException();
+		
 		$category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
-		if (false === $securityContext->isGranted('DELETE', $category))
-			throw new AccessDeniedException();
 
 		try {
 			$this->get('asf_product.category.manager')->removeCategory($category);
 			$this->get('asf_product.category.manager')->getEntityManager()->flush();
-				
-			$this->get('asf_ui.flash_message')->success($this->getTranslator()->trans('The category "%name%" successfully deleted', array('%name%' => $category->getName()), 'asf_product'));
+			
+			if ( $this->has('asf_layout.flash_message') ) {
+			    $this->get('asf_layout.flash_message')->success($this->getTranslator()->trans('The category "%name%" successfully deleted', array('%name%' => $category->getName()), 'asf_product'));
+			}
 				
 		} catch (\Exception $e) {
-			$this->get('asf_ui.flash_message')->danger($e->getMessage());
+            if ( $this->has('asf_layout.flash_message') ) {
+                $this->get('asf_layout.flash_message')->danger($e->getMessage());
+            }
 		}
 	
 		return $this->redirect($this->get('router')->generate('asf_product_category_list'));

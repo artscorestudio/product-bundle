@@ -9,6 +9,8 @@
  */
 namespace ASF\ProductBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,8 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Entity\BrandModel;
+use ASF\ProductBundle\Form\Type\BrandType;
+use ASF\ProductBundle\Form\Handler\BrandFormHandler;
 
 /**
  * Artscore Studio Product Controller
@@ -25,7 +29,7 @@ use ASF\ProductBundle\Entity\BrandModel;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-class BrandController extends AsfController
+class BrandController extends Controller
 {
 	/**
 	 * List all brands
@@ -60,22 +64,22 @@ class BrandController extends AsfController
 		// Columns configuration
 		$grid->hideColumns(array('id', 'content'));
 	
-		$grid->getColumn('name')->setTitle($this->getTranslator()->trans('Brand name', array(), 'asf_product'))
+		$grid->getColumn('name')->setTitle($this->get('translator')->trans('Brand name', array(), 'asf_product'))
 			->setDefaultOperator('like')
 			->setOperatorsVisible(false);
 		
-		$grid->getColumn('state')->setTitle($this->getTranslator()->trans('State', array(), 'asf_product'))
+		$grid->getColumn('state')->setTitle($this->get('translator')->trans('State', array(), 'asf_product'))
 			->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
 			->setDefaultOperator('eq')->setValues(array(
-				BrandModel::STATE_DRAFT => $this->getTranslator()->trans('Draft', array(), 'asf_product'),
-				BrandModel::STATE_WAITING => $this->getTranslator()->trans('Waiting', array(), 'asf_product'),
-				BrandModel::STATE_PUBLISHED => $this->getTranslator()->trans('Published', array(), 'asf_product'),
-				BrandModel::STATE_DELETED => $this->getTranslator()->trans('Deleted', array(), 'asf_product')
+				BrandModel::STATE_DRAFT => $this->get('translator')->trans('Draft', array(), 'asf_product'),
+				BrandModel::STATE_WAITING => $this->get('translator')->trans('Waiting', array(), 'asf_product'),
+				BrandModel::STATE_PUBLISHED => $this->get('translator')->trans('Published', array(), 'asf_product'),
+				BrandModel::STATE_DELETED => $this->get('translator')->trans('Deleted', array(), 'asf_product')
 			));
 			
-		$grid->getColumn('createdAt')->setSize(100)->setTitle($this->getTranslator()->trans('Created at', array(), 'asf_product'));
-		$grid->getColumn('updatedAt')->setSize(100)->setTitle($this->getTranslator()->trans('Updated at', array(), 'asf_product'));
-		$grid->getColumn('deletedAt')->setSize(100)->setTitle($this->getTranslator()->trans('Deleted at', array(), 'asf_product'));
+		$grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('Created at', array(), 'asf_product'));
+		$grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('Updated at', array(), 'asf_product'));
+		$grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('Deleted at', array(), 'asf_product'));
 	
 		$editAction = new RowAction('btn_edit', 'asf_product_brand_edit');
 		$editAction->setRouteParameters(array('id'));
@@ -86,54 +90,65 @@ class BrandController extends AsfController
 			->setConfirmMessage($this->get('translator')->trans('Do you want to delete this brand ?', array(), 'asf_product'));
 		$grid->addRowAction($deleteAction);
 	
-		$grid->setNoDataMessage($this->getTranslator()->trans('No brands were found.', array(), 'asf_product'));
+		$grid->setNoDataMessage($this->get('translator')->trans('No brands were found.', array(), 'asf_product'));
 		
-		return $grid->getGridResponse('AsfProductBundle:Brand:list.html.twig');
+		return $grid->getGridResponse('ASFProductBundle:Brand:list.html.twig');
 	}
 	
 	/**
 	 * Add or edit a brand
 	 * 
-	 * @param  integer $id           AsfProductBundle:Brand Entity ID
+	 * @param Request $request
+	 * @param integer $id           ASFProductBundle:Brand Entity ID
+	 * 
 	 * @throws AccessDeniedException If user does not have ACL's rights for edit the brand
 	 * @throws \Exception            Error on brand not found  
+	 * 
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($id = null)
+	public function editAction(Request $request, $id = null)
 	{
-		$securityContext = $this->get('security.context');
-		
+	    if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
+	        throw new AccessDeniedException();
+
 		if ( !is_null($id) ) {
 			$brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('id' => $id));
-			if (false === $securityContext->isGranted('EDIT', $brand))
-				throw new AccessDeniedException();
-			
-			$success_message = $this->getTranslator()->trans('Updated successfully', array(), 'asf_product');
+			$success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
 			$brand = $this->get('asf_product.brand.manager')->createInstance();
-
-			$brand->setName($this->getTranslator()->trans('New brand', array(), 'asf_product'));
+			$brand->setName($this->get('translator')->trans('New brand', array(), 'asf_product'));
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
 		
 		if ( is_null($brand) )
-			throw new \Exception($this->getTranslator()->trans('An error occurs when generating or getting the brand', array(), 'asf_product'));
+			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the brand', array(), 'asf_product'));
 
-		$form = $this->get('asf_product.form.brand')->setData($brand);
-		$formHandler = $this->get('asf_product.form.handler.brand');
+		$form = $this->createForm(BrandType::class, $brand);
+		$formHandler = new BrandFormHandler($form, $this->container);
 		
 		if ( true === $formHandler->process() ) {
 			try {
-				$this->get('asf_ui.flash_message')->success($success_message);
+			    if ( is_null($brand->getId()) ) {
+                    $this->get('asf_product.brand.manager')->getEntityManager()->persist($brand);
+			    }
+			    
+			    $this->get('asf_product.brand.manager')->getEntityManager()->flush();
+			    
+			    if ( $this->has('asf_layout.flash_message') ) {
+			        $this->get('asf_layout.flash_message')->success($success_message);
+			    }
+				
 				return $this->redirect($this->get('router')->generate('asf_product_brand_edit', array('id' => $brand->getId())));
 				
 			} catch(\Exception $e) {
-				$this->get('asf_ui.flash_message')->danger($e->getMessage());
+			    if ( $this->has('asf_layout.flash_message') ) {
+			        $this->get('asf_layout.flash_message')->danger($e->getMessage());
+			    }
 			}
 		}
 		
-		return $this->render('AsfProductBundle:Brand:edit.html.twig', array(
+		return $this->render('ASFProductBundle:Brand:edit.html.twig', array(
 			'brand' => $brand, 
 			'form' => $form->createView()
 		));
@@ -142,72 +157,32 @@ class BrandController extends AsfController
 	/**
 	 * Delete a brand
 	 *
-	 * @param  integer $id           AsfProductBundle:Brand Entity ID
+	 * @param  integer $id           ASFProductBundle:Brand Entity ID
 	 * @throws AccessDeniedException If user does not have ACL's rights for delete the brand
 	 * @throws \Exception            Error on brand not found or on removing element from DB
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */
 	public function deleteAction($id)
 	{
-		$securityContext = $this->get('security.context');
+	    if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
+	        throw new AccessDeniedException();
+	    
 		$brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('id' => $id));
-		if (false === $securityContext->isGranted('DELETE', $brand))
-			throw new AccessDeniedException();
 	
 		try {
 			$this->get('asf_product.brand.manager')->getEntityManager()->remove($brand);
 			$this->get('asf_product.brand.manager')->getEntityManager()->flush();
-				
-			$this->get('asf_ui.flash_message')->success($this->getTranslator()->trans('The brand "%name%" successfully deleted.', array('%name%' => $brand->getName()), 'asf_product'));
-				
+			
+			if ( $this->has('asf_layout.flash_message') ) {
+                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The brand "%name%" successfully deleted.', array('%name%' => $brand->getName()), 'asf_product'));
+			}
+			
 		} catch (\Exception $e) {
-			$this->get('asf_ui.flash_message')->danger($e->getMessage());
+            if ( $this->has('asf_layout.flash_message') ) {
+                $this->get('asf_layout.flash_message')->danger($e->getMessage());
+            }
 		}
 	
 		return $this->redirect($this->get('router')->generate('asf_product_brand_list'));
-	}
-
-	/**
-	 * Return a list of brand according to a search
-	 * 
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function ajaxRequestAction(Request $request)
-	{
-		$term = $request->get('term');
-		$brands = $this->get('asf_product.brand.manager')->getRepository()->findByNameContains($term);
-		$search = array();
-		
-		foreach($brands as $brand) {
-			$search[] = $brand->getName();
-		}
-		
-		$response = new Response();
-		$response->setContent(json_encode($search));
-		
-		return $response;
-	}
-	
-	/**
-	 * Return list of brand via an ajax request for search on exactly term
-	 *
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function ajaxRequestNameAction(Request $request)
-	{
-		$term = $request->get('term');
-		$brands = $this->get('asf_product.brand.manager')->getRepository()->findBy(array('name' => $term));
-		$search = array();
-		
-		foreach($brands as $brand) {
-			$search[] = $brand->getName();
-		}
-		
-		$response = new Response();
-		$response->setContent(json_encode($search));
-		
-		return $response;
 	}
 }
