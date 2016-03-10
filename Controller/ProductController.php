@@ -127,12 +127,15 @@ class ProductController extends Controller
 		if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
 			throw new AccessDeniedException();
 		
+		$formFactory = $this->get('asf_product.form.factory.product');
+		$productManager = $this->get('asf_product.product.manager');
+		
 		if ( !is_null($id) ) {
-			$product = $this->get('asf_product.product.manager')->getRepository()->findOneBy(array('id' => $id));
+			$product = $productManager->getRepository()->findOneBy(array('id' => $id));
 			$success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
-			$product = $this->get('asf_product.product.manager')->createInstance();
+			$product = $productManager->createInstance();
 			
 			$product->setName($this->get('translator')->trans('New product', array(), 'asf_product'))->setState(ProductModel::STATE_PUBLISHED);
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
@@ -141,7 +144,8 @@ class ProductController extends Controller
 		if ( is_null($product) )
 			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the product', array(), 'asf_product'));
 
-		$form = $this->createForm(ProductType::class, $product);
+		$form = $formFactory->createForm();
+		$form->setData($product);
 		$formHandler = new ProductFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.product.manager'));
 		
 		if ( true === $formHandler->process() ) {
@@ -190,7 +194,7 @@ class ProductController extends Controller
 			$this->get('asf_product.product.manager')->getEntityManager()->flush();
 			
 			if ( $this->has('asf_layout.flash_message') ) {
-			    $this->get('asf_ui.flash_message')->success($this->get('translator')->trans('The product "%name%" successfully deleted', array('%name%' => $product->getName()), 'asf_product'));
+			    $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The product "%name%" successfully deleted', array('%name%' => $product->getName()), 'asf_product'));
 			}
 				
 		} catch (\Exception $e) {

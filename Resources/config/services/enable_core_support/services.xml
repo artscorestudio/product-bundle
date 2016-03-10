@@ -15,9 +15,11 @@
 
 		<!-- ProductCategory Manager -->
 		<parameter key="asf_product.category.manager.class">ASF\ProductBundle\Entity\Manager\CategoryManager</parameter>
-		<parameter key="asf_product.category.entity.class">ASF\ContactBundle\Entity\Category</parameter>
+		<parameter key="asf_product.category.entity.class">ASF\ProductBundle\Entity\Category</parameter>
 
 		<!-- Forms -->
+		<parameter key="asf_product.form.factory.product.class">ASF\ProductBundle\Form\Factory\FormFactory</parameter>
+		
 		<parameter key="asf_product.form.type.product.class">ASF\ProductBundle\Form\Type\ProductType</parameter>
 		<parameter key="asf_product.form.type.category.class">ASF\ProductBundle\Form\Type\CategoryType</parameter>
 		<parameter key="asf_product.form.type.search_product.class">ASF\ProductBundle\Form\Type\SearchProductType</parameter>
@@ -39,6 +41,13 @@
         </service>
         
         <!-- Forms -->
+        <service id="asf_product.form.factory.product" class="%asf_product.form.factory.product.class%">
+            <argument type="service" id="form.factory" />
+            <argument>%asf_product.product.form.name%</argument>
+            <argument>%asf_product.product.form.type%</argument>
+        </service>
+        
+        
         <service id="asf_product.form.type.product" class="%asf_product.form.type.product.class%">
         	<argument type="service" id="asf_product.product.manager" />
         	<argument>%asf_product.enable_brand_entity%</argument>

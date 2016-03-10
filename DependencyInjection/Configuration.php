@@ -47,8 +47,44 @@ class Configuration implements ConfigurationInterface
 		        ->scalarNode('form_theme')
 		          ->defaultValue('ASFProductBundle:Form:fields.html.twig')
 		        ->end()
+		        
+		        ->append($this->addProductParameterNode())
 		    ->end();
         
         return $treeBuilder;
+    }
+    
+    /**
+     * Add Product Entity Configuration
+     */
+    protected function addProductParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root('product');
+        
+        $node
+            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductFormType")))
+            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductFormType")))
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('form')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('type')
+                            ->defaultValue('ASF\ProductBundle\Form\Type\ProductFormType')
+                        ->end()
+                        ->scalarNode('name')
+                            ->defaultValue('product_type')
+                        ->end()
+                        ->arrayNode('validation_groups')
+                            ->prototype('scalar')->end()
+                            ->defaultValue(array("Default"))
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+        
+        return $node;
     }
 }

@@ -6,6 +6,9 @@
 	<script type="text/javascript">
 	(function($, window, document) {
 		$(function() {
+			$('.select2-entity').each(function(){
+				$(this).select2();
+			});
 			$('.select2-entity-ajax').each(function(){
 				$(this).select2({
 					ajax: {
@@ -107,6 +110,11 @@
 			{{ form_row(form.categories) }}
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<input type="submit" value="{{ 'Save'|trans }}" class="btn btn-primary" />
+		</div>
+	</div>
 	
 {% endspaceless %}
 {% endblock %}
@@ -118,7 +126,7 @@
 {% endspaceless %}
 {% endblock %}
 
-{% block _product_brand_form_type_widget %}
+{% block _brand_widget %}
 {% spaceless %}
 
 	{{ form_errors(form) }}
@@ -155,7 +163,6 @@
 			<input type="submit" value="{{ 'Save'|trans }}" class="btn btn-primary" />
 		</div>
 	</div>
-	
 	
 {% endspaceless %}
 {% endblock %}

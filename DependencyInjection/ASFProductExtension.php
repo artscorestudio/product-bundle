@@ -23,12 +23,32 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 class ASFProductExtension extends Extension implements PrependExtensionInterface
 {
     /**
+     * Maps parameters in container
+     *
+     * @param ContainerBuilder $container
+     * @param string $rootNodeName
+     * @param array $config
+     */
+    public function mapsParameters(ContainerBuilder $container, $rootNodeName, $config)
+    {
+        foreach($config as $name => $value) {
+            if ( is_array($value) ) {
+                $this->mapsParameters($container, $rootNodeName . '.' . $name, $value);
+            } else {
+                $container->setParameter($rootNodeName . '.' . $name, $value);
+            }
+        }
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
 	    $config = $this->processConfiguration($configuration, $configs);
+	    
+	    $this->mapsParameters($container, $this->getAlias(), $config);
 	    
 	    $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 	    
