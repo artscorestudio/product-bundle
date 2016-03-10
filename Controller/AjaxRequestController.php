@@ -206,24 +206,24 @@ class AjaxRequestController extends Controller
     */
    public function searchCategoryByNameAction(Request $request)
    {
-       $term = $request->get('name');
-       $categories = $this->get('asf_product.category.manager')->getRepository()->findByNameContains($term);
-       $search = array();
-   
-       foreach($categories as $category) {
-           $search[] = array(
-               'id' => $category->getId(),
-               'name' => $category->getName()
-           );
-       }
+        $term = $request->get('name');
+        $categories = $this->get('asf_product.category.manager')->getRepository()->findByNameContains($term);
+        $search = array();
         
-       $response = new Response();
-       $response->setContent(json_encode(array(
-           'total_count' => count($search),
-           'items' => $search
-       )));
-   
-       return $response;
+        foreach($categories as $category) {
+            $search[] = array(
+                'id' => $category->getId(),
+                'name' => $category->getName()
+            );
+        }
+        
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'total_count' => count($search),
+            'items' => $search
+        )));
+        
+        return $response;
    }
    
    /**
