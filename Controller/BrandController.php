@@ -1,26 +1,23 @@
 <?php
-/**
- * This file is part of Artscore Studio Framework package
+/*
+ * This file is part of the Artscore Studio Framework package.
  *
- * (c) 2012-2015 Nicolas Claverie <info@artscore-studio.fr>
+ * (c) Nicolas Claverie <info@artscore-studio.fr>
  *
- * This dource file is subject to the MIT Licence that is bundled
- * with this source code in the file LICENSE.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-namespace Asf\Bundle\ProductBundle\Controller;
-
-use Asf\Bundle\ApplicationBundle\Controller\AsfController;
+namespace ASF\ProductBundle\Controller;
 
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use Asf\Bundle\ProductBundle\Entity\BrandModel;
+use ASF\ProductBundle\Entity\BrandModel;
 
 /**
  * Artscore Studio Product Controller
@@ -38,7 +35,7 @@ class BrandController extends AsfController
 	 */
 	public function listAction()
 	{
-		if ( !$this->get('security.context')->isGranted('ROLE_ADMIN') )
+		if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
 			throw new AccessDeniedException();
 		
 		// Set Datagrid source
