@@ -134,3 +134,28 @@
 	
 {% endspaceless %}
 {% endblock %}
+
+{# ---------------------------------- Category Form Type ---------------------------- #}
+{% block _category_widget %}
+{% spaceless %}
+
+	{{ form_errors(form) }}
+	
+	<div class="row">
+		<div class="col-sm-6">
+			{{ form_row(form.name) }}
+		</div>
+		<div class="col-sm-6">
+			{{ form_row(form.state) }}
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<input type="submit" value="{{ 'Save'|trans }}" class="btn btn-primary" />
+		</div>
+	</div>
+	
+	
+{% endspaceless %}
+{% endblock %}
