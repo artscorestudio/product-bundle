@@ -18,6 +18,7 @@ use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use ASF\ProductBundle\Model\Category\CategoryModel;
 
 /**
  * Product Form Type
@@ -48,16 +49,15 @@ class CategoryType extends AbstractType
     {
         $builder->add('name', TextType::class, array(
 			'label' => 'Category name', 
-			'max_length' => 255, 
 			'required' => true
 		))
 		->add('state', ChoiceType::class, array(
 			'label' => 'State',
 			'required' => true,
 			'choices' => array(
-				CategoryModel::STATE_DRAFT => 'Draft',
-				CategoryModel::STATE_WAITING => 'Waiting',
-				CategoryModel::STATE_PUBLISHED => 'Published'
+				'Draft' => CategoryModel::STATE_DRAFT,
+				'Waiting' => CategoryModel::STATE_WAITING,
+				'Published' => CategoryModel::STATE_PUBLISHED
 			)
 		));
     }
