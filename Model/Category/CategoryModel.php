@@ -9,6 +9,8 @@
  */
 namespace ASF\ProductBundle\Model\Category;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Product Category
  * 
