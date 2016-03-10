@@ -111,19 +111,19 @@ class CategoryController extends Controller
 		
 		if ( !is_null($id) ) {
 			$category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
-			$success_message = $this->getTranslator()->trans('Updated successfully', array(), 'asf_product');
+			$success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
 			$category = $this->get('asf_product.category.manager')->createInstance();
-			$category->setName($this->getTranslator()->trans('New category', array(), 'asf_product'));
+			$category->setName($this->get('translator')->trans('New category', array(), 'asf_product'));
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
 		
 		if ( is_null($category) )
-			throw new \Exception($this->getTranslator()->trans('An error occurs when generating or getting the category', array(), 'asf_product'));
+			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the category', array(), 'asf_product'));
 
 		$form = $this->createForm(CategoryType::class, $category);
-		$formHandler = new CategoryFormHandler($form, $this->container);
+		$formHandler = new CategoryFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.category.manager'));
 		
 		if ( true === $formHandler->process() ) {
 			try {
@@ -170,7 +170,7 @@ class CategoryController extends Controller
 			$this->get('asf_product.category.manager')->getEntityManager()->flush();
 			
 			if ( $this->has('asf_layout.flash_message') ) {
-			    $this->get('asf_layout.flash_message')->success($this->getTranslator()->trans('The category "%name%" successfully deleted', array('%name%' => $category->getName()), 'asf_product'));
+			    $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The category "%name%" successfully deleted', array('%name%' => $category->getName()), 'asf_product'));
 			}
 				
 		} catch (\Exception $e) {
