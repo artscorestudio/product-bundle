@@ -99,7 +99,7 @@ class ProductRepository extends EntityRepository
         $qb = $this->createQueryBuilder('p');
         $qb instanceof QueryBuilder;
 
-        $qb->select('COUNT(p.id)')->join('p.categories', 'c')->addSelect('c')->where($qb->expr()->in('c.id', $categories));
+        $qb->select('COUNT(p.id)')->join('p.categories', 'c')->where($qb->expr()->in('c.id', $categories));
 
         return $qb->getQuery()->getScalarResult();
     }
