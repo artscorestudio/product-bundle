@@ -14,6 +14,8 @@ use ASF\CoreBundle\Form\Handler\FormHandlerModel;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ASF\ProductBundle\Model\Product\ProductModel;
+use Symfony\Component\HttpFoundation\Request;
+use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 
 /**
  * Product Form Handler
@@ -24,18 +26,19 @@ use ASF\ProductBundle\Model\Product\ProductModel;
 class ProductFormHandler extends FormHandlerModel
 {
 	/**
-	 * @var ContainerInterface
+	 * @var ASFProductManagerInterface
 	 */
-	protected $container;
+	protected $productManager;
 	
 	/**
-	 * @param FormInterface      $form
-	 * @param ContainerInterface $container
+	 * @param FormInterface              $form
+	 * @param Request                    $request
+	 * @param ASFProductManagerInterface $product_manager
 	 */
-	public function __construct(FormInterface $form, ContainerInterface $container)
+	public function __construct(FormInterface $form, Request $request, ASFProductManagerInterface $product_manager)
 	{
-		parent::__construct($form);
-		$this->container = $container;
+		parent::__construct($form, $request);
+		$this->productManager = $product_manager;
 	}
 	
 	/**
@@ -45,7 +48,7 @@ class ProductFormHandler extends FormHandlerModel
 	public function processForm($model)
 	{
 		try {
-		    $producManager = $this->container->get('asf_product.product.manager');
+		    $producManager = $this->productManager;
 			$product = $model;
 			$product->setType(ProductModel::TYPE_PRODUCT);
 			

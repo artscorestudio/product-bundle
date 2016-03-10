@@ -1,4 +1,4 @@
-Asf\Bundle\ProductBundle\Entity\Category:
+ASF\ProductBundle\Entity\Category:
     properties:
         name:
             - NotBlank: ~

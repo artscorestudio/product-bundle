@@ -12,15 +12,18 @@ namespace ASF\ProductBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 use ASF\ProductBundle\Entity\ProductModel;
 use ASF\ProductBundle\Form\DataTransformer\StringToWeightTransformer;
 use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;
+use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
+use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Product Form Type
@@ -42,7 +45,7 @@ class ProductType extends AbstractType
     
     /**
      * @param ASFProductManagerInterface $product_manager
-     * @param ASFProductManagerInterface $category_manager
+     * @param boolean        $is_brand_entity_enabled
      */
     public function __construct(ASFProductManagerInterface $product_manager, $is_brand_entity_enabled)
     {
@@ -50,6 +53,18 @@ class ProductType extends AbstractType
         $this->isBrandEntityEnabled = $is_brand_entity_enabled;
     }
 
+    /**
+     * Pass the image URL to the view
+     *
+     * @param FormView $view
+     * @param FormInterface $form
+     * @param array $options
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['display_brand_field'] = $this->isBrandEntityEnabled;
+    }
+    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -61,7 +76,6 @@ class ProductType extends AbstractType
 
         $builder->add('name', TextType::class, array(
             'label' => 'Product name',
-            'max_length' => 255,
             'required' => true
         ))
         
@@ -87,7 +101,7 @@ class ProductType extends AbstractType
             'prototype' => true,
             'containerId' => 'categories-collection'))
             
-        ->add('state', 'choice', array(
+        ->add('state', ChoiceType::class, array(
             'label' => 'State',
             'required' => true,
             'choices' => array(

@@ -98,7 +98,7 @@ class ProductController extends Controller
 		$grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('Created at', array(), 'asf_product'));
 		$grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('Updated at', array(), 'asf_product'));
 		$grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('Deleted at', array(), 'asf_product'));
-	
+        
 		$editAction = new RowAction('btn_edit', 'asf_product_product_edit');
 		$editAction->setRouteParameters(array('id'));
 		$grid->addRowAction($editAction);
@@ -133,6 +133,7 @@ class ProductController extends Controller
 			
 		} else {
 			$product = $this->get('asf_product.product.manager')->createInstance();
+			
 			$product->setName($this->get('translator')->trans('New product', array(), 'asf_product'))->setState(ProductModel::STATE_PUBLISHED);
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
@@ -141,7 +142,7 @@ class ProductController extends Controller
 			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the product', array(), 'asf_product'));
 
 		$form = $this->createForm(ProductType::class, $product);
-		$formHandler = new ProductFormHandler($form, $this->container);
+		$formHandler = new ProductFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.product.manager'));
 		
 		if ( true === $formHandler->process() ) {
 			try {
