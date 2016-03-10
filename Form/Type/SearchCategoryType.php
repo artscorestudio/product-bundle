@@ -60,7 +60,7 @@ class SearchCategoryType extends AbstractType
 			'class' => $this->categoryManager->getClassName(),
 		    'choice_label' => 'name',
 		    'placeholder' => 'Choose a product category',
-		    'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_product_ajax_request_product_category_by_name')
+		    'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_product_ajax_request_category_by_name')
 		));
 	}
 	
