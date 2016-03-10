@@ -34,6 +34,7 @@
         
         <!-- ProductCategory Entity Manager -->
         <service id="asf_product.category.manager" class="%asf_product.category.manager.class%">
+        	<argument type="service" id="asf_product.product.manager" />
             <tag name="asf_core.manager" entity="%asf_product.category.entity.class%" />
         </service>
         
