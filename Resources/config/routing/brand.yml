@@ -1,0 +1,15 @@
+asf_product_brand_list:
+    path: /list
+    defaults: { _controller: "ASFProductBundle:Brand:list" }
+    
+asf_product_brand_edit:
+    path: /edit/{id}
+    defaults: { _controller: "ASFProductBundle:Brand:edit" }
+    
+asf_product_brand_add:
+    path: /add
+    defaults: { _controller: "ASFProductBundle:Brand:edit" }
+    
+asf_product_brand_delete:
+    path: /delete/{id}
+    defaults: { _controller: "ASFProductBundle:Brand:delete" }

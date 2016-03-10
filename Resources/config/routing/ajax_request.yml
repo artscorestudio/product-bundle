@@ -1,0 +1,43 @@
+# Product
+asf_user_ajax_request_product_by_name:
+    path: /ajax/request/search/product/by/name
+    defaults: { _controller: "ASFProductBundle:AjaxRequest:searchProductByName" }
+    options:
+        expose: true
+        
+asf_user_ajax_request_category_by_name:
+    path: /ajax/request/search/category/by/name
+    defaults: { _controller: "ASFProductBundle:AjaxRequest:searchCategoryByName" }
+    options:
+        expose: true   
+        
+asf_user_ajax_request_brand_by_name:
+    path: /ajax/request/search/brand/by/name
+    defaults: { _controller: "ASFProductBundle:AjaxRequest:searchBrandByName" }
+    options:
+        expose: true        
+        
+asf_product_product_ajax_request:
+    path: /ajax/request
+    defaults: { _controller: "AsfProductBundle:Product:ajaxRequest" }
+    options:
+        expose: true
+        
+asf_product_product_suggest_ajax_request:
+    path: /suggest/ajax/request
+    defaults: { _controller: "AsfProductBundle:Product:suggestProductAjaxRequest" }
+    options:
+        expose: true
+        
+asf_product_product_create_ajax_request:
+    path: /create/ajax/request
+    defaults: { _controller: "AsfProductBundle:Product:createProductAjaxRequest" }
+    options:
+        expose: true 
+        
+# Brand
+asf_product_brand_ajax_request:
+    path: /ajax/request
+    defaults: { _controller: "ASFProductBundle:Brand:ajaxRequest" }
+    options:
+        expose: true

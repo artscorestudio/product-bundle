@@ -59,7 +59,7 @@ By importing the routing files you will have ready made pages for things such as
 
 ```yaml
 asf_product:
-    resource: "@ASFProductBundle/Resources/config/routing/routing.yml"
+    resource: "@ASFProductBundle/Resources/config/routing/default.yml"
 ```
 
 ### Next Steps
@@ -70,4 +70,5 @@ The following documents are available :
 * [Overriding Default ASFProductBundle Templates](templates.md)
 * [Overriding Default ASFProductBundle Controllers](controllers.md)
 * [ASFProductBundle Entities](entities.md)
+* [Routing Configuration](routing.md)
 * [ASFProductBundle Configuration Reference](configuration.md)

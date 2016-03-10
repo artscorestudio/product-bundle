@@ -1,0 +1,15 @@
+asf_product_category_list:
+    path: /list
+    defaults: { _controller: "ASFProductBundle:Category:list" }
+
+asf_product_category_add:
+    path: /add
+    defaults: { _controller: "ASFProductBundle:Category:edit" }
+
+asf_product_category_edit:
+    path: /edit/{id}
+    defaults: { _controller: "ASFProductBundle:Category:edit" }
+    
+asf_product_category_delete:
+    path: /delete/{id}
+    defaults: { _controller: "ASFProductBundle:Category:delete" }
