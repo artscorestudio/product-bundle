@@ -109,12 +109,15 @@ class CategoryController extends Controller
 		if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
             throw new AccessDeniedException();
 		
+        $formFactory = $this->get('asf_product.form.factory.category');
+        $categoryManager = $this->get('asf_product.category.manager');
+            
 		if ( !is_null($id) ) {
-			$category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
+			$category = $categoryManager->getRepository()->findOneBy(array('id' => $id));
 			$success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
-			$category = $this->get('asf_product.category.manager')->createInstance();
+			$category = $categoryManager->createInstance();
 			$category->setName($this->get('translator')->trans('New category', array(), 'asf_product'));
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
@@ -122,15 +125,16 @@ class CategoryController extends Controller
 		if ( is_null($category) )
 			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the category', array(), 'asf_product'));
 
-		$form = $this->createForm(CategoryType::class, $category);
+		$form = $formFactory->createForm();
+		$form->setData($product);
 		$formHandler = new CategoryFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.category.manager'));
 		
 		if ( true === $formHandler->process() ) {
 			try {
 			    if ( is_null($category->getId()) ) {
-			        $this->get('asf_product.category.manager')->getEntityManager()->persist($category);
+			        $categoryManager->getEntityManager()->persist($category);
 			    }
-			    $this->get('asf_product.category.manager')->getEntityManager()->flush();
+			    $categoryManager->getEntityManager()->flush();
 			     
 			    if ( $this->has('asf_layout.flash_message') ) {
 			        $this->get('asf_layout.flash_message')->success($success_message);

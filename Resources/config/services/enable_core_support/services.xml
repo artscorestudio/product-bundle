@@ -8,6 +8,7 @@
     	
     	<!-- Generic Entity Manager -->
     	<parameter key="asf_product.entity.manager.class">ASF\ProductBundle\Entity\Manager\ASFProductManager</parameter>
+		<parameter key="asf_product.form.factory.class">ASF\ProductBundle\Form\Factory\FormFactory</parameter>
 		
 		<!-- Product Manager -->
 		<parameter key="asf_product.product.manager.class">ASF\ProductBundle\Entity\Manager\ProductManager</parameter>
@@ -18,8 +19,6 @@
 		<parameter key="asf_product.category.entity.class">ASF\ProductBundle\Entity\Category</parameter>
 
 		<!-- Forms -->
-		<parameter key="asf_product.form.factory.product.class">ASF\ProductBundle\Form\Factory\FormFactory</parameter>
-		
 		<parameter key="asf_product.form.type.product.class">ASF\ProductBundle\Form\Type\ProductType</parameter>
 		<parameter key="asf_product.form.type.category.class">ASF\ProductBundle\Form\Type\CategoryType</parameter>
 		<parameter key="asf_product.form.type.search_product.class">ASF\ProductBundle\Form\Type\SearchProductType</parameter>
@@ -40,18 +39,24 @@
             <tag name="asf_core.manager" entity="%asf_product.category.entity.class%" />
         </service>
         
-        <!-- Forms -->
-        <service id="asf_product.form.factory.product" class="%asf_product.form.factory.product.class%">
+        <!-- Product Form -->
+        <service id="asf_product.form.factory.product" class="%asf_product.form.factory.class%">
             <argument type="service" id="form.factory" />
             <argument>%asf_product.product.form.name%</argument>
             <argument>%asf_product.product.form.type%</argument>
         </service>
-        
-        
+
         <service id="asf_product.form.type.product" class="%asf_product.form.type.product.class%">
         	<argument type="service" id="asf_product.product.manager" />
         	<argument>%asf_product.enable_brand_entity%</argument>
             <tag name="form.type" alias="product_type" />
+        </service>
+        
+        <!-- Category Form -->
+        <service id="asf_product.form.factory.category" class="%asf_product.form.factory.class%">
+            <argument type="service" id="form.factory" />
+            <argument>%asf_product.category.form.name%</argument>
+            <argument>%asf_product.category.form.type%</argument>
         </service>
         
         <service id="asf_product.form.type.category" class="%asf_product.form.type.category.class%">
@@ -59,6 +64,7 @@
             <tag name="form.type" alias="category_type" />
         </service>
         
+        <!-- Search Form Types -->
         <service id="asf_product.form.type.search_product" class="%asf_product.form.type.search_product.class%">
         	<argument type="service" id="asf_product.product.manager" />
             <tag name="form.type" alias="search_product" />

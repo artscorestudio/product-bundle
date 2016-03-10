@@ -49,6 +49,8 @@ class Configuration implements ConfigurationInterface
 		        ->end()
 		        
 		        ->append($this->addProductParameterNode())
+		        ->append($this->addCategoryParameterNode())
+		        ->append($this->addBrandParameterNode())
 		    ->end();
         
         return $treeBuilder;
@@ -63,8 +65,8 @@ class Configuration implements ConfigurationInterface
         $node = $builder->root('product');
         
         $node
-            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductFormType")))
-            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductFormType")))
+            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
+            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
             ->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('form')
@@ -85,6 +87,74 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
         
+        return $node;
+    }
+    
+    /**
+     * Add Category Entity Configuration
+     */
+    protected function addCategoryParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root('category');
+    
+        $node
+            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
+            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('form')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('type')
+                            ->defaultValue('ASF\ProductBundle\Form\Type\CategoryType')
+                        ->end()
+                        ->scalarNode('name')
+                            ->defaultValue('category_type')
+                        ->end()
+                        ->arrayNode('validation_groups')
+                            ->prototype('scalar')->end()
+                            ->defaultValue(array("Default"))
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    
+        return $node;
+    }
+    
+    /**
+     * Add Brand Entity Configuration
+     */
+    protected function addBrandParameterNode()
+    {
+        $builder = new TreeBuilder();
+        $node = $builder->root('brand');
+    
+        $node
+            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
+            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('form')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('type')
+                            ->defaultValue('ASF\ProductBundle\Form\Type\BrandType')
+                        ->end()
+                        ->scalarNode('name')
+                            ->defaultValue('brand_type')
+                        ->end()
+                        ->arrayNode('validation_groups')
+                            ->prototype('scalar')->end()
+                            ->defaultValue(array("Default"))
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    
         return $node;
     }
 }

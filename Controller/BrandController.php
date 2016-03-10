@@ -110,13 +110,16 @@ class BrandController extends Controller
 	{
 	    if ( false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') )
 	        throw new AccessDeniedException();
-
+	    
+	    $formFactory = $this->get('asf_product.form.factory.brand');
+	    $brandManager = $this->get('asf_product.brand.manager');
+	    
 		if ( !is_null($id) ) {
-			$brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('id' => $id));
+			$brand = $brandManager->getRepository()->findOneBy(array('id' => $id));
 			$success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
 			
 		} else {
-			$brand = $this->get('asf_product.brand.manager')->createInstance();
+			$brand = $brandManager->createInstance();
 			$brand->setName($this->get('translator')->trans('New brand', array(), 'asf_product'));
 			$success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
 		}
@@ -124,16 +127,17 @@ class BrandController extends Controller
 		if ( is_null($brand) )
 			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the brand', array(), 'asf_product'));
 
-		$form = $this->createForm(BrandType::class, $brand);
+		$form = $formFactory->createForm();
+		$form->setData($product);
+		
 		$formHandler = new BrandFormHandler($form, $this->container);
 		
 		if ( true === $formHandler->process() ) {
 			try {
 			    if ( is_null($brand->getId()) ) {
-                    $this->get('asf_product.brand.manager')->getEntityManager()->persist($brand);
+                    $brandManager->getEntityManager()->persist($brand);
 			    }
-			    
-			    $this->get('asf_product.brand.manager')->getEntityManager()->flush();
+			    $brandManager->getEntityManager()->flush();
 			    
 			    if ( $this->has('asf_layout.flash_message') ) {
 			        $this->get('asf_layout.flash_message')->success($success_message);

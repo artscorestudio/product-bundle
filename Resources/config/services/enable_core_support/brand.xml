@@ -23,6 +23,12 @@
         </service>
         
         <!-- Forms -->
+        <service id="asf_product.form.factory.product" class="%asf_product.form.factory.class%">
+            <argument type="service" id="form.factory" />
+            <argument>%asf_product.brand.form.name%</argument>
+            <argument>%asf_product.brand.form.type%</argument>
+        </service>
+        
         <service id="asf_product.form.type.brand" class="%asf_product.form.type.brand.class%">
         	<argument type="service" id="asf_product.brand.manager" />
             <tag name="form.type" alias="brand_type" />
