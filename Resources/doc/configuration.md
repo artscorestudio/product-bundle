@@ -9,6 +9,18 @@ asf_product:
     enable_brand_entity: false
     enable_productPack_entity: false
     form_theme: "ASFProductBundle:Form:fields.html.twig"
+    product:
+        form:
+            type: "ASF\ProductBundle\Form\Type\ProductType"
+            name: "product_type"
+    category:
+        form:
+            type: "ASF\ProductBundle\Form\Type\CategoryType"
+            name: "category_type"
+    brand:
+        form:
+            type: "ASF\ProductBundle\Form\Type\BrandType"
+            name: "brand_type"
 ```
 
 ### *enable_core_support* parameter
@@ -47,3 +59,7 @@ If this is set to true, you can use Brand entity and ProduckPack entity in your 
 ### *form_theme* parameter
 
 Use embedded form theme based on select2/select2 Jquery plugin and Twitter Bootstrap.
+
+### Product, category and brand parameters
+
+This parameters is for configurate forms for entities. If you want to customize forms according  to your needs, you can override forms without rewrite all the controllers or forms. For further information, check documentation on [overrding forms](forms.md).
