@@ -62,4 +62,4 @@ Use embedded form theme based on select2/select2 Jquery plugin and Twitter Boots
 
 ### Product, category and brand parameters
 
-This parameters is for configurate forms for entities. If you want to customize forms according  to your needs, you can override forms without rewrite all the controllers or forms. For further information, check documentation on [overrding forms](forms.md).
+This parameters is for configurate forms for entities. If you want to customize forms according  to your needs, you can override forms without rewrite all the controllers or forms. For further information, check documentation on [overriding forms](forms.md).

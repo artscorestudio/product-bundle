@@ -1,4 +1,4 @@
-# Overriding Default FOSUserBundle Forms
+# Overriding Default ASFProductBundle Forms
 
 ## Overriding a form type
 
