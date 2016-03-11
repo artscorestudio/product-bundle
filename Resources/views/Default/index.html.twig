@@ -1,6 +1,6 @@
 {% extends "ASFProductBundle::layout.html.twig" %}
 
-{% block asf_product_body %}
+{% block asf_product_content %}
 
 	{% block asf_product_heading %}
 	<div class="jumbotron">
@@ -9,7 +9,6 @@
 	</div>
 	{% endblock %}
 	
-	{% block asf_product_content %}
 	<div class="row marketing">
 		<div class="col-lg-6">
 			<h4>Product Manager</h4>
@@ -27,6 +26,5 @@
 			<p>If your application administrator set it to true, you can also manage product packs. <a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'ASFProductBundle Documentation' }}">Check the documentation for further informations</a>.</p>
 		</div>
 	</div>
-	{% endblock %}
 	
 {% endblock %}
