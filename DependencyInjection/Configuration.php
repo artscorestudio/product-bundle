@@ -73,7 +73,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('type')
-                            ->defaultValue('ASF\ProductBundle\Form\Type\ProductFormType')
+                            ->defaultValue('ASF\ProductBundle\Form\Type\ProductType')
                         ->end()
                         ->scalarNode('name')
                             ->defaultValue('product_type')
