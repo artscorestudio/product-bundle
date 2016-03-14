@@ -1,5 +1,5 @@
 # Commons
-Product catalog: "Catalogue de produits"
+Products catalog: "Catalogue de produits"
 Updated successfully: "Mise à jour réussie"
 Created successfully: "Création réussie"
 State: "État"
@@ -14,9 +14,10 @@ Deleted at: "Effacé le"
 Product name: "Désignation"
 ProductPack: "Pack"
 Search a product: "Rechercher un produit"
+Products and Categories: "Produits et catégories"
 
 # Product
-Product list: "Liste des produits"
+Products list: "Liste des produits"
 Add new product: "Ajouter un produit" 
 'No product was found.': "Pas de produits dans le catalogue."
 New product: "Nouveau produit"
@@ -33,7 +34,7 @@ Product categories: "Catégories"
 'No products match with this product name.': "Aucun produit ne correspond."
  
 # Product Category
-Category list: "Liste des catégories"
+Categories list: "Liste des catégories"
 Add new category: "Ajouter une catégorie"
 'No category was found.': "Pas de catégories dans le catalogue."
 New category: "Nouvelle catégorie"
