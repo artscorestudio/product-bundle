@@ -39,7 +39,7 @@ class ProductType extends AbstractType
 
 > If you don't want to reuse the fields added in ASFProductBundle by default, you can omit the getParent method and configure all fields yourself.
 
-The second step is to declare yur form as a service and add a tag to it. The tag must have a name value of form.type and an alias value that is the equal to the string returned from the getName method of your form type class. The alias that you specify is what you will use in the ASFProductBundle configuration to let the bundle know that you want to use your custom form.
+The second step is to declare your form as a service and add a tag to it. The tag must have a name value of form.type and an alias value that is the equal to the string returned from the getName method of your form type class. The alias that you specify is what you will use in the ASFProductBundle configuration to let the bundle know that you want to use your custom form.
 
 ```xml
 <!-- app/config/services.xml -->
