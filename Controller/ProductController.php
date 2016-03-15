@@ -20,8 +20,6 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 
 use ASF\ProductBundle\Entity\ProductModel;
-use ASF\ProductBundle\Model\Brand\BrandModel;
-use ASF\ProductBundle\Form\Type\ProductType;
 use ASF\ProductBundle\Form\Handler\ProductFormHandler;
 
 /**
