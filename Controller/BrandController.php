@@ -19,8 +19,8 @@ use Doctrine\ORM\QueryBuilder;
 
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
+
 use ASF\ProductBundle\Entity\BrandModel;
-use ASF\ProductBundle\Form\Type\BrandType;
 use ASF\ProductBundle\Form\Handler\BrandFormHandler;
 
 /**
@@ -128,7 +128,7 @@ class BrandController extends Controller
 			throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the brand', array(), 'asf_product'));
 
 		$form = $formFactory->createForm();
-		$form->setData($product);
+		$form->setData($brand);
 		
 		$formHandler = new BrandFormHandler($form, $this->container);
 		
