@@ -13,12 +13,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
+use ASF\ProductBundle\Model\Category\CategoryModel;
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use ASF\ProductBundle\Model\Category\CategoryModel;
 
 /**
  * Product Form Type
@@ -29,16 +28,16 @@ use ASF\ProductBundle\Model\Category\CategoryModel;
 class CategoryType extends AbstractType
 {
     /**
-     * @var ASFProductManagerInterface|ASFEntityManagerInterface
+     * @var DefaultManagerInterface
      */
     protected $categoryManager;
     
     /**
-     * @param ASFProductManagerInterface $category_manager
+     * @param DefaultManagerInterface $categoryManager
      */
-    public function __construct(ASFProductManagerInterface $category_manager)
+    public function __construct(DefaultManagerInterface $categoryManager)
     {
-        $this->categoryManager = $category_manager;
+        $this->categoryManager = $categoryManager;
     }
 
     /**

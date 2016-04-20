@@ -10,8 +10,7 @@
 namespace ASF\ProductBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Transform a string to a Brand entity
@@ -22,16 +21,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class StringToBrandTransformer implements DataTransformerInterface
 {
     /**
-     * @var ASFProductManagerInterface|ASFEntityManagerInterface
+     * @var DefaultManagerInterface
      */
     protected $brandManager;
 
     /**
-     * @param ASFProductManagerInterface $brand_manager
+     * @param DefaultManagerInterface $brandManager
      */
-    public function __construct(ASFProductManagerInterface $brand_manager)
+    public function __construct(DefaultManagerInterface $brandManager)
     {
-        $this->brandManager = $brand_manager;
+        $this->brandManager = $brandManager;
     }
 
     /**

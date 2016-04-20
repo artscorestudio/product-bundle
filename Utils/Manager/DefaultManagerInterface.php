@@ -7,7 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace ASF\ProductBundle\Entity\Manager;
+namespace ASF\ProductBundle\Utils\Manager;
+
+use ASF\CoreBundle\Utils\Manager\ASFManagerInterface;
 
 /**
  * Product Manager Interface
@@ -15,7 +17,7 @@ namespace ASF\ProductBundle\Entity\Manager;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-interface ASFProductManagerInterface
+interface DefaultManagerInterface extends ASFManagerInterface
 {
     /**
      * Return the entity class name

@@ -12,10 +12,9 @@ namespace ASF\ProductBundle\Form\Handler;
 use ASF\CoreBundle\Form\Handler\FormHandlerModel;
 
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use ASF\ProductBundle\Model\Product\ProductModel;
 use Symfony\Component\HttpFoundation\Request;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Product Form Handler
@@ -26,16 +25,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class ProductFormHandler extends FormHandlerModel
 {
 	/**
-	 * @var ASFProductManagerInterface
+	 * @var ProductManagerInterface
 	 */
 	protected $productManager;
 	
 	/**
-	 * @param FormInterface              $form
-	 * @param Request                    $request
-	 * @param ASFProductManagerInterface $product_manager
+	 * @param FormInterface           $form
+	 * @param Request                 $request
+	 * @param ProductManagerInterface $product_manager
 	 */
-	public function __construct(FormInterface $form, Request $request, ASFProductManagerInterface $product_manager)
+	public function __construct(FormInterface $form, Request $request, ProductManagerInterface $product_manager)
 	{
 		parent::__construct($form, $request);
 		$this->productManager = $product_manager;

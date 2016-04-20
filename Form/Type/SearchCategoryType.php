@@ -15,8 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use ASF\ProductBundle\Form\DataTransformer\StringToCategoryTransformer;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Field for searching product category
@@ -27,16 +26,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class SearchCategoryType extends AbstractType
 {
 	/**
-	 * @var ASFProductManagerInterface|ASFEntityManagerInterface
+	 * @var DefaultManagerInterface
 	 */
 	protected $categoryManager;
 	
 	/**
-	 * @param ASFProductManagerInterface $category_manager
+	 * @param DefaultManagerInterface $categoryManager
 	 */
-	public function __construct(ASFProductManagerInterface $category_manager)
+	public function __construct(DefaultManagerInterface $categoryManager)
 	{
-		$this->categoryManager = $category_manager;
+		$this->categoryManager = $categoryManager;
 	}
 	
 	/**

@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace ASF\ProductBundle\Entity\Manager;
+namespace ASF\ProductBundle\Utils\Manager;
 
 /**
  * Product Entity Manager
@@ -15,7 +15,7 @@ namespace ASF\ProductBundle\Entity\Manager;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  *
  */
-class ProductManager extends ASFProductManager
+class ProductManager extends DefaultManager
 {
     /**
      * Populate a new product

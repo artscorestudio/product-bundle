@@ -10,8 +10,7 @@
 namespace ASF\ProductBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Transform a string to a ProductCategory entity
@@ -22,16 +21,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class StringToCategoryTransformer implements DataTransformerInterface
 {
 	/**
-	 * @var ASFProductManagerInterface|ASFEntityManagerInterface
+	 * @var DefaultManagerInterface
 	 */
 	protected $categoryManager;
 	
 	/**
-	 * @param ASFProductManagerInterface $category_manager
+	 * @param DefaultManagerInterface $categoryManager
 	 */
-	public function __construct(ASFProductManagerInterface $category_manager)
+	public function __construct(DefaultManagerInterface $categoryManager)
 	{
-		$this->categoryManager = $category_manager;
+		$this->categoryManager = $categoryManager;
 	}
 	
 	/**

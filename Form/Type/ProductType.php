@@ -19,11 +19,10 @@ use ASF\ProductBundle\Entity\ProductModel;
 use ASF\ProductBundle\Form\DataTransformer\StringToWeightTransformer;
 use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Product Form Type
@@ -34,7 +33,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class ProductType extends AbstractType
 {
     /**
-     * @var ASFProductManagerInterface|ASFEntityManagerInterface
+     * @var ProductManagerInterface
      */
     protected $productManager;
 
@@ -44,10 +43,10 @@ class ProductType extends AbstractType
     protected $isBrandEntityEnabled;
     
     /**
-     * @param ASFProductManagerInterface $product_manager
-     * @param boolean        $is_brand_entity_enabled
+     * @param ProductManagerInterface $product_manager
+     * @param boolean                 $is_brand_entity_enabled
      */
-    public function __construct(ASFProductManagerInterface $product_manager, $is_brand_entity_enabled)
+    public function __construct(ProductManagerInterface $product_manager, $is_brand_entity_enabled)
     {
         $this->productManager = $product_manager;
         $this->isBrandEntityEnabled = $is_brand_entity_enabled;

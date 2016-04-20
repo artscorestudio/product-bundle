@@ -10,8 +10,7 @@
 namespace ASF\ProductBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Transform a string to a Product entity
@@ -22,16 +21,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class StringToProductTransformer implements DataTransformerInterface
 {
 	/**
-	 * @var ASFProductManagerInterface|ASFEntityManagerInterface
+	 * @var ProductManagerInterface
 	 */
 	protected $productManager;
 	
 	/**
-	 * @param ASFProductManagerInterface $product_manager
+	 * @param ProductManagerInterface $productManager
 	 */
-	public function __construct(ASFProductManagerInterface $product_manager)
+	public function __construct(ProductManagerInterface $productManager)
 	{
-		$this->productManager = $product_manager;
+		$this->productManager = $productManager;
 	}
 	
 	/**

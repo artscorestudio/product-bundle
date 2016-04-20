@@ -13,12 +13,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Product Form Type
@@ -29,16 +26,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class BrandType extends AbstractType
 {
     /**
-     * @var ASFProductManagerInterface|ASFEntityManagerInterface
+     * @var DefaultManagerInterface
      */
     protected $brandManager;
     
     /**
-     * @param ASFProductManagerInterface $brand_manager
+     * @param DefaultManagerInterface $brandManager
      */
-    public function __construct(ASFProductManagerInterface $brand_manager)
+    public function __construct(DefaultManagerInterface $brandManager)
     {
-        $this->brandManager = $brand_manager;
+        $this->brandManager = $brandManager;
     }
 
     /**

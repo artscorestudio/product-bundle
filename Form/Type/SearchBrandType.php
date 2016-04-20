@@ -15,8 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use ASF\ProductBundle\Form\DataTransformer\StringToBrandTransformer;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Field for searching brand
@@ -27,16 +26,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class SearchBrandType extends AbstractType
 {
 	/**
-	 * @var ASFProductManagerInterface|ASFEntityManagerInterface
+	 * @var DefaultManagerInterface
 	 */
 	protected $brandManager;
 	
 	/**
-	 * @param ASFProductManagerInterface $brand_manager
+	 * @param DefaultManagerInterface $brandManager
 	 */
-	public function __construct(ASFProductManagerInterface $brand_manager)
+	public function __construct(DefaultManagerInterface $brandManager)
 	{
-		$this->brandManager = $brand_manager;
+		$this->brandManager = $brandManager;
 	}
 	
 	/**

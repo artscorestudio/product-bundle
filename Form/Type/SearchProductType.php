@@ -15,8 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use ASF\ProductBundle\Form\DataTransformer\StringToProductTransformer;
-use ASF\CoreBundle\Model\Manager\ASFEntityManagerInterface;
-use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
+use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Field for searching product
@@ -27,16 +26,16 @@ use ASF\ProductBundle\Entity\Manager\ASFProductManagerInterface;
 class SearchProductType extends AbstractType
 {
 	/**
-	 * @var ASFProductManagerInterface|ASFEntityManagerInterface
+	 * @var ProductManagerInterface
 	 */
 	protected $productManager;
 	
 	/**
-	 * @param ASFProductManagerInterface $product_manager
+	 * @param DefaultManagerInterface $productManager
 	 */
-	public function __construct(ASFProductManagerInterface $product_manager)
+	public function __construct(ProductManagerInterface $productManager)
 	{
-		$this->productManager = $product_manager;
+		$this->productManager = $productManager;
 	}
 	
 	/**
