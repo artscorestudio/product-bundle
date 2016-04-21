@@ -32,12 +32,6 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode
 	        ->children()
-		        ->booleanNode('enable_core_support')
-		        	->defaultFalse()
-		        ->end()
-		        ->booleanNode('enable_select2_support')
-		          ->defaultFalse()
-		        ->end()
 		        ->booleanNode('enable_brand_entity')
 		        	->defaultFalse()
 		        ->end()
