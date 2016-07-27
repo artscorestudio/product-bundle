@@ -14,7 +14,7 @@
     <services>
         
          <!-- ProductPack Entity Manager -->
-        <service id="asf_product.product_pack.manager" class="%asf_product.entity.manager.class%">
+        <service id="asf_product.product_pack.manager" class="ASF\ProductBundle\Utils\Manager\DefaultManager">
             <tag name="asf_core.manager" entity="%asf_product.product_pack.entity.class%" />
         </service>
         

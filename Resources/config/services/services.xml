@@ -6,71 +6,57 @@
 
 	<parameters>
     	
-    	<!-- Generic Entity Manager -->
-    	<parameter key="asf_product.entity.manager.class">ASF\ProductBundle\Entity\Manager\ASFProductManager</parameter>
-		<parameter key="asf_product.form.factory.class">ASF\ProductBundle\Form\Factory\FormFactory</parameter>
-		
-		<!-- Product Manager -->
-		<parameter key="asf_product.product.manager.class">ASF\ProductBundle\Entity\Manager\ProductManager</parameter>
+		<!-- Entities parameters -->
 		<parameter key="asf_product.product.entity.class">ASF\ProductBundle\Entity\Product</parameter>
-
-		<!-- ProductCategory Manager -->
-		<parameter key="asf_product.category.manager.class">ASF\ProductBundle\Entity\Manager\CategoryManager</parameter>
 		<parameter key="asf_product.category.entity.class">ASF\ProductBundle\Entity\Category</parameter>
-
-		<!-- Forms -->
-		<parameter key="asf_product.form.type.product.class">ASF\ProductBundle\Form\Type\ProductType</parameter>
-		<parameter key="asf_product.form.type.category.class">ASF\ProductBundle\Form\Type\CategoryType</parameter>
-		<parameter key="asf_product.form.type.search_product.class">ASF\ProductBundle\Form\Type\SearchProductType</parameter>
-		<parameter key="asf_product.form.type.search_category.class">ASF\ProductBundle\Form\Type\SearchCategoryType</parameter>
 		
     </parameters>
 
     <services>
         
-        <!-- Product Entity Manager -->
-        <service id="asf_product.product.manager" class="%asf_product.product.manager.class%">
+        <!-- Product Manager -->
+        <service id="asf_product.product.manager" class="ASF\ProductBundle\Utils\Manager\ProductManager">
             <tag name="asf_core.manager" entity="%asf_product.product.entity.class%" />
         </service>
         
-        <!-- ProductCategory Entity Manager -->
-        <service id="asf_product.category.manager" class="%asf_product.category.manager.class%">
+        <!-- ProductCategory Manager -->
+        <service id="asf_product.category.manager" class="ASF\ProductBundle\Utils\Manager\CategoryManager">
         	<argument type="service" id="asf_product.product.manager" />
             <tag name="asf_core.manager" entity="%asf_product.category.entity.class%" />
         </service>
         
         <!-- Product Form -->
-        <service id="asf_product.form.factory.product" class="%asf_product.form.factory.class%">
+        <service id="asf_product.form.factory.product" class="ASF\ProductBundle\Form\Factory\FormFactory">
             <argument type="service" id="form.factory" />
             <argument>%asf_product.product.form.name%</argument>
             <argument>%asf_product.product.form.type%</argument>
         </service>
 
-        <service id="asf_product.form.type.product" class="%asf_product.form.type.product.class%">
+        <service id="asf_product.form.type.product" class="ASF\ProductBundle\Form\Type\ProductType">
         	<argument type="service" id="asf_product.product.manager" />
         	<argument>%asf_product.enable_brand_entity%</argument>
             <tag name="form.type" alias="product_type" />
         </service>
         
         <!-- Category Form -->
-        <service id="asf_product.form.factory.category" class="%asf_product.form.factory.class%">
+        <service id="asf_product.form.factory.category" class="ASF\ProductBundle\Form\Factory\FormFactory">
             <argument type="service" id="form.factory" />
             <argument>%asf_product.category.form.name%</argument>
             <argument>%asf_product.category.form.type%</argument>
         </service>
         
-        <service id="asf_product.form.type.category" class="%asf_product.form.type.category.class%">
+        <service id="asf_product.form.type.category" class="ASF\ProductBundle\Form\Type\CategoryType">
         	<argument type="service" id="asf_product.category.manager" />
             <tag name="form.type" alias="category_type" />
         </service>
         
         <!-- Search Form Types -->
-        <service id="asf_product.form.type.search_product" class="%asf_product.form.type.search_product.class%">
+        <service id="asf_product.form.type.search_product" class="ASF\ProductBundle\Form\Type\SearchProductType">
         	<argument type="service" id="asf_product.product.manager" />
             <tag name="form.type" alias="search_product" />
         </service>
         
-        <service id="asf_product.form.type.search_category" class="%asf_product.form.type.search_category.class%">
+        <service id="asf_product.form.type.search_category" class="ASF\ProductBundle\Form\Type\SearchCategoryType">
         	<argument type="service" id="asf_product.category.manager" />
             <tag name="form.type" alias="search_product_category" />
         </service>
