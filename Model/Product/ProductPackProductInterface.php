@@ -7,18 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Model\Product;
 
 /**
- * Product Pack Product Interface
+ * Product Pack Product Interface.
  *
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 interface ProductPackProductInterface
 {
     /**
-     * @return integer
+     * @return int
      */
     public function getId();
 
@@ -29,6 +29,7 @@ interface ProductPackProductInterface
 
     /**
      * @param \ASF\ProductBundle\Model\Product\ProductInterface $product
+     *
      * @return \ASF\ProductBundle\Model\Product\ProductPackInterface
      */
     public function setProductPack(ProductPackInterface $product);
@@ -40,6 +41,7 @@ interface ProductPackProductInterface
 
     /**
      * @param \ASF\ProductBundle\Model\ProductInterface $product
+     *
      * @return \ASF\ProductBundle\Model\Product\ProductInterface
      */
     public function setProduct(ProductInterface $product);
@@ -51,6 +53,7 @@ interface ProductPackProductInterface
 
     /**
      * @param numeric $order
+     *
      * @return \ASF\ProductBundle\Model\Product\ProductInterface
      */
     public function setOrder($order);

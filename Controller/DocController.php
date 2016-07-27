@@ -7,20 +7,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Documentation Controller
+ * Documentation Controller.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class DocController extends Controller
 {
     /**
-     * Documentation Homepage
+     * Documentation Homepage.
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */

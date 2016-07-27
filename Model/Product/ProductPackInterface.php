@@ -7,13 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Model\Product;
 
 /**
- * Product Pack Interface
+ * Product Pack Interface.
  *
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 interface ProductPackInterface
 {
@@ -24,12 +24,14 @@ interface ProductPackInterface
 
     /**
      * @param \ASF\ProductBundle\Model\Product\ProductInterface $product
+     *
      * @return \ASF\ProductBundle\Model\Product\ProductPackInterface
      */
     public function addProduct(ProductInterface $product);
 
     /**
      * @param \ASF\ProductBundle\Model\Product\ProductInterface $product
+     *
      * @return \ASF\ProductBundle\Model\Product\ProductPackInterface
      */
     public function removeProduct(ProductInterface $product);

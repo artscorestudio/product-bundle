@@ -1,33 +1,35 @@
 <?php
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
 /**
- * AppKernel
+ * AppKernel.
  *  
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class AppKernel extends Kernel
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\HttpKernel\KernelInterface::registerBundles()
      */
     public function registerBundles()
     {
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            
-        	new ASF\CoreBundle\ASFCoreBundle(),
-        	new ASF\ProductBundle\ASFProductBundle()
+
+            new ASF\CoreBundle\ASFCoreBundle(),
+            new ASF\ProductBundle\ASFProductBundle(),
         );
 
         return $bundles;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\HttpKernel\Kernel::getRootDir()
      */
     public function getRootDir()
@@ -36,7 +38,8 @@ class AppKernel extends Kernel
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\HttpKernel\Kernel::getCacheDir()
      */
     public function getCacheDir()
@@ -45,7 +48,8 @@ class AppKernel extends Kernel
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\HttpKernel\Kernel::getLogDir()
      */
     public function getLogDir()
@@ -54,7 +58,8 @@ class AppKernel extends Kernel
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\HttpKernel\KernelInterface::registerContainerConfiguration()
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -64,7 +69,7 @@ class AppKernel extends Kernel
         } else {
             $platform = 'unix';
         }
-        
+
         $loader->load($this->getRootDir().'/config/config_'.$platform.'.yml');
     }
 }

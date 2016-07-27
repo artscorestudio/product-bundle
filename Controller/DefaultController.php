@@ -7,20 +7,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Default Controller gather generic app views
+ * Default Controller gather generic app views.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class DefaultController extends Controller
 {
     /**
-     * Product Homepage
+     * Product Homepage.
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */

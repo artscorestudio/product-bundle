@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -14,21 +15,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-
 use ASF\ProductBundle\Entity\ProductModel;
 use ASF\ProductBundle\Form\DataTransformer\StringToWeightTransformer;
 use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
- * Product Form Type
+ * Product Form Type.
  *
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class ProductType extends AbstractType
 {
@@ -38,13 +36,13 @@ class ProductType extends AbstractType
     protected $productManager;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isBrandEntityEnabled;
-    
+
     /**
      * @param ProductManagerInterface $product_manager
-     * @param boolean                 $is_brand_entity_enabled
+     * @param bool                    $is_brand_entity_enabled
      */
     public function __construct(ProductManagerInterface $product_manager, $is_brand_entity_enabled)
     {
@@ -53,20 +51,20 @@ class ProductType extends AbstractType
     }
 
     /**
-     * Pass the image URL to the view
+     * Pass the image URL to the view.
      *
-     * @param FormView $view
+     * @param FormView      $view
      * @param FormInterface $form
-     * @param array $options
+     * @param array         $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['display_brand_field'] = $this->isBrandEntityEnabled;
     }
-    
+
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -75,44 +73,45 @@ class ProductType extends AbstractType
 
         $builder->add('name', TextType::class, array(
             'label' => 'Product name',
-            'required' => true
+            'required' => true,
         ))
-        
+
         ->add($builder->create('weight', TextType::class, array(
             'label' => 'Weight (Kg)',
-            'required' => false
+            'required' => false,
         ))->addModelTransformer($weight_transformer))
-        
+
         ->add($builder->create('capacity', TextType::class, array(
             'label' => 'Capacity (Liter)',
-            'required' => false
+            'required' => false,
         ))->addModelTransformer($liter_transformer));
-        
-        if ( true === $this->isBrandEntityEnabled ) {
+
+        if (true === $this->isBrandEntityEnabled) {
             $builder->add('brand', SearchBrandType::class);
         }
-        
+
         $builder->add('categories', BaseCollectionType::class, array(
             'entry_type' => SearchCategoryType::class,
             'label' => 'List of categories',
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
-            'containerId' => 'categories-collection'))
-            
+            'containerId' => 'categories-collection', ))
+
         ->add('state', ChoiceType::class, array(
             'label' => 'State',
             'required' => true,
             'choices' => array(
                 ProductModel::STATE_DRAFT => 'Draft',
                 ProductModel::STATE_WAITING => 'Waiting',
-                ProductModel::STATE_PUBLISHED => 'Published'
-            )
+                ProductModel::STATE_PUBLISHED => 'Published',
+            ),
         ));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Form\AbstractType::configureOptions()
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -124,7 +123,8 @@ class ProductType extends AbstractType
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see \Symfony\Component\Form\FormTypeInterface::getName()
      */
     public function getName()

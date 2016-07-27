@@ -7,21 +7,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
- * Product Form Type
+ * Product Form Type.
  *
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class BrandType extends AbstractType
 {
@@ -29,7 +28,7 @@ class BrandType extends AbstractType
      * @var DefaultManagerInterface
      */
     protected $brandManager;
-    
+
     /**
      * @param DefaultManagerInterface $brandManager
      */
@@ -40,28 +39,29 @@ class BrandType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-			'label' => 'Brand name', 
-			'max_length' => 255,
-			'required' => true
-		))
-		->add('state', ChoiceType::class, array(
-			'label' => 'State',
-			'required' => true,
-			'choices' => array(
-				BrandModel::STATE_DRAFT => 'Draft',
-				BrandModel::STATE_WAITING => 'Waiting',
-				BrandModel::STATE_PUBLISHED => 'Published' 
-			)
-		));
+            'label' => 'Brand name',
+            'max_length' => 255,
+            'required' => true,
+        ))
+        ->add('state', ChoiceType::class, array(
+            'label' => 'State',
+            'required' => true,
+            'choices' => array(
+                BrandModel::STATE_DRAFT => 'Draft',
+                BrandModel::STATE_WAITING => 'Waiting',
+                BrandModel::STATE_PUBLISHED => 'Published',
+            ),
+        ));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Form\AbstractType::configureOptions()
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -73,7 +73,8 @@ class BrandType extends AbstractType
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see \Symfony\Component\Form\FormTypeInterface::getName()
      */
     public function getName()
