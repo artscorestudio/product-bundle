@@ -29,7 +29,7 @@ For more information about translations, check [Symfony documentation](https://s
 Require the bundle with composer :
 
 ```bash
-$ composer require artscorestudio/product-bundle "dev-master"
+$ composer require artscorestudio/product-bundle
 ```
 
 Composer will install the bundle to your project's *vendor/artscorestudio/product-bundle* directory. It also install dependencies. 
