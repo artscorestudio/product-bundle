@@ -23,7 +23,7 @@ use ASF\ProductBundle\Model\Product\ProductInterface;
  * @ORM\Table(name="asf_product_brand")
  * @ORM\HasLifecycleCallbacks
  */
-class BrandModel implements BrandInterface
+abstract class BrandModel implements BrandInterface
 {
     /**
      * All brand's states are hardcoded in constantes.

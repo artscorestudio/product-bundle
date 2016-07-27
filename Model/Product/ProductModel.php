@@ -28,7 +28,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\DiscriminatorMap({"product"="Product", "ProductPack"="ProductPack"})
  * @ORM\HasLifecycleCallbacks
  */
-class ProductModel implements ProductInterface
+abstract class ProductModel implements ProductInterface
 {
     /**
      * All product's states are hardcoded in constantes.
