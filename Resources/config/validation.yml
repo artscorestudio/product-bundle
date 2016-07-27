@@ -1,6 +1,0 @@
-ASF\ProductBundle\Entity\Category:
-    properties:
-        name:
-            - NotBlank: ~
-        state:
-            - Choice: { callback: getStates }
