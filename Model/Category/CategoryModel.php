@@ -10,14 +10,19 @@
 
 namespace ASF\ProductBundle\Model\Category;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product Category.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
+ * 
+ * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\CategoryRepository")
+ * @ORM\Table(name="asf_product_category")
  */
-abstract class CategoryModel implements CategoryInterface
+class CategoryModel implements CategoryInterface
 {
     /**
      * All product category' states are hardcoded in constantes.
@@ -29,26 +34,41 @@ abstract class CategoryModel implements CategoryInterface
     const STATE_DELETED = 'deleted';
 
     /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * 
      * @var int
      */
     protected $id;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * 
      * @var string
      */
     protected $name;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Choice(callback = "getStates")
+     * 
      * @var string
      */
     protected $state;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
+     * 
      * @var \ASF\ProductBundle\Model\Category\CategoryInterface
      */
     protected $parent;
 
     /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent", cascade={"persist", "remove"})
+     * 
      * @var ArrayCollection
      */
     protected $children;

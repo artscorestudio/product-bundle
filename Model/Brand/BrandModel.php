@@ -10,14 +10,20 @@
 
 namespace ASF\ProductBundle\Model\Brand;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use ASF\ProductBundle\Model\Product\ProductInterface;
 
 /**
  * Brand Model.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
+ * 
+ * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\BrandRepository")
+ * @ORM\Table(name="asf_product_brand")
+ * @ORM\HasLifecycleCallbacks
  */
-abstract class BrandModel implements BrandInterface
+class BrandModel implements BrandInterface
 {
     /**
      * All brand's states are hardcoded in constantes.
@@ -29,36 +35,57 @@ abstract class BrandModel implements BrandInterface
     const STATE_DELETED = 'deleted';
 
     /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * 
      * @var int
      */
     protected $id;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * 
      * @var string
      */
     protected $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank()
+     * 
      * @var string
      */
     protected $content;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Choice(callback = "getStates")
+     * 
      * @var string
      */
     protected $state;
 
     /**
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="brand", cascade={"persist"})
+     * @JoinColumn(name="product_id", referencedColumnName="id", nullable="true")
+     * 
      * @var ArrayCollection
      */
     protected $products;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * 
      * @var \DateTime
      */
     protected $createdAt;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * 
      * @var \DateTime
      */
     protected $updatedAt;
@@ -251,7 +278,7 @@ abstract class BrandModel implements BrandInterface
     /**
      * Returns states for validators.
      *
-     * @return multitype:string
+     * @return array
      */
     public static function getStates()
     {
@@ -264,7 +291,8 @@ abstract class BrandModel implements BrandInterface
     }
 
     /**
-     * Executed on prePersist doctrine event.
+     * @ORM\PrePersist
+     * @return void
      */
     public function onPrePersist()
     {
@@ -273,7 +301,8 @@ abstract class BrandModel implements BrandInterface
     }
 
     /**
-     * Executed on prePersist doctrine event.
+     * @ORM\PreUpdate
+     * @return void
      */
     public function onPreUpdate()
     {

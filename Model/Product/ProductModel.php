@@ -10,6 +10,8 @@
 
 namespace ASF\ProductBundle\Model\Product;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use ASF\ProductBundle\Model\Brand\BrandInterface;
 use ASF\ProductBundle\Model\Category\CategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,8 +20,15 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Product Model.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
+ * 
+ * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\ProductRepository")
+ * @ORM\Table(name="asf_product")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"product"="Product", "ProductPack"="ProductPack"})
+ * @ORM\HasLifecycleCallbacks
  */
-abstract class ProductModel implements ProductInterface
+class ProductModel implements ProductInterface
 {
     /**
      * All product's states are hardcoded in constantes.
@@ -37,61 +46,99 @@ abstract class ProductModel implements ProductInterface
     const TYPE_PRODUCT_PACK = 'ProductPack';
 
     /**
-     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @var integer
      */
     protected $id;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * 
      * @var string
      */
     protected $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank()
+     * 
      * @var string
      */
     protected $content;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Choice(callback = "getStates")
+     * 
      * @var string
      */
     protected $state;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Choice(callback = "getTypes")
+     * 
      * @var string
      */
     protected $type;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * 
      * @var float
      */
     protected $weight;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * 
      * @var float
      */
     protected $capacity;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Category")
+     * @ORM\JoinTable(name="product_category",
+     *     joinColumns={@JoinColumn(name="product_id", referencedColumnName="id")},
+     *     inversedJoinColumns={@JoinColumn(name="category_id", referencedColumnName="id")}
+     * )
+     * @ORM\JoinColumn(name="brand_id", referencedColumnName="id", nullable=true)
+     * 
      * @var ArrayCollection
      */
     protected $categories;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="products", cascade={"persist"})
+     * @ORM\JoinColumn(name="brand_id", referencedColumnName="id", nullable=true)
+     * 
      * @var \ASF\ProductBundle\Model\Brand\BrandInterface
      */
     protected $brand;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * 
      * @var \DateTime
      */
     protected $createdAt;
 
     /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * 
      * @var \DateTime
      */
     protected $updatedAt;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * 
      * @var \DateTime
      */
     protected $deletedAt;
@@ -386,7 +433,7 @@ abstract class ProductModel implements ProductInterface
     /**
      * Returns states for validators.
      *
-     * @return multitype:string
+     * @return array
      */
     public static function getStates()
     {
@@ -397,9 +444,23 @@ abstract class ProductModel implements ProductInterface
             self::STATE_DELETED,
         );
     }
+    
+    /**
+     * Returns types for validators.
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return array(
+            self::TYPE_PRODUCT,
+            self::TYPE_PRODUCT_PACK
+        );
+    }
 
     /**
-     * Executed on prePersist doctrine event.
+     * @ORM\PrePersist
+     * @return void
      */
     public function onPrePersist()
     {
