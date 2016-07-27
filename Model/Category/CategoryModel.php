@@ -22,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\CategoryRepository")
  * @ORM\Table(name="asf_product_category")
  */
-class CategoryModel implements CategoryInterface
+abstract class CategoryModel implements CategoryInterface
 {
     /**
      * All product category' states are hardcoded in constantes.
