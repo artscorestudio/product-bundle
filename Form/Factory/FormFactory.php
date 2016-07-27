@@ -7,15 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Form\Factory;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * Product Bundle form factory
+ * Product Bundle form factory.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class FormFactory implements FactoryInterface
 {
@@ -23,22 +23,22 @@ class FormFactory implements FactoryInterface
      * @var FormFactoryInterface
      */
     private $formFactory;
-    
+
     /**
      * @var string
      */
     private $name;
-    
+
     /**
      * @var string
      */
     private $type;
-    
+
     /**
      * @var array
      */
     private $validationGroups;
-    
+
     /**
      * @param FormFactoryInterface $formFactory
      * @param string               $name
@@ -52,15 +52,16 @@ class FormFactory implements FactoryInterface
         $this->type = $type;
         $this->validationGroups = $validationGroups;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \ASF\ProductBundle\Form\Factory\FormFactoryInterface::createForm()
      */
     public function createForm(array $options = array())
     {
         $options = array_merge(array('validation_groups' => $this->validationGroups), $options);
-        
+
         return $this->formFactory->createNamed($this->name, $this->type, null, $options);
     }
 }

@@ -7,12 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Entity;
 
 /**
- * Brand Entity
+ * Brand Entity.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
-class Brand extends BrandModel {}
+class Brand extends BrandModel
+{
+}

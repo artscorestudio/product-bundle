@@ -7,23 +7,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use ASF\ProductBundle\Model\Category\CategoryModel;
 use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * Product Form Type
+ * Product Form Type.
  *
  * @author Nicolas Claverie <info@artscore-studio.fr>
- *
  */
 class CategoryType extends AbstractType
 {
@@ -31,7 +29,7 @@ class CategoryType extends AbstractType
      * @var DefaultManagerInterface
      */
     protected $categoryManager;
-    
+
     /**
      * @param DefaultManagerInterface $categoryManager
      */
@@ -42,27 +40,28 @@ class CategoryType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-			'label' => 'Category name', 
-			'required' => true
-		))
-		->add('state', ChoiceType::class, array(
-			'label' => 'State',
-			'required' => true,
-			'choices' => array(
-				'Draft' => CategoryModel::STATE_DRAFT,
-				'Waiting' => CategoryModel::STATE_WAITING,
-				'Published' => CategoryModel::STATE_PUBLISHED
-			)
-		));
+            'label' => 'Category name',
+            'required' => true,
+        ))
+        ->add('state', ChoiceType::class, array(
+            'label' => 'State',
+            'required' => true,
+            'choices' => array(
+                'Draft' => CategoryModel::STATE_DRAFT,
+                'Waiting' => CategoryModel::STATE_WAITING,
+                'Published' => CategoryModel::STATE_PUBLISHED,
+            ),
+        ));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Form\AbstractType::configureOptions()
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -74,7 +73,8 @@ class CategoryType extends AbstractType
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see \Symfony\Component\Form\FormTypeInterface::getName()
      */
     public function getName()

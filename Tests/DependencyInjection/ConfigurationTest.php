@@ -7,16 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace ASF\ProductBundle\Tests\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use ASF\ProductBundle\DependencyInjection\Configuration;
 
 /**
- * This test case check if the default bundle's configuration from bundle's Configuration class is OK
+ * This test case check if the default bundle's configuration from bundle's Configuration class is OK.
  *  
  * @author Nicolas Claverie <info@artscore-studio.fr
- *
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = $processor->processConfiguration(new Configuration(), array());
         $this->assertFalse($config['enable_brand_entity']);
     }
-    
+
     /**
      * @covers ASF\ProductBundle\DependencyInjection\Configuration
      */
@@ -39,7 +39,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = $processor->processConfiguration(new Configuration(), array());
         $this->assertFalse($config['enable_productPack_entity']);
     }
-    
+
     /**
      * @covers ASF\ProductBundle\DependencyInjection\Configuration
      */
