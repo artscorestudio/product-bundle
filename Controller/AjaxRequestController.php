@@ -13,6 +13,8 @@ namespace ASF\ProductBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use ASF\ProductBundle\Model\Product\ProductModel;
+use ASF\ProductBundle\Model\Brand\BrandModel;
 
 /**
  * Ajax Request Controller.

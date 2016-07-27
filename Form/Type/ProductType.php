@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use ASF\ProductBundle\Entity\ProductModel;
+use ASF\ProductBundle\Model\Product\ProductModel;
 use ASF\ProductBundle\Form\DataTransformer\StringToWeightTransformer;
 use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;

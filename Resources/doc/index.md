@@ -7,7 +7,7 @@ Product Bundle is a Symfony 2/3 bundle for create and manage products in your Sy
 ## Prerequisites
 
 This version of the bundle requires :
-* Symfony >= 2.8 / >= 3+
+* Symfony >= 2.8 LTS / >= 3+
 * [ASFCoreBundle >= 1.0.3](https://packagist.org/packages/artscorestudio/core-bundle)
 
 ### Translations
@@ -29,7 +29,7 @@ For more information about translations, check [Symfony documentation](https://s
 Require the bundle with composer :
 
 ```bash
-$ composer require artscorestudio/product-bundle "dev-master"
+$ composer require artscorestudio/product-bundle
 ```
 
 Composer will install the bundle to your project's *vendor/artscorestudio/product-bundle* directory. It also install dependencies. 
