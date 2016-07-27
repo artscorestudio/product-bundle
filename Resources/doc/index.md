@@ -9,6 +9,7 @@ Product Bundle is a Symfony 2/3 bundle for create and manage products in your Sy
 This version of the bundle requires :
 * Symfony >= 2.8 LTS / >= 3+
 * [ASFCoreBundle >= 1.0.3](https://packagist.org/packages/artscorestudio/core-bundle)
+* [artscorestudio/APYDatagridBundle >= 3.0.0](https://packagist.org/packages/artscorestudio/datagrid-bundle)
 
 ### Translations
 
