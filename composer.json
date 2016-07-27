@@ -22,7 +22,7 @@
         "artscorestudio/core-bundle": "^1.0"
 	},
 	"require-dev": {
-	    "artscorestudio/layout-bundle": "~1.0@dev"
+	    "artscorestudio/layout-bundle": "~1.2"
 	},
 	"autoload" : {
 		"psr-4" : {
