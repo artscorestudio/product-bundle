@@ -15,7 +15,7 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use ASF\ProductBundle\Entity\CategoryModel;
+use ASF\ProductBundle\Model\Category\CategoryModel;
 use ASF\ProductBundle\Form\Handler\CategoryFormHandler;
 
 /**
@@ -126,7 +126,7 @@ class CategoryController extends Controller
         }
 
         $form = $formFactory->createForm();
-        $form->setData($product);
+        $form->setData($category);
         $formHandler = new CategoryFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.category.manager'));
 
         if (true === $formHandler->process()) {

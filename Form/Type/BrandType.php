@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
+use ASF\ProductBundle\Model\Brand\BrandModel;
 
 /**
  * Product Form Type.

@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
-use ASF\ProductBundle\Entity\ProductModel;
+use ASF\ProductBundle\Model\Product\ProductModel;
 use ASF\ProductBundle\Form\Handler\ProductFormHandler;
 
 /**
