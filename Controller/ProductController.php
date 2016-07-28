@@ -35,10 +35,6 @@ class ProductController extends Controller
      */
     public function listAction()
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         // Set Datagrid source
         $source = new Entity($this->get('asf_product.product.manager')->getClassName());
         $tableAlias = $source->getTableAlias();
@@ -101,10 +97,10 @@ class ProductController extends Controller
 
         $deleteAction = new RowAction('btn_delete', 'asf_product_product_delete', true);
         $deleteAction->setRouteParameters(array('id'))
-            ->setConfirmMessage($this->get('translator')->trans('Do you want to delete this product ?', array(), 'asf_product'));
+            ->setConfirmMessage($this->get('translator')->trans('asf.product.msg.delete.confirm', array('%name%' => $this->get('translator')->trans('asf.product.default_value.this_product'))));
         $grid->addRowAction($deleteAction);
 
-        $grid->setNoDataMessage($this->get('translator')->trans('No product was found.', array(), 'asf_product'));
+        $grid->setNoDataMessage($this->get('translator')->trans('asf.product.msg.list.no_product'));
 
         return $grid->getGridResponse('ASFProductBundle:Product:list.html.twig');
     }
@@ -122,25 +118,21 @@ class ProductController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         $formFactory = $this->get('asf_product.form.factory.product');
         $productManager = $this->get('asf_product.product.manager');
 
         if (!is_null($id)) {
             $product = $productManager->getRepository()->findOneBy(array('id' => $id));
-            $success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
+            $success_message = $this->get('translator')->trans('asf.product.msg.success.product_updated', array('%name%' => $product->getName()));
         } else {
             $product = $productManager->createInstance();
 
-            $product->setName($this->get('translator')->trans('New product', array(), 'asf_product'))->setState(ProductModel::STATE_PUBLISHED);
-            $success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
+            $product->setName($this->get('translator')->trans('asf.product.default_value.name'))->setState(ProductModel::STATE_PUBLISHED);
+            $success_message = $this->get('translator')->trans('asf.product.msg.success.product_created', array('%name%' => $product->getName()));
         }
 
         if (is_null($product)) {
-            throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the product', array(), 'asf_product'));
+            throw new \Exception($this->get('translator')->trans('asf.product.msg.error.product_not_found'));
         }
 
         $form = $formFactory->createForm();
@@ -163,6 +155,8 @@ class ProductController extends Controller
             } catch (\Exception $e) {
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->danger($e->getMessage());
+                } else {
+                    return $e;
                 }
             }
         }
@@ -185,10 +179,6 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         $product = $this->get('asf_product.product.manager')->getRepository()->findOneBy(array('id' => $id));
 
         try {
@@ -196,11 +186,13 @@ class ProductController extends Controller
             $this->get('asf_product.product.manager')->getEntityManager()->flush();
 
             if ($this->has('asf_layout.flash_message')) {
-                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The product "%name%" successfully deleted', array('%name%' => $product->getName()), 'asf_product'));
+                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('asf.product.msg.success.product_deleted', array('%name%' => $product->getName())));
             }
         } catch (\Exception $e) {
             if ($this->has('asf_layout.flash_message')) {
                 $this->get('asf_layout.flash_message')->danger($e->getMessage());
+            } else {
+                return $e;
             }
         }
 

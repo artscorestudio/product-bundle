@@ -63,6 +63,60 @@
                 <source>asf.product.deleted_at</source>
                 <target>Deleted at</target>
             </trans-unit>
+            
+            <!-- PRODUCT DEFAULT VALUES -->
+            <trans-unit id="asf.product.default_value.name">
+                <source>asf.product.default_value.name</source>
+                <target>New product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.default_value.this_product">
+                <source>asf.product.default_value.this_product</source>
+                <target>this product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.default_value.this_category">
+                <source>asf.product.default_value.this_category</source>
+                <target>this category</target>
+            </trans-unit>
+            
+            <!-- CATEGORY -->
+            <trans-unit id="asf.product.category_name">
+                <source>asf.product.category_name</source>
+                <target>Category name</target>
+            </trans-unit>
+            
+            <!-- MESSAGES -->
+            <trans-unit id="asf.product.msg.delete.confirm">
+            	<source>asf.product.delete.msg.confirm</source>
+            	<target>Do you want to delete %name% ?</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.msg.list.no_product">
+            	<source>asf.product.msg.list.no_product</source>
+            	<target>No product.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.list.no_category">
+            	<source>asf.product.msg.list.no_category</source>
+            	<target>No cateogry.</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.msg.success.product_updated">
+            	<source>asf.product.msg.success.product_updated</source>
+            	<target>The product "%name%" has been successfully updated.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.product_updated">
+            	<source>asf.product.msg.success.product_updated</source>
+            	<target>The product "%name%" has been successfully created.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.product_deleted">
+            	<source>asf.product.msg.success.product_deleted</source>
+            	<target>The product "%name%" has been successfully deleted.</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.msg.error.product_not_found">
+            	<source>asf.product.msg.error.product_not_found</source>
+            	<target>Product not found.</target>
+            </trans-unit>
+            
         </body>
     </file>
 </xliff>

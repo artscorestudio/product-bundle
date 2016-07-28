@@ -34,10 +34,6 @@ class CategoryController extends Controller
      */
     public function listAction()
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         // Set Datagrid source
         $source = new Entity($this->get('asf_product.category.manager')->getClassName());
         $tableAlias = $source->getTableAlias();
@@ -62,21 +58,21 @@ class CategoryController extends Controller
         $grid->hideColumns(array('id'));
 
         $nameColumn = $grid->getColumn('name');
-        $nameColumn->setTitle($this->get('translator')->trans('Category name', array(), 'asf_product'))
+        $nameColumn->setTitle($this->get('translator')->trans('asf.product.category_name'))
             ->setDefaultOperator('like')
             ->setOperatorsVisible(false);
 
         $stateColumn = $grid->getColumn('state');
-        $stateColumn->setTitle($this->get('translator')->trans('State', array(), 'asf_product'))
+        $stateColumn->setTitle($this->get('translator')->trans('asf.product.state'))
             ->setFilterType('select')
             ->setDefaultOperator('like')
             ->setOperatorsVisible(false)
             ->setSelectFrom('values')
             ->setValues(array(
-                CategoryModel::STATE_DRAFT => $this->get('translator')->trans('Draft', array(), 'asf_product'),
-                CategoryModel::STATE_WAITING => $this->get('translator')->trans('Waiting', array(), 'asf_product'),
-                CategoryModel::STATE_PUBLISHED => $this->get('translator')->trans('Published', array(), 'asf_product'),
-                CategoryModel::STATE_DELETED => $this->get('translator')->trans('Deleted', array(), 'asf_product'),
+                CategoryModel::STATE_DRAFT => $this->get('translator')->trans('asf.product.state.draft'),
+                CategoryModel::STATE_WAITING => $this->get('translator')->trans('asf.product.state.waiting'),
+                CategoryModel::STATE_PUBLISHED => $this->get('translator')->trans('asf.product.state.published'),
+                CategoryModel::STATE_DELETED => $this->get('translator')->trans('asf.product.state.deleted'),
             ));
 
         $editAction = new RowAction('btn_edit', 'asf_product_category_edit');
@@ -85,7 +81,7 @@ class CategoryController extends Controller
 
         $deleteAction = new RowAction('btn_delete', 'asf_product_category_delete', true);
         $deleteAction->setRouteParameters(array('id'))
-            ->setConfirmMessage($this->get('translator')->trans('Do you want to delete this category ?', array(), 'asf_product'));
+            ->setConfirmMessage($this->get('translator')->trans('asf.product.msg.delete.confirm', array('%name%' => $this->get('translator')->trans('asf.product.default_value.this_category'))));
         $grid->addRowAction($deleteAction);
 
         $grid->setNoDataMessage($this->get('translator')->trans('No category was found.', array(), 'asf_product'));
@@ -105,10 +101,6 @@ class CategoryController extends Controller
      */
     public function editAction($id = null)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         $formFactory = $this->get('asf_product.form.factory.category');
         $categoryManager = $this->get('asf_product.category.manager');
 
@@ -166,10 +158,6 @@ class CategoryController extends Controller
      */
     public function deleteAction($id)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         $category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
 
         try {
