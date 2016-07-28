@@ -56,10 +56,10 @@ class SearchBrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'label' => 'Brand',
+            'label' => 'asf.product.form.search_brand',
             'class' => $this->brandManager->getClassName(),
             'choice_label' => 'name',
-            'placeholder' => 'Choose a brand',
+            'placeholder' => 'asf.product.form.choose_a_brand',
             'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_brand_ajax_request_brand_by_name'),
         ));
     }

@@ -45,16 +45,16 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-            'label' => 'Category name',
+            'label' => 'asf.product.category_name',
             'required' => true,
         ))
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                'Draft' => CategoryModel::STATE_DRAFT,
-                'Waiting' => CategoryModel::STATE_WAITING,
-                'Published' => CategoryModel::STATE_PUBLISHED,
+                'asf.product.state.draft' => CategoryModel::STATE_DRAFT,
+                'asf.product.state.waiting' => CategoryModel::STATE_WAITING,
+                'asf.product.state.published' => CategoryModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -68,7 +68,6 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => $this->categoryManager->getClassName(),
-            'translation_domain' => 'asf_product',
         ));
     }
 

@@ -106,15 +106,15 @@ class CategoryController extends Controller
 
         if (!is_null($id)) {
             $category = $categoryManager->getRepository()->findOneBy(array('id' => $id));
-            $success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
+            $success_message = $this->get('translator')->trans('asf.product.msg.success.category_updated', array('%name%' => $category->getName()));
         } else {
             $category = $categoryManager->createInstance();
-            $category->setName($this->get('translator')->trans('New category', array(), 'asf_product'));
-            $success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
+            $category->setName($this->get('translator')->trans('asf.product.default_value.category_name'));
+            $success_message = $this->get('translator')->trans('asf.product.msg.success.category_created', array('%name%' => $category->getName()));
         }
 
         if (is_null($category)) {
-            throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the category', array(), 'asf_product'));
+            throw new \Exception($this->get('translator')->trans('asf.product.msg.error.category_not_found'));
         }
 
         $form = $formFactory->createForm();
@@ -136,6 +136,8 @@ class CategoryController extends Controller
             } catch (\Exception $e) {
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->danger($e->getMessage());
+                } else {
+                    return $e;
                 }
             }
         }
@@ -165,11 +167,13 @@ class CategoryController extends Controller
             $this->get('asf_product.category.manager')->getEntityManager()->flush();
 
             if ($this->has('asf_layout.flash_message')) {
-                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The category "%name%" successfully deleted', array('%name%' => $category->getName()), 'asf_product'));
+                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('asf.product.msg.success.category_deleted', array('%name%' => $category->getName())));
             }
         } catch (\Exception $e) {
             if ($this->has('asf_layout.flash_message')) {
                 $this->get('asf_layout.flash_message')->danger($e->getMessage());
+            } else {
+                return $e;
             }
         }
 

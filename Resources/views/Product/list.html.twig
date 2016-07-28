@@ -1,14 +1,12 @@
 {% extends 'ASFProductBundle::layout.html.twig' %}
 
-{% trans_default_domain 'asf_product' %}
-
-{% block title %}{{ 'Products list'|trans }}{% endblock %}
+{% block title %}{{ 'asf.product.title.product_list'|trans }}{% endblock %}
 
 {% block asf_product_content %}
 
-	<h1>{{ 'Products list'|trans }}</h1>
+	<h1>{{ 'asf.product.title.product_list'|trans }}</h1>
 
-	<a class="btn btn-default" href="{{ path('asf_product_product_add') }}" title="{{ 'Add new product'|trans }}">{{ 'Add new product'|trans }}</a>
+	<a class="btn btn-default" href="{{ path('asf_product_product_add') }}" title="{{ 'asf.product.btn.add_product'|trans }}">{{ 'asf.product.btn.add_product'|trans }}</a>
 
 	<div class="row">
 		<div class="col-xs-12">

@@ -54,7 +54,7 @@ class ProductFormHandler extends FormHandlerModel
             if (is_null($product->getId())) {
                 $isProductExist = $producManager->getRepository()->findOneBy(array('name' => $product->getName()));
                 if (!is_null($isProductExist)) {
-                    throw new \Exception($this->getTranslator()->trans('A product with that name already exists.', array(), 'asf_product'));
+                    throw new \Exception($this->getTranslator()->trans('asf.product.msg.error.brand_already_exists'));
 
                     return false;
                 }

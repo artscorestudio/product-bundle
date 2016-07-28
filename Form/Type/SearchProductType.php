@@ -56,10 +56,10 @@ class SearchProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'label' => 'Product',
+            'label' => 'asf.product.form.search_product',
             'class' => $this->productManager->getClassName(),
             'choice_label' => 'name',
-            'placeholder' => 'Choose a product',
+            'placeholder' => 'asf.product.form.choose_a_product',
             'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_product_ajax_request_product_by_name'),
         ));
     }

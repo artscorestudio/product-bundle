@@ -3,10 +3,6 @@
     <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
         <body>
         	<!-- STATES CHOICES -->
-            <trans-unit id="asf.product.state">
-                <source>asf.product.state</source>
-                <target>State</target>
-            </trans-unit>
             <trans-unit id="asf.product.state.draft">
                 <source>asf.product.state.draft</source>
                 <target>Draft</target>
@@ -34,7 +30,48 @@
                 <target>Product Pack</target>
             </trans-unit>
             
+            <!-- FORMS -->
+            <trans-unit id="asf.product.form.categories_list">
+                <source>asf.product.form.categories_list</source>
+                <target>Categories list</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.form.search_product">
+                <source>asf.product.form.search_product</source>
+                <target>Search a product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.form.search_category">
+                <source>asf.product.form.search_category</source>
+                <target>Search a category</target>
+            </trans-unit>
+            <trans-unit id="asf.product.form.search_brand">
+                <source>asf.product.form.search_brand</source>
+                <target>Search a brand</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.form.choose_a_product">
+                <source>asf.product.form.choose_a_product</source>
+                <target>Choose a product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.form.choose_a_category">
+                <source>asf.product.form.choose_a_category</source>
+                <target>Choose a category</target>
+            </trans-unit>
+            <trans-unit id="asf.product.form.choose_a_brand">
+                <source>asf.product.form.choose_a_brand</source>
+                <target>Choose a brand</target>
+            </trans-unit>
+            
+            <trans-unit id="asf.product.form.product_no_result">
+            	<source>asf.product.form.product_no_result</source>
+            	<target>No products match with this product name.</target>
+            </trans-unit>
+            
             <!-- PRODUCT -->
+            <trans-unit id="asf.product.state">
+                <source>asf.product.state</source>
+                <target>State</target>
+            </trans-unit>
             <trans-unit id="asf.product.product_name">
                 <source>asf.product.product_name</source>
                 <target>Product name</target>
@@ -65,10 +102,19 @@
             </trans-unit>
             
             <!-- PRODUCT DEFAULT VALUES -->
-            <trans-unit id="asf.product.default_value.name">
-                <source>asf.product.default_value.name</source>
+            <trans-unit id="asf.product.default_value.product_name">
+                <source>asf.product.default_value.product_name</source>
                 <target>New product</target>
             </trans-unit>
+            <trans-unit id="asf.product.default_value.category_name">
+                <source>asf.product.default_value.category_name</source>
+                <target>New category</target>
+            </trans-unit>
+            <trans-unit id="asf.product.default_value.category_name">
+                <source>asf.product.default_value.category_name</source>
+                <target>New brand</target>
+            </trans-unit>
+            
             <trans-unit id="asf.product.default_value.this_product">
                 <source>asf.product.default_value.this_product</source>
                 <target>this product</target>
@@ -77,11 +123,21 @@
                 <source>asf.product.default_value.this_category</source>
                 <target>this category</target>
             </trans-unit>
+            <trans-unit id="asf.product.default_value.this_brand">
+                <source>asf.product.default_value.this_brand</source>
+                <target>this brand</target>
+            </trans-unit>
             
             <!-- CATEGORY -->
             <trans-unit id="asf.product.category_name">
                 <source>asf.product.category_name</source>
                 <target>Category name</target>
+            </trans-unit>
+            
+            <!-- BRAND -->
+            <trans-unit id="asf.product.brand_name">
+                <source>asf.product.brand_name</source>
+                <target>Brand name</target>
             </trans-unit>
             
             <!-- MESSAGES -->
@@ -96,27 +152,124 @@
             </trans-unit>
             <trans-unit id="asf.product.msg.list.no_category">
             	<source>asf.product.msg.list.no_category</source>
-            	<target>No cateogry.</target>
+            	<target>No category.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.list.no_brand">
+            	<source>asf.product.msg.list.no_brand</source>
+            	<target>Aucune marque.</target>
             </trans-unit>
             
+            <!-- PRODUCT MESSAGES -->
             <trans-unit id="asf.product.msg.success.product_updated">
             	<source>asf.product.msg.success.product_updated</source>
             	<target>The product "%name%" has been successfully updated.</target>
             </trans-unit>
-            <trans-unit id="asf.product.msg.success.product_updated">
-            	<source>asf.product.msg.success.product_updated</source>
+            <trans-unit id="asf.product.msg.success.product_created">
+            	<source>asf.product.msg.success.product_created</source>
             	<target>The product "%name%" has been successfully created.</target>
             </trans-unit>
             <trans-unit id="asf.product.msg.success.product_deleted">
             	<source>asf.product.msg.success.product_deleted</source>
             	<target>The product "%name%" has been successfully deleted.</target>
             </trans-unit>
-            
             <trans-unit id="asf.product.msg.error.product_not_found">
             	<source>asf.product.msg.error.product_not_found</source>
             	<target>Product not found.</target>
             </trans-unit>
+            <trans-unit id="asf.product.msg.error.product_already_exists">
+            	<source>asf.product.msg.error.product_already_exists</source>
+            	<target>A product with this name already exists.</target>
+            </trans-unit>
             
+            <!-- CATEGORY MESSAGES -->
+            <trans-unit id="asf.product.msg.success.category_updated">
+            	<source>asf.product.msg.success.category_updated</source>
+            	<target>The category "%name%" has been successfully updated.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.category_created">
+            	<source>asf.product.msg.success.category_created</source>
+            	<target>The category "%name%" has been successfully created.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.category_deleted">
+            	<source>asf.product.msg.success.category_deleted</source>
+            	<target>The category "%name%" has been successfully deleted.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.error.category_not_found">
+            	<source>asf.product.msg.error.category_not_found</source>
+            	<target>Category not found.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.error.category_already_exists">
+            	<source>asf.product.msg.error.category_already_exists</source>
+            	<target>A category with this name already exists.</target>
+            </trans-unit>
+            
+            <!-- BRAND MESSAGES -->
+            <trans-unit id="asf.product.msg.success.brand_updated">
+            	<source>asf.product.msg.success.brand_updated</source>
+            	<target>The brand "%name%" has been successfully updated.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.brand_created">
+            	<source>asf.product.msg.success.brand_created</source>
+            	<target>The brand "%name%" has been successfully created.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.success.brand_deleted">
+            	<source>asf.product.msg.success.brand_deleted</source>
+            	<target>The brand "%name%" has been successfully deleted.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.error.brand_not_found">
+            	<source>asf.product.msg.error.brand_not_found</source>
+            	<target>Brand not found.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.error.brand_already_exists">
+            	<source>asf.product.msg.error.brand_already_exists</source>
+            	<target>A brand with this name alreaady exists.</target>
+            </trans-unit>
+            
+            <!-- TITLES -->
+            <trans-unit id="asf.product.title.product_from_db">
+            	<source>asf.product.title.product_from_db</source>
+            	<target>Products from our database</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.suggested_product_name">
+            	<source>asf.product.title.suggested_product_name</source>
+            	<target>Suggested product name</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.product_list">
+            	<source>asf.product.title.product_list</source>
+            	<target>Products list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.category_list">
+            	<source>asf.product.title.category_list</source>
+            	<target>Categories list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.brand_list">
+            	<source>asf.product.title.brand_list</source>
+            	<target>Brands list</target>
+            </trans-unit>
+            
+            <!-- TEXTS -->
+            <trans-unit id="asf.product.text.product_from_db">
+            	<source>asf.product.title.product_from_db</source>
+            	<target>Check at first if your product does not exist in our database. If this is the case select it by checking the appropriate checkbox.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.suggested_product_name">
+            	<source>asf.product.text.suggested_product_name</source>
+            	<target>Otherwise, confirm the information below about your product.</target>
+            </trans-unit>
+            
+            <!-- BUTTONS -->
+            <trans-unit id="asf.product.btn.add_product">
+            	<source>asf.product.btn.add_product</source>
+            	<target>Add product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.add_category">
+            	<source>asf.product.btn.add_category</source>
+            	<target>Add category</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.add_brand">
+            	<source>asf.product.btn.add_brand</source>
+            	<target>Add brand</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -45,17 +45,17 @@ class BrandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-            'label' => 'Brand name',
+            'label' => 'asf.product.brand_name',
             'max_length' => 255,
             'required' => true,
         ))
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                BrandModel::STATE_DRAFT => 'Draft',
-                BrandModel::STATE_WAITING => 'Waiting',
-                BrandModel::STATE_PUBLISHED => 'Published',
+                'asf.product.state.draft' => BrandModel::STATE_DRAFT,
+                'asf.product.state.waiting' => BrandModel::STATE_WAITING,
+                'asf.product.state.published' => BrandModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -68,8 +68,7 @@ class BrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->brandManager->getClassName(),
-            'translation_domain' => 'asf_product',
+            'data_class' => $this->brandManager->getClassName()
         ));
     }
 

@@ -56,10 +56,10 @@ class SearchCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'label' => 'Product Category',
+            'label' => 'asf.product.form.search_category',
             'class' => $this->categoryManager->getClassName(),
             'choice_label' => 'name',
-            'placeholder' => 'Choose a product category',
+            'placeholder' => 'asf.product.form.choose_a_category',
             'attr' => array('class' => 'select2-entity'),
         ));
     }

@@ -51,7 +51,7 @@ class BrandFormHandler extends FormHandlerModel
             if (is_null($brand->getId())) {
                 $isBrandExist = $brandManager->getRepository()->findOneBy(array('name' => $brand->getName()));
                 if (!is_null($isBrandExist)) {
-                    throw new \Exception($this->getTranslator()->trans('A brand with that name already exists.', array(), 'asf_product'));
+                    throw new \Exception($this->getTranslator()->trans('asf.product.msg.error.brand_already_exists'));
 
                     return false;
                 }

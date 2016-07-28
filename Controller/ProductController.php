@@ -127,7 +127,7 @@ class ProductController extends Controller
         } else {
             $product = $productManager->createInstance();
 
-            $product->setName($this->get('translator')->trans('asf.product.default_value.name'))->setState(ProductModel::STATE_PUBLISHED);
+            $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))->setState(ProductModel::STATE_PUBLISHED);
             $success_message = $this->get('translator')->trans('asf.product.msg.success.product_created', array('%name%' => $product->getName()));
         }
 

@@ -72,17 +72,17 @@ class ProductType extends AbstractType
         $liter_transformer = new StringToLiterTransformer();
 
         $builder->add('name', TextType::class, array(
-            'label' => 'Product name',
+            'label' => 'asf.product.product_name',
             'required' => true,
         ))
 
         ->add($builder->create('weight', TextType::class, array(
-            'label' => 'Weight (Kg)',
+            'label' => 'asf.product.weight',
             'required' => false,
         ))->addModelTransformer($weight_transformer))
 
         ->add($builder->create('capacity', TextType::class, array(
-            'label' => 'Capacity (Liter)',
+            'label' => 'asf.product.capacity',
             'required' => false,
         ))->addModelTransformer($liter_transformer));
 
@@ -92,19 +92,19 @@ class ProductType extends AbstractType
 
         $builder->add('categories', BaseCollectionType::class, array(
             'entry_type' => SearchCategoryType::class,
-            'label' => 'List of categories',
+            'label' => 'asf.product.form.categories_list',
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
             'containerId' => 'categories-collection', ))
 
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                ProductModel::STATE_DRAFT => 'Draft',
-                ProductModel::STATE_WAITING => 'Waiting',
-                ProductModel::STATE_PUBLISHED => 'Published',
+                'asf.product.state.draft' => ProductModel::STATE_DRAFT,
+                'asf.product.state.waiting' => ProductModel::STATE_WAITING,
+                'asf.product.state.published' => ProductModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -118,7 +118,6 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => $this->productManager->getClassName(),
-            'translation_domain' => 'asf_product',
         ));
     }
 
