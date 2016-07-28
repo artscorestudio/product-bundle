@@ -61,39 +61,39 @@ class ProductController extends Controller
         // Columns configuration
         $grid->hideColumns(array('id', 'content', 'createdAt', 'updatedAt', 'deletedAt'));
 
-        $grid->getColumn('name')->setTitle($this->get('translator')->trans('Product name', array(), 'asf_product'))
+        $grid->getColumn('name')->setTitle($this->get('translator')->trans('asf.product.product_name'))
             ->setDefaultOperator('like')
             ->setOperatorsVisible(false);
 
-        $grid->getColumn('state')->setTitle($this->get('translator')->trans('State', array(), 'asf_product'))
+        $grid->getColumn('state')->setTitle($this->get('translator')->trans('asf.product.state'))
             ->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
             ->setDefaultOperator('eq')->setValues(array(
-                ProductModel::STATE_DRAFT => $this->get('translator')->trans('Draft', array(), 'asf_product'),
-                ProductModel::STATE_WAITING => $this->get('translator')->trans('Waiting', array(), 'asf_product'),
-                ProductModel::STATE_PUBLISHED => $this->get('translator')->trans('Published', array(), 'asf_product'),
-                ProductModel::STATE_DELETED => $this->get('translator')->trans('Deleted', array(), 'asf_product'),
+                ProductModel::STATE_DRAFT => $this->get('translator')->trans('asf.product.state.draft'),
+                ProductModel::STATE_WAITING => $this->get('translator')->trans('asf.product.state.waiting'),
+                ProductModel::STATE_PUBLISHED => $this->get('translator')->trans('asf.product.state.published'),
+                ProductModel::STATE_DELETED => $this->get('translator')->trans('asf.product.state.delete'),
             ));
 
-        $grid->getColumn('type')->setTitle($this->get('translator')->trans('Type', array(), 'asf_product'))
+        $grid->getColumn('type')->setTitle($this->get('translator')->trans('asf.product.label.type'))
             ->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
             ->setDefaultOperator('eq')->setValues(array(
-                ProductModel::TYPE_PRODUCT => $this->get('translator')->trans('Product', array(), 'asf_product'),
-                ProductModel::TYPE_PRODUCT_PACK => $this->get('translator')->trans('ProductPack', array(), 'asf_product'),
+                ProductModel::TYPE_PRODUCT => $this->get('translator')->trans('asf.product.type.product'),
+                ProductModel::TYPE_PRODUCT_PACK => $this->get('translator')->trans('asf.product.type.product_pack'),
             ));
 
-        $grid->getColumn('weight')->setTitle($this->get('translator')->trans('Weight (Kg)', array(), 'asf_product'))
+        $grid->getColumn('weight')->setTitle($this->get('translator')->trans('asf.product.weight'))
             ->setDefaultOperator('like')
             ->setOperatorsVisible(false)
             ->setSize(100);
 
-        $grid->getColumn('capacity')->setTitle($this->get('translator')->trans('Capacity (Liter)', array(), 'asf_product'))
+        $grid->getColumn('capacity')->setTitle($this->get('translator')->trans('asf.product.capacity'))
             ->setDefaultOperator('like')
             ->setOperatorsVisible(false)
             ->setSize(100);
 
-        $grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('Created at', array(), 'asf_product'));
-        $grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('Updated at', array(), 'asf_product'));
-        $grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('Deleted at', array(), 'asf_product'));
+        $grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.created_at'));
+        $grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.updated_at'));
+        $grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.deleted_at'));
 
         $editAction = new RowAction('btn_edit', 'asf_product_product_edit');
         $editAction->setRouteParameters(array('id'));

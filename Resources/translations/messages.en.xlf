@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+        	<!-- STATES CHOICES -->
+            <trans-unit id="asf.product.state">
+                <source>asf.product.state</source>
+                <target>State</target>
+            </trans-unit>
+            <trans-unit id="asf.product.state.draft">
+                <source>asf.product.state.draft</source>
+                <target>Draft</target>
+            </trans-unit>
+            <trans-unit id="asf.product.state.waiting">
+                <source>asf.product.state.waiting</source>
+                <target>Pending</target>
+            </trans-unit>
+            <trans-unit id="asf.product.state.published">
+                <source>asf.product.state.published</source>
+                <target>Published</target>
+            </trans-unit>
+            <trans-unit id="asf.product.state.deleted">
+                <source>asf.product.state.deleted</source>
+                <target>Delete</target>
+            </trans-unit>
+            
+            <!-- PRODUCT TYPE CHOICE -->
+            <trans-unit id="asf.product.type.product">
+                <source>asf.product.type.product</source>
+                <target>Product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.type.product_pack">
+                <source>asf.product.type.product_pack</source>
+                <target>Product Pack</target>
+            </trans-unit>
+            
+            <!-- PRODUCT -->
+            <trans-unit id="asf.product.product_name">
+                <source>asf.product.product_name</source>
+                <target>Product name</target>
+            </trans-unit>
+            <trans-unit id="asf.product.type">
+                <source>asf.product.type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="asf.product.weight">
+                <source>asf.product.weight</source>
+                <target>Poids (Kg)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.capacity">
+                <source>asf.product.capacity</source>
+                <target>Capacité (Litre)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.created_at">
+                <source>asf.product.created_at</source>
+                <target>Created at</target>
+            </trans-unit>
+            <trans-unit id="asf.product.updated_at">
+                <source>asf.product.updated_at</source>
+                <target>Updated at</target>
+            </trans-unit>
+            <trans-unit id="asf.product.deleted_at">
+                <source>asf.product.deleted_at</source>
+                <target>Deleted at</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
