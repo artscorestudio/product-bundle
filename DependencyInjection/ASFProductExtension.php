@@ -36,7 +36,8 @@ class ASFProductExtension extends ASFExtension implements PrependExtensionInterf
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $container->setParameter('asf_product.enable_brand_entity', $config['enable_brand_entity']);
-
+        $container->setParameter('asf_product.enable_productPack_entity', $config['enable_productPack_entity']);
+        
         $loader->load('services/services.xml');
 
         if (isset($config['enable_brand_entity']) && true === $config['enable_brand_entity']) {

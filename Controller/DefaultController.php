@@ -26,6 +26,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('ASFProductBundle:Default:index.html.twig');
+        return $this->render('ASFProductBundle:Default:index.html.twig', array(
+        	'brand_enabled' => $this->getParameter('asf_product.enable_brand_entity'),
+        	'productPack_enabled' => $this->getParameter('asf_product.enable_productPack_entity')
+        ));
     }
 }

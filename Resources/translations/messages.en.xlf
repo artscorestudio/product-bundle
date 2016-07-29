@@ -246,15 +246,75 @@
             	<source>asf.product.title.brand_list</source>
             	<target>Brands list</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.product_manager">
+            	<source>asf.product.title.product_manager</source>
+            	<target>Product manager</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_manager">
+            	<source>asf.product.title.h4.product_manager</source>
+            	<target>Product manager</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_category_manager">
+            	<source>asf.product.title.h4.product_category_manager</source>
+            	<target>Product category manager</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.optional.brand_manager">
+            	<source>asf.product.title.h4.optional.brand_manager</source>
+            	<target>Brand manager (optional)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.optional.product_pack">
+            	<source>asf.product.title.h4.optional.product_pack</source>
+            	<target>Product pack manager (optional)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.brand_manager">
+            	<source>asf.product.title.h4.brand_manager</source>
+            	<target>Brand manager</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_pack">
+            	<source>asf.product.title.h4.product_pack</source>
+            	<target>Product pack manager</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.module.products_stats">
+            	<source>asf.product.title.module.products_stats</source>
+            	<target>Products stats</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">
             	<source>asf.product.title.product_from_db</source>
             	<target>Check at first if your product does not exist in our database. If this is the case select it by checking the appropriate checkbox.</target>
             </trans-unit>
-            <trans-unit id="asf.product.title.suggested_product_name">
+            <trans-unit id="asf.product.text.suggested_product_name">
             	<source>asf.product.text.suggested_product_name</source>
             	<target>Otherwise, confirm the information below about your product.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.product_manager">
+            	<source>asf.product.text.product_manager</source>
+            	<target>Manage easily the products of your catalog.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.product_manager">
+            	<source>asf.product.text.h4.product_manager</source>
+            	<target>You can create, update or delete product categories from the products list.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.product_category_manager">
+            	<source>asf.product.text.h4.product_category_manager</source>
+            	<target>You can create, update or delete product categories from the categories list.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.optional.brand_manager">
+            	<source>asf.product.text.h4.optional.brand_manager</source>
+            	<target>If your application administrator set it to true, you can also manage a list of brands for your products.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.optional.product_pack">
+            	<source>asf.product.text.h4.optional.product_pack</source>
+            	<target>If your application administrator set it to true, you can also manage product packs.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.brand_manager">
+            	<source>asf.product.text.h4.brand_manager</source>
+            	<target>You can create, update or delete product categories from the brand list.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.product_pack">
+            	<source>asf.product.text.h4.product_pack</source>
+            	<target>You can create, update or delete product categories from the products packs list.</target>
             </trans-unit>
             
             <!-- BUTTONS -->
@@ -269,6 +329,32 @@
             <trans-unit id="asf.product.btn.add_brand">
             	<source>asf.product.btn.add_brand</source>
             	<target>Add brand</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_list">
+            	<source>asf.product.btn.product_list</source>
+            	<target>Product list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_category_list">
+            	<source>asf.product.btn.product_category_list</source>
+            	<target>Product category list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.brand_list">
+            	<source>asf.product.btn.brand_list</source>
+            	<target>Brand list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_pack_list">
+            	<source>asf.product.btn.product_pack_list</source>
+            	<target>Product pack list</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.check_documentation">
+            	<source>asf.product.btn.check_documentation</source>
+            	<target>Check the documentation</target>
+            </trans-unit>
+            
+            <!-- LINKS -->
+            <trans-unit id="asf.product.link.product_manager">
+            	<source>asf.product.link.product_manager</source>
+            	<target>Manage products</target>
             </trans-unit>
         </body>
     </file>

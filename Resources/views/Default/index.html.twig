@@ -4,27 +4,30 @@
 
 	{% block asf_product_heading %}
 	<div class="jumbotron">
-		<h1>{% block heading_title %}Product Manager{% endblock %}</h1>
-		<p class="lead">{% block heading_lead %}Welcome in the product manager section of your Symfony Application.{% endblock %}</p>
+		<h1>{% block heading_title %}{{ 'asf.product.title.product_manager'|trans }}{% endblock %}</h1>
+		<p class="lead">{% block heading_lead %}{{ 'asf.product.text.product_manager'|trans }}{% endblock %}</p>
 	</div>
 	{% endblock %}
 	
 	<div class="row marketing">
 		<div class="col-lg-6">
-			<h4>Product Manager</h4>
-			<p>You can create, update or delete products from the <a href="{{ path('asf_product_product_list') }}" title="Products list">products list</a>.</p>
+			<h4>{{ 'asf.product.title.h4.product_manager'|trans }}</h4>
+			<p>{{ 'asf.product.text.h4.product_manager'|trans }}</p>
+			<a href="{{ path('asf_product_product_list') }}" title="{{ 'asf.product.btn.product_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.product_list'|trans }}</a>
 			
-			<h4>Product Category Manager</h4>
-			<p>You can create, update or delete product categories from the <a href="{{ path('asf_product_category_list') }}" title="Products list">product categories list</a>.</p>
+			<h4>{{ 'asf.product.title.h4.product_category_manager'|trans }}</h4>
+			<p>{{ 'asf.product.text.h4.product_category_manager'|trans }}</p>
+			<a href="{{ path('asf_product_category_list') }}" title="{{ 'asf.product.btn.product_category_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.product_category_list'|trans }}</a>
 		</div>
-
+	
 		<div class="col-lg-6">
-			<h4>Brand Manager (optional)</h4>
-			<p>If your application administrator set it to true, you can also manage a list of brands for your products. <a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'ASFProductBundle Documentation' }}">Check the documentation for further informations</a>.</p>
+			<h4>{{ 'asf.product.title.h4.brand_manager'|trans }}</h4>
+			<p>{{ 'asf.product.text.h4.brand_manager'|trans }}</p>
+			<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
 			
-			<h4>Product Pack Manager (optional)</h4>
-			<p>If your application administrator set it to true, you can also manage product packs. <a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'ASFProductBundle Documentation' }}">Check the documentation for further informations</a>.</p>
+			<h4>{{ 'asf.product.title.h4.product_pack'|trans }}</h4>
+			<p>{{ 'asf.product.text.h4.product_pack'|trans }}</p>
+			<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
 		</div>
 	</div>
-	
 {% endblock %}

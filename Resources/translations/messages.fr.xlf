@@ -111,8 +111,8 @@
                 <source>asf.product.default_value.category_name</source>
                 <target>Nouvelle catégorie</target>
             </trans-unit>
-            <trans-unit id="asf.product.default_value.category_name">
-                <source>asf.product.default_value.category_name</source>
+            <trans-unit id="asf.product.default_value.brand_name">
+                <source>asf.product.default_value.brand_name</source>
                 <target>Nouvelle marque</target>
             </trans-unit>
             
@@ -247,15 +247,75 @@
             	<source>asf.product.title.brand_list</source>
             	<target>Liste des marques</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.product_manager">
+            	<source>asf.product.title.product_manager</source>
+            	<target>Gestionnaire des produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_manager">
+            	<source>asf.product.title.h4.product_manager</source>
+            	<target>Gérer les produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_category_manager">
+            	<source>asf.product.title.h4.product_category_manager</source>
+            	<target>Gérer les catégories</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.optional.brand_manager">
+            	<source>asf.product.title.h4.optional.brand_manager</source>
+            	<target>Gérer les marques (optionnel)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.optional.product_pack">
+            	<source>asf.product.title.h4.optional.product_pack</source>
+            	<target>Gérer les packs de produits (optionnel)</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.brand_manager">
+            	<source>asf.product.title.h4.brand_manager</source>
+            	<target>Gérer les marques</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.h4.product_pack">
+            	<source>asf.product.title.h4.product_pack</source>
+            	<target>Gérer les packs de produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.module.products_stats">
+            	<source>asf.product.title.module.products_stats</source>
+            	<target>Statistiques</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">
             	<source>asf.product.text.product_from_db</source>
             	<target>Vérifiez dans un premier temps si votre produit n'existe pas déjà dans notre base de données. Si c'est le cas sélectionnez-le en cochant la case appropriée.</target>
             </trans-unit>
-            <trans-unit id="asf.product.title.suggested_product_name">
+            <trans-unit id="asf.product.text.suggested_product_name">
             	<source>asf.product.text.suggested_product_name</source>
             	<target>Sinon, confirmez les informations ci-dessous concerant votre produit.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.product_manager">
+            	<source>asf.product.text.product_manager</source>
+            	<target>Gérer facilement les produits de votre catalogue.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.product_manager">
+            	<source>asf.product.text.h4.product_manager</source>
+            	<target>Vous pouvez ajouter, supprimer, mettre à jour les produits depuis la liste des produits.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.optional.product_category_manager">
+            	<source>asf.product.text.h4.product_category_manager</source>
+            	<target>Vous pouvez ajouter, supprimer, mettre à jour les catégories depuis la liste des catégories.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.optional.brand_manager">
+            	<source>asf.product.text.h4.optional.brand_manager</source>
+            	<target>Vous pouvez gérer les marques de produits si vous l'avez activé dans le module.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.optional.product_pack">
+            	<source>asf.product.text.h4.optional.product_pack</source>
+            	<target>Vous pouvez gérer des packs si vous l'avez activé dans le module.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.brand_manager">
+            	<source>asf.product.text.h4.brand_manager</source>
+            	<target>Vous pouvez gérer les marques de produits depuis la liste des marques.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.h4.product_pack">
+            	<source>asf.product.text.h4.product_pack</source>
+            	<target>Vous pouvez gérer les packs de produits depuis la liste des packs de produits.</target>
             </trans-unit>
             
             <!-- BUTTONS -->
@@ -270,6 +330,32 @@
             <trans-unit id="asf.product.btn.add_brand">
             	<source>asf.product.btn.add_brand</source>
             	<target>Ajouter une marque</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_list">
+            	<source>asf.product.btn.product_list</source>
+            	<target>Liste des produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_category_list">
+            	<source>asf.product.btn.product_category_list</source>
+            	<target>Liste des catégories</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.brand_list">
+            	<source>asf.product.btn.brand_list</source>
+            	<target>Liste des marques</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.product_pack_list">
+            	<source>asf.product.btn.product_pack_list</source>
+            	<target>Liste des packs</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.check_documentation">
+            	<source>asf.product.btn.check_documentation</source>
+            	<target>Lire la documentation</target>
+            </trans-unit>
+            
+            <!-- LINKS -->
+            <trans-unit id="asf.product.link.product_manager">
+            	<source>asf.product.link.product_manager</source>
+            	<target>Gérer les produits</target>
             </trans-unit>
             
         </body>
