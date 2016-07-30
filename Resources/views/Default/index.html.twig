@@ -14,20 +14,36 @@
 			<h4>{{ 'asf.product.title.h4.product_manager'|trans }}</h4>
 			<p>{{ 'asf.product.text.h4.product_manager'|trans }}</p>
 			<a href="{{ path('asf_product_product_list') }}" title="{{ 'asf.product.btn.product_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.product_list'|trans }}</a>
-			
+		</div>
+		<div class="col-sm-6">
 			<h4>{{ 'asf.product.title.h4.product_category_manager'|trans }}</h4>
 			<p>{{ 'asf.product.text.h4.product_category_manager'|trans }}</p>
 			<a href="{{ path('asf_product_category_list') }}" title="{{ 'asf.product.btn.product_category_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.product_category_list'|trans }}</a>
 		</div>
-	
+	</div>
+	<br>
+	<div class="row marketing">
 		<div class="col-lg-6">
-			<h4>{{ 'asf.product.title.h4.brand_manager'|trans }}</h4>
-			<p>{{ 'asf.product.text.h4.brand_manager'|trans }}</p>
-			<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
-			
-			<h4>{{ 'asf.product.title.h4.product_pack'|trans }}</h4>
-			<p>{{ 'asf.product.text.h4.product_pack'|trans }}</p>
-			<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
+			{% if brand_enabled == true %}
+				<h4>{{ 'asf.product.title.h4.brand_manager'|trans }}</h4>
+				<p>{{ 'asf.product.text.h4.brand_manager'|trans }}</p>
+				<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.brand_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.brand_list'|trans }}</a>
+			{% else %}
+				<h4>{{ 'asf.product.title.h4.optional.brand_manager'|trans }}</h4>
+				<p>{{ 'asf.product.text.h4.optional.brand_manager'|trans }}</p>
+				<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
+			{% endif %}
+		</div>
+		<div class="col-sm-6">
+			{% if productPack_enabled == true %}
+				<h4>{{ 'asf.product.title.h4.product_pack'|trans }}</h4>
+				<p>{{ 'asf.product.text.h4.product_pack'|trans }}</p>
+				<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.product_pack_list'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.product_pack_list'|trans }}</a>
+			{% else %}
+				<h4>{{ 'asf.product.title.h4.optional.product_pack'|trans }}</h4>
+				<p>{{ 'asf.product.text.h4.optional.product_pack'|trans }}</p>
+				<a href="{{ path('asf_product_doc_homepage') }}" title="{{ 'asf.product.btn.check_documentation'|trans }}" class="btn btn-primary">{{ 'asf.product.btn.check_documentation'|trans }}</a>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}
