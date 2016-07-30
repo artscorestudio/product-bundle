@@ -357,6 +357,18 @@
             	<source>asf.product.link.product_manager</source>
             	<target>Gérer les produits</target>
             </trans-unit>
+            <trans-unit id="asf.product.link.product_list">
+            	<source>asf.product.link.product_list</source>
+            	<target>Liste des produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.link.product_category_list">
+            	<source>asf.product.link.product_category_list</source>
+            	<target>Liste des catégories</target>
+            </trans-unit>
+            <trans-unit id="asf.product.link.brand_list">
+            	<source>asf.product.link.brand_list</source>
+            	<target>Liste des marques</target>
+            </trans-unit>
             
         </body>
     </file>
