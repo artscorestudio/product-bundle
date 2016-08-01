@@ -24,7 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\ProductRepository")
- * @ORM\Table(name="asf_product")
+ * @ORM\Table(name="asf_product_product")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"product"="Product", "ProductPack"="ProductPack"})
@@ -120,11 +120,11 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Category")
-     * @ORM\JoinTable(name="product_category",
-     *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     * @ORM\JoinTable(name="asf_product_product_category",
+     *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)},
      *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
-     * @ORM\JoinColumn(name="brand_id", referencedColumnName="id", nullable=true)
+     * 
      * @ProductAssert\CategoryDuplicates
      * 
      * @var ArrayCollection

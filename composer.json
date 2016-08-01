@@ -21,7 +21,8 @@
 		"doctrine/doctrine-cache-bundle" : "^1.2",
 		"artscorestudio/core-bundle" : "^1.0",
 		"artscorestudio/datagrid-bundle" : "^3.0",
-		"beberlei/DoctrineExtensions": "^1.0"
+		"beberlei/DoctrineExtensions": "^1.0",
+		"select2/select2": "^4.0"
 	},
 	"require-dev" : {
 		"artscorestudio/layout-bundle" : "~1.2",
