@@ -63,6 +63,18 @@ asf_product:
     resource: "@ASFProductBundle/Resources/config/routing/default.yml"
 ```
 
+### Step 4 : Configure Entities
+
+You have to set entities managed by the bundle via :
+
+```yaml
+asf_product:
+    product:
+    	entity: Acme\ProductBundle\Entity\Product
+    category: 
+    	entity: Acme\ProductBundle\Entity\Category
+```
+
 ### Next Steps
 
 Now you have completed the basic installation and configuration of the ASFProductBundle, you are ready to learn about more advanced features and usages of the bundle.

@@ -4,18 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-	<parameters>
-	
-		<!-- ProductPack Manager -->
-		<parameter key="asf_product.product_pack.entity.class">ASF\ProductBundle\Entity\ProductPack</parameter>
-		
-    </parameters>
-
     <services>
         
          <!-- ProductPack Entity Manager -->
         <service id="asf_product.product_pack.manager" class="ASF\ProductBundle\Utils\Manager\DefaultManager">
-            <tag name="asf_core.manager" entity="%asf_product.product_pack.entity.class%" />
+            <tag name="asf_core.manager" entity="%asf_product.product_pack.entity%" />
         </service>
         
     </services>

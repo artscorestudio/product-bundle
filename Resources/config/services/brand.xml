@@ -4,18 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-	<parameters>
-	
-		<!-- Entities parameters -->
-		<parameter key="asf_product.brand.entity.class">ASF\ProductBundle\Entity\Brand</parameter>
-
-    </parameters>
-
     <services>
         
          <!-- Brand Entity Manager -->
         <service id="asf_product.brand.manager" class="ASF\ProductBundle\Utils\Manager\DefaultManager">
-            <tag name="asf_core.manager" entity="%asf_product.brand.entity.class%" />
+            <tag name="asf_core.manager" entity="%asf_product.brand.entity%" />
         </service>
         
         <!-- Forms -->

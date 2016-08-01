@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -38,13 +39,31 @@ class ASFProductExtension extends ASFExtension implements PrependExtensionInterf
         $container->setParameter('asf_product.enable_brand_entity', $config['enable_brand_entity']);
         $container->setParameter('asf_product.enable_productPack_entity', $config['enable_productPack_entity']);
         
+        if ( $config['product']['entity'] === null ) {
+        	throw new InvalidConfigurationException('The asf_product.product.entity parameter must be defined.');
+        }
+        
+        if ( $config['category']['entity'] === null ) {
+        	throw new InvalidConfigurationException('The asf_product.category.entity parameter must be defined.');
+        }
+        
+        $container->setParameter('asf_product.product.entity', $config['product']['entity']);
+        $container->setParameter('asf_product.category.entity', $config['category']['entity']);
+        
         $loader->load('services/services.xml');
 
         if (isset($config['enable_brand_entity']) && true === $config['enable_brand_entity']) {
+        	if ( $config['brand']['entity'] === null ) {
+        		throw new InvalidConfigurationException('The asf_product.brand.entity parameter must be defined.');
+        	}
+        	$container->setParameter('asf_product.brand.entity', $config['brand']['entity']);
             $loader->load('services/brand.xml');
         }
 
         if (isset($config['enable_productPack_entity']) && true === $config['enable_productPack_entity']) {
+        	if ( $config['product_pack']['entity'] === null ) {
+        		throw new InvalidConfigurationException('The asf_product.product_pack.entity parameter must be defined.');
+        	}
             $loader->load('services/product_pack.xml');
         }
     }
@@ -62,5 +81,39 @@ class ASFProductExtension extends ASFExtension implements PrependExtensionInterf
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $this->configureTwigBundle($container, $config);
+    }
+    
+	/**
+     * Configure twig bundle.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    public function configureTwigBundle(ContainerBuilder $container, array $config)
+    {
+    	parent::configureTwigBundle($container, $config);
+        foreach (array_keys($container->getExtensions()) as $name) {
+            switch ($name) {
+                case 'twig':
+                    if (isset($config['enable_brand_entity']) && true === $config['enable_brand_entity']) {
+                    	$brandEnabled = true;
+                    } else {
+                    	$brandEnabled = false;
+                    }
+                    if (isset($config['enable_productPack_entity']) && true === $config['enable_productPack_entity']) {
+                    	$productPackEnabled = true;
+                    } else {
+                    	$productPackEnabled = false;
+                    }
+                    
+                    $container->prependExtensionConfig($name, array(
+                    	'globals' => array(
+                    		'brandEnabled' => $brandEnabled,
+                    		'productPackEnabled' => $productPackEnabled
+                    	)
+                    ));
+                    break;
+            }
+        }
     }
 }

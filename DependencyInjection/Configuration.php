@@ -46,6 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addProductParameterNode())
                 ->append($this->addCategoryParameterNode())
                 ->append($this->addBrandParameterNode())
+                ->append($this->addProductPackParameterNode())
             ->end();
 
         return $treeBuilder;
@@ -60,10 +61,13 @@ class Configuration implements ConfigurationInterface
         $node = $builder->root('product');
 
         $node
-            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
-            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
+            ->treatTrueLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
+            ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
             ->addDefaultsIfNotSet()
             ->children()
+            	->scalarNode('entity')
+            		->defaultNull()
+            	->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -94,10 +98,13 @@ class Configuration implements ConfigurationInterface
         $node = $builder->root('category');
 
         $node
-            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
-            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
+            ->treatTrueLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
+            ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
             ->addDefaultsIfNotSet()
             ->children()
+	            ->scalarNode('entity')
+	            	->defaultNull()
+	            ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -128,10 +135,13 @@ class Configuration implements ConfigurationInterface
         $node = $builder->root('brand');
 
         $node
-            ->treatTrueLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
-            ->treatFalseLike(array('form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
+            ->treatTrueLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
+            ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
             ->addDefaultsIfNotSet()
             ->children()
+	            ->scalarNode('entity')
+	            	->defaultNull()
+	            ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -151,5 +161,27 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $node;
+    }
+    
+    /**
+     * Add ProductPack Entity Configuration.
+     */
+    protected function addProductPackParameterNode()
+    {
+    	$builder = new TreeBuilder();
+    	$node = $builder->root('product_pack');
+    	
+    	$node
+	    	->treatTrueLike(array('entity' => null))
+	    	->treatFalseLike(array('entity' => null))
+	    	->addDefaultsIfNotSet()
+	    	->children()
+		    	->scalarNode('entity')
+		    		->defaultNull()
+		    	->end()
+	    	->end()
+    	;
+    	
+	    return $node;
     }
 }

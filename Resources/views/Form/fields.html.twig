@@ -73,24 +73,28 @@
 {% endblock %}
 
 {# ---------------------------------- Product Form Type ---------------------------- #}
-{% block _product_type_errors %}
+{% block product_type_errors %}
 {% spaceless %}
 	{{ block('form_errors')  }}
 {% endspaceless %}
 {% endblock %}
 
-{% block _product_widget %}
+{% block product_widget %}
 {% spaceless %}
 
 	{{ form_errors(form) }}
 	
 	<div class="row">
-		<div class="col-sm-4">
+		{% if display_brand_field is defined and display_brand_field == true %}
+		<div class="col-sm-8">
 			{{ form_row(form.name) }}
 		</div>
-		{% if display_brand_field is defined and display_brand_field == true %}
 		<div class="col-sm-4">
 			{{ form_row(form.brand) }}
+		</div>
+		{% else %}
+		<div class="col-sm-12">
+			{{ form_row(form.name) }}
 		</div>
 		{% endif %}
 	</div>

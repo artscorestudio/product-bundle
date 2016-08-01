@@ -15,7 +15,7 @@ namespace ASF\ProductBundle\Utils\Manager;
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  */
-class ProductManager extends DefaultManager
+class ProductManager extends DefaultManager implements ProductManagerInterface
 {
     /**
      * Populate a new product.
