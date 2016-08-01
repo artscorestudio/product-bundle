@@ -52,9 +52,9 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: ProductClass }
     
-    asf_product.validator.unique.check_category_name:
-        class: ASF\ProductBundle\Validator\Constraints\CheckCategoryNameValidator
+    asf_product.validator.unique.check_categoryclass:
+        class: ASF\ProductBundle\Validator\Constraints\CategoryClassValidator
         arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.category.entity%"]
         tags:
-            - { name: validator.constraint_validator, alias: CheckCategoryName }
+            - { name: validator.constraint_validator, alias: CategoryClass }
             

@@ -52,15 +52,11 @@ class CategoryClassValidator extends ConstraintValidator
      */
     public function validate($category, Constraint $constraint)
     {
-        $criteria = new Criteria();
-        $criteria->where(new Comparison("name", Comparison::EQ, $category->getName()));
-        $criteria->andWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_DRAFT));
-        $criteria->orWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_PUBLISHED));
-        $criteria->orWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_WAITING));
-        $criteria->setMaxResults(1);
-        
-        $result = $this->em->getRepository($this->entityClassName)->matching($criteria)->first();
-        
+        $result = $this->em->getRepository($this->entityClassName)->findByName($category->getName(), array(
+            CategoryModel::STATE_DRAFT,
+            CategoryModel::STATE_WAITING,
+            CategoryModel::STATE_PUBLISHED
+        ));
         if ( null !== $result && $result->getId() !== $category->getId() ) {
             $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }
