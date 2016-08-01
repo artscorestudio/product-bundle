@@ -11,6 +11,7 @@
 namespace ASF\ProductBundle\Model\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use ASF\ProductBundle\Validator\Constraints as CategoryAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -45,7 +46,7 @@ abstract class CategoryModel implements CategoryInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
-     * 
+     * @CategoryAssert\CheckCategoryName
      * @var string
      */
     protected $name;

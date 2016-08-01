@@ -12,6 +12,7 @@ namespace ASF\ProductBundle\Model\Brand;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ASF\ProductBundle\Validator\Constraints as BrandAssert;
 use ASF\ProductBundle\Model\Product\ProductInterface;
 
 /**
@@ -46,6 +47,7 @@ abstract class BrandModel implements BrandInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
+     * @BrandAssert\CheckBrandName
      * 
      * @var string
      */
@@ -53,7 +55,6 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
      * 
      * @var string
      */

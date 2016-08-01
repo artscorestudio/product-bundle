@@ -60,6 +60,12 @@
         	<tag name="validator.constraint_validator" alias="check_product_name" />
         </service>
         
+        <service id="asf_product.validator.unique.check_category_name" class="ASF\ProductBUndle\Validator\Constraints\CheckCategoryName">
+        	<argument type="service" id="doctrine.orm.entity_manager" />
+        	<argument>%asf_product.category.entity%</argument>
+        	<tag name="validator.constraint_validator" alias="check_category_name" />
+        </service>
+        
     </services>
     
 </container>

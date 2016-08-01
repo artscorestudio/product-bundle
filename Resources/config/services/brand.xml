@@ -28,6 +28,13 @@
             <tag name="form.type" alias="search_brand" />
         </service>
         
+        <!-- Validators -->
+        <service id="asf_product.validator.unique.check_brand_name" class="ASF\ProductBUndle\Validator\Constraints\CheckBrandName">
+        	<argument type="service" id="doctrine.orm.entity_manager" />
+        	<argument>%asf_product.brand.entity%</argument>
+        	<tag name="validator.constraint_validator" alias="check_brand_name" />
+        </service>
+        
     </services>
     
 </container>

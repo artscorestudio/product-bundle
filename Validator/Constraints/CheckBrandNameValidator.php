@@ -15,13 +15,13 @@ use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Check Product name in DB
+ * Check Brand name in DB
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
  * @Annotation
  */
-class CheckProductNameValidator extends ConstraintValidator
+class CheckBrandNameValidator extends ConstraintValidator
 {
     /**
      * @var EntityManagerInterface
@@ -49,8 +49,8 @@ class CheckProductNameValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $product = $this->em->getRepository($this->entityClassName)->findOneBy(array('name' => $value));
-        if ( null !== $product ) {
+        $brand = $this->em->getRepository($this->entityClassName)->findOneBy(array('name' => $value));
+        if ( null !== $brand ) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
