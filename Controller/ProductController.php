@@ -17,7 +17,6 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Product\ProductModel;
-use ASF\ProductBundle\Form\Handler\ProductFormHandler;
 use AppBundle\Entity\UserRole;
 
 /**
@@ -37,7 +36,7 @@ class ProductController extends Controller
     public function listAction()
     {
         // Set Datagrid source
-        $source = new Entity($this->get('asf_product.product.manager')->getClassName());
+        $source = new Entity($this->getParameter('asf_product.product.entity'));
         $tableAlias = $source->getTableAlias();
         $user = $this->getUser();
         $source->manipulateQuery(function ($query) use ($tableAlias, $user) {
@@ -68,6 +67,17 @@ class ProductController extends Controller
         $grid->setSource($source);
         $grid->setId('asf_products_list');
 
+        $source->manipulateRow(function($row) {
+            if ( ProductModel::STATE_DELETED === $row->getField('state') ) {
+                $row->setClass('danger');
+            } else if ( ProductModel::STATE_WAITING === $row->getField('state') ) {
+                $row->setClass('info');
+            } else if ( ProductModel::STATE_DRAFT === $row->getField('state') ) {
+                $row->setClass('warning');
+            }
+            return $row;
+        });
+        
         // Columns configuration
         $editAction = new RowAction('btn_edit', 'asf_product_product_edit');
         $editAction->setRouteParameters(array('id'));
@@ -97,13 +107,11 @@ class ProductController extends Controller
     public function editAction(Request $request, $id = null)
     {
         $formFactory = $this->get('asf_product.form.factory.product');
-        $productManager = $this->get('asf_product.product.manager');
 
         if (!is_null($id)) {
-            $product = $productManager->getRepository()->findOneBy(array('id' => $id));
+            $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
         } else {
-            $product = $productManager->createInstance();
-
+            $product = $this->get('asf_product.product.manager')->createInstance();
             $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))
                 ->setState(ProductModel::STATE_PUBLISHED)
                 ->setType(ProductModel::TYPE_PRODUCT);
@@ -121,13 +129,13 @@ class ProductController extends Controller
             try {
                 $product = $form->getData();
                 if (is_null($product->getId())) {
-                    $this->get('asf_product.product.manager')->getEntityManager()->persist($product);
+                    $this->get('doctrine.orm.default_entity_manager')->persist($product);
                     $success_message = $this->get('translator')->trans('asf.product.msg.success.product_created', array('%name%' => $product->getName()));
                 } else {
                     $success_message = $this->get('translator')->trans('asf.product.msg.success.product_updated', array('%name%' => $product->getName()));
                 }
 
-                $this->get('asf_product.product.manager')->getEntityManager()->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->success($success_message);
@@ -161,7 +169,7 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
-        $product = $this->get('asf_product.product.manager')->getRepository()->findOneBy(array('id' => $id));
+        $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
 
         try {
             $product->setState(ProductModel::STATE_DELETED);
