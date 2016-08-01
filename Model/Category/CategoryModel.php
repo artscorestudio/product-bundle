@@ -11,6 +11,7 @@
 namespace ASF\ProductBundle\Model\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use ASF\ProductBundle\Validator\Constraints as CategoryAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +23,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\CategoryRepository")
  * @ORM\Table(name="asf_product_category")
+ * @ORM\HasLifecycleCallbacks
+ * 
+ * @CategoryAssert\CategoryClass
  */
 abstract class CategoryModel implements CategoryInterface
 {
@@ -46,7 +50,6 @@ abstract class CategoryModel implements CategoryInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
-     * @CategoryAssert\CheckCategoryName
      * @var string
      */
     protected $name;
@@ -74,9 +77,35 @@ abstract class CategoryModel implements CategoryInterface
      */
     protected $children;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+    
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
+     *
+     * @var \DateTime
+     */
+    protected $updatedAt;
+    
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @GRID\Column(visible=false)
+     *
+     * @var \DateTime
+     */
+    protected $deletedAt;
+    
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -188,6 +217,72 @@ abstract class CategoryModel implements CategoryInterface
     }
 
     /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::getCreatedAt()
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+    
+    /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::setCreatedAt()
+     */
+    public function setCreatedAt(\DateTime $created_at)
+    {
+        $this->createdAt = $created_at;
+    
+        return $this;
+    }
+    
+    /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::getUpdatedAt()
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+    
+    /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::setUpdatedAt()
+     */
+    public function setUpdatedAt(\DateTime $updated_at)
+    {
+        $this->updatedAt = $updated_at;
+    
+        return $this;
+    }
+    
+    /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::getDeletedAt()
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+    
+    /**
+     * (non-PHPdoc).
+     *
+     * @see \ASF\ProductBundle\Model\Category\CategoryInterface::setDeletedAt()
+     */
+    public function setDeletedAt(\DateTime $deleted_at)
+    {
+        $this->deletedAt = $deleted_at;
+    
+        return $this;
+    }
+    
+    /**
      * Returns states for validators.
      *
      * @return multitype:string
@@ -200,5 +295,17 @@ abstract class CategoryModel implements CategoryInterface
             self::STATE_PUBLISHED,
             self::STATE_DELETED,
         );
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function onPreUpdate()
+    {
+        if ( self::STATE_DELETED === $this->state ) {
+            $this->deletedAt = new \DateTime();
+        }
+        $this->updatedAt = new \DateTime();
     }
 }

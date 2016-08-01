@@ -287,6 +287,14 @@
             	<source>asf.product.title.edit_product</source>
             	<target>Ajouter/Editer un produit</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.edit_category">
+            	<source>asf.product.title.edit_category</source>
+            	<target>Ajouter/Editer une catégorie</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.edit_brand">
+            	<source>asf.product.title.edit_brand</source>
+            	<target>Ajouter/Editer une marque</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">

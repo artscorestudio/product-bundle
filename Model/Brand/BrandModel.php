@@ -11,6 +11,7 @@
 namespace ASF\ProductBundle\Model\Brand;
 
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\Validator\Constraints as Assert;
 use ASF\ProductBundle\Validator\Constraints as BrandAssert;
 use ASF\ProductBundle\Model\Product\ProductInterface;
@@ -23,6 +24,8 @@ use ASF\ProductBundle\Model\Product\ProductInterface;
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\BrandRepository")
  * @ORM\Table(name="asf_product_brand")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @BrandAssert\BrandClass
  */
 abstract class BrandModel implements BrandInterface
 {
@@ -47,7 +50,6 @@ abstract class BrandModel implements BrandInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
-     * @BrandAssert\CheckBrandName
      * 
      * @var string
      */
@@ -307,6 +309,9 @@ abstract class BrandModel implements BrandInterface
      */
     public function onPreUpdate()
     {
+        if ( self::STATE_DELETED === $this->state ) {
+            $this->deletedAt = new \DateTime();
+        }
         $this->updatedAt = new \DateTime();
     }
 }

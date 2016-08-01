@@ -110,8 +110,8 @@
                 <source>asf.product.default_value.category_name</source>
                 <target>New category</target>
             </trans-unit>
-            <trans-unit id="asf.product.default_value.category_name">
-                <source>asf.product.default_value.category_name</source>
+            <trans-unit id="asf.product.default_value.brand_name">
+                <source>asf.product.default_value.brand_name</source>
                 <target>New brand</target>
             </trans-unit>
             
@@ -175,14 +175,6 @@
             <trans-unit id="asf.product.msg.error.product_not_found">
             	<source>asf.product.msg.error.product_not_found</source>
             	<target>Product not found.</target>
-            </trans-unit>
-            <trans-unit id="asf.product.msg.error.product_already_exists">
-            	<source>asf.product.msg.error.product_already_exists</source>
-            	<target>A product with this name already exists.</target>
-            </trans-unit>
-            <trans-unit id="asf.product.msg.error.category_duplicates">
-            	<source>asf.product.msg.error.category_duplicates</source>
-            	<target>There are categories in duplicates.</target>
             </trans-unit>
             
             <!-- CATEGORY MESSAGES -->
@@ -285,6 +277,14 @@
             <trans-unit id="asf.product.title.edit_product">
             	<source>asf.product.title.edit_product</source>
             	<target>Add/Edit product</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.edit_category">
+            	<source>asf.product.title.edit_category</source>
+            	<target>Add/Edit product category</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.edit_brand">
+            	<source>asf.product.title.edit_brand</source>
+            	<target>Add/Edit brand</target>
             </trans-unit>
             
             <!-- TEXTS -->

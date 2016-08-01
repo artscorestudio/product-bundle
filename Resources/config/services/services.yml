@@ -46,11 +46,11 @@ services:
             - { name: form.type, alias: search_product_category }
        
     # Constraints Validators     
-    asf_product.validator.unique.check_product_name:
-        class: ASF\ProductBundle\Validator\Constraints\CheckProductNameValidator
-        arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.product.entity%"]
+    asf_product.validator.productclass:
+        class: ASF\ProductBundle\Validator\Constraints\ProductClassValidator
+        arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.product.entity%", "%asf_product.enable_brand_entity%"]
         tags:
-            - { name: validator.constraint_validator, alias: CheckProductName }
+            - { name: validator.constraint_validator, alias: ProductClass }
     
     asf_product.validator.unique.check_category_name:
         class: ASF\ProductBundle\Validator\Constraints\CheckCategoryNameValidator

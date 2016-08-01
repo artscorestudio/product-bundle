@@ -71,4 +71,40 @@ interface CategoryInterface
      * @return \ASF\ProductBundle\Model\Category\CategoryInterface
      */
     public function removeChild(CategoryInterface $category);
+    
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+    
+    /**
+     * @param \DateTime $created_at
+     *
+     * @return \ASF\ProductBundle\Model\Category\CategoryInterface
+     */
+    public function setCreatedAt(\DateTime $created_at);
+    
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
+    
+    /**
+     * @param \DateTime $updated_at
+     *
+     * @return \ASF\ProductBundle\Model\Category\CategoryInterface
+     */
+    public function setUpdatedAt(\DateTime $updated_at);
+    
+    /**
+     * @return \DateTime
+     */
+    public function getDeletedAt();
+    
+    /**
+     * @param \DateTime $deleted_at
+     *
+     * @return \ASF\ProductBundle\Model\Category\CategoryInterface
+     */
+    public function setDeletedAt(\DateTime $deleted_at);
 }

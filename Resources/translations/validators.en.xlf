@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+        
+        	<!-- PRODUCT NAME -->
+			<trans-unit id="asf.product.msg.error.product_already_exists">
+            	<source>asf.product.msg.error.product_already_exists</source>
+            	<target>A product with this name already exists.</target>
+            </trans-unit>
+            
+            <!-- CATEGORY NAME -->
+			<trans-unit id="asf.product.msg.error.category_already_exists">
+            	<source>asf.product.msg.error.category_already_exists</source>
+            	<target>A category with this name already exists.</target>
+            </trans-unit>
+            
+            <!-- BRAND NAME -->
+			<trans-unit id="asf.product.msg.error.brand_already_exists">
+            	<source>asf.product.msg.error.brand_already_exists</source>
+            	<target>A brand with this name already exists.</target>
+            </trans-unit>
+            
+            <!-- PRODUCT CATEGORY DUPLICATES -->
+            <trans-unit id="asf.product.msg.error.category_duplicates">
+            	<source>asf.product.msg.error.category_duplicates</source>
+            	<target>There are categories in duplicates.</target>
+            </trans-unit>
+            
+        </body>
+    </file>
+</xliff>

@@ -13,13 +13,22 @@ namespace ASF\ProductBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Check Brand name constraint
+ * Product Class Constraint
  * 
  * @author Nicolas Claverie <nicolas.claverie@cd31.fr>
  * 
  * @Annotation
  */
-class CheckBrandName extends Constraint
+class ProductClass extends Constraint
 {
-    public $message = 'asf.product.msg.error.brand_already_exists';
+    public $alreadyExistsMessage = 'asf.product.msg.error.product_already_exists';
+    
+    /**
+     * {@inheritDoc}
+     * @see \Symfony\Component\Validator\Constraint::getTargets()
+     */
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }

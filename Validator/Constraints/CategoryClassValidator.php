@@ -13,15 +13,18 @@ namespace ASF\ProductBundle\Validator\Constraints;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
+use ASF\ProductBundle\Model\Category\CategoryModel;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 
 /**
- * Check Product name in DB
+ * Check Category name in DB
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
  * @Annotation
  */
-class CheckProductNameValidator extends ConstraintValidator
+class CategoryClassValidator extends ConstraintValidator
 {
     /**
      * @var EntityManagerInterface
@@ -47,11 +50,19 @@ class CheckProductNameValidator extends ConstraintValidator
      * {@inheritDoc}
      * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($category, Constraint $constraint)
     {
-        $product = $this->em->getRepository($this->entityClassName)->findOneBy(array('name' => $value));
-        if ( null !== $product ) {
-            $this->context->buildViolation($constraint->message)->addViolation();
+        $criteria = new Criteria();
+        $criteria->where(new Comparison("name", Comparison::EQ, $category->getName()));
+        $criteria->andWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_DRAFT));
+        $criteria->orWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_PUBLISHED));
+        $criteria->orWhere(new Comparison("state", Comparison::EQ, CategoryModel::STATE_WAITING));
+        $criteria->setMaxResults(1);
+        
+        $result = $this->em->getRepository($this->entityClassName)->matching($criteria)->first();
+        
+        if ( null !== $result && $result->getId() !== $category->getId() ) {
+            $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }
     }
 }

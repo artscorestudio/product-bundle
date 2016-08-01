@@ -17,6 +17,7 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Category\CategoryModel;
 use ASF\ProductBundle\Form\Handler\CategoryFormHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Artscore Studio Product Category Controller.
@@ -84,7 +85,7 @@ class CategoryController extends Controller
             ->setConfirmMessage($this->get('translator')->trans('asf.product.msg.delete.confirm', array('%name%' => $this->get('translator')->trans('asf.product.default_value.this_category'))));
         $grid->addRowAction($deleteAction);
 
-        $grid->setNoDataMessage($this->get('translator')->trans('No category was found.', array(), 'asf_product'));
+        $grid->setNoDataMessage($this->get('translator')->trans('asf.product.msg.list.no_category', array(), 'asf_product'));
 
         return $grid->getGridResponse('ASFProductBundle:Category:list.html.twig');
     }
@@ -92,14 +93,15 @@ class CategoryController extends Controller
     /**
      * Add or edit a category.
      * 
-     * @param int $id ASFProductBundle:Category Entity ID
+     * @param Request $request
+     * @param int     $id      ASFProductBundle:Category Entity ID
      *
      * @throws AccessDeniedException If user does not have ACL's rights for edit the category
      * @throws \Exception            Error on category not found  
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null)
     {
         $formFactory = $this->get('asf_product.form.factory.category');
         $categoryManager = $this->get('asf_product.category.manager');
@@ -119,9 +121,9 @@ class CategoryController extends Controller
 
         $form = $formFactory->createForm();
         $form->setData($category);
-        $formHandler = new CategoryFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.category.manager'));
+        $form->handleRequest($request);
 
-        if (true === $formHandler->process()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             try {
                 if (is_null($category->getId())) {
                     $categoryManager->getEntityManager()->persist($category);
@@ -163,7 +165,7 @@ class CategoryController extends Controller
         $category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
 
         try {
-            $this->get('asf_product.category.manager')->removeCategory($category);
+            $category->setState(CategoryModel::STATE_DELETED);
             $this->get('asf_product.category.manager')->getEntityManager()->flush();
 
             if ($this->has('asf_layout.flash_message')) {

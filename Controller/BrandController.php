@@ -164,7 +164,7 @@ class BrandController extends Controller
         $brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('id' => $id));
 
         try {
-            $this->get('asf_product.brand.manager')->getEntityManager()->remove($brand);
+            $brand->setState(BrandModel::STATE_DELETED);
             $this->get('asf_product.brand.manager')->getEntityManager()->flush();
 
             if ($this->has('asf_layout.flash_message')) {

@@ -13,6 +13,7 @@ namespace ASF\ProductBundle\Model\Product;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ASF\ProductBundle\Validator\Constraints as ProductAssert;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use ASF\ProductBundle\Model\Brand\BrandInterface;
 use ASF\ProductBundle\Model\Category\CategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +29,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"product"="Product", "ProductPack"="ProductPack"})
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @ProductAssert\ProductClass
  */
 abstract class ProductModel implements ProductInterface
 {
@@ -50,6 +53,7 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @GRID\Column(visible=false)
      * 
      * @var integer
      */
@@ -58,14 +62,14 @@ abstract class ProductModel implements ProductInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
-     * @ProductAssert\CheckProductName
-     * 
+     * @GRID\Column(title="asf.product.product_name", defaultOperator="like", operatorsVisible=false)
      * @var string
      */
     protected $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @GRID\Column(visible=false)
      * 
      * @var string
      */
@@ -75,6 +79,12 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getStates")
+     * @GRID\Column(title="asf.product.state", filter="select",  selectFrom="values", values={
+     *     ProductModel::STATE_DRAFT = "draft",
+     *     ProductModel::STATE_WAITING = "waiting",
+     *     ProductModel::STATE_PUBLISHED = "published",
+     *     ProductModel::STATE_DELETED = "deleted"
+     * }, defaultOperator="eq", operatorsVisible=false)
      * 
      * @var string
      */
@@ -84,13 +94,17 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getTypes")
-     * 
+     * @GRID\Column(title="asf.product.type", filter="select",  selectFrom="values", values={
+     *     ProductModel::TYPE_PRODUCT = "product",
+     *     ProductModel::TYPE_PRODUCT_PACK = "product_pack"
+     * }, defaultOperator="eq", operatorsVisible=false)
      * @var string
      */
     protected $type;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="asf.product.weight", defaultOperator="like", operatorsVisible=false, size="50")
      * 
      * @var float
      */
@@ -98,6 +112,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="asf.product.capacity", defaultOperator="like", operatorsVisible=false, size="50")
      * 
      * @var float
      */
@@ -126,6 +141,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -133,6 +149,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -140,6 +157,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -467,5 +485,17 @@ abstract class ProductModel implements ProductInterface
     public function onPrePersist()
     {
         $this->type = self::TYPE_PRODUCT;
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function onPreUpdate()
+    {
+        if ( self::STATE_DELETED === $this->state ) {
+            $this->deletedAt = new \DateTime();
+        }
+        $this->updatedAt = new \DateTime();
     }
 }
