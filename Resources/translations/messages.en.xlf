@@ -180,6 +180,10 @@
             	<source>asf.product.msg.error.product_already_exists</source>
             	<target>A product with this name already exists.</target>
             </trans-unit>
+            <trans-unit id="asf.product.msg.error.category_duplicates">
+            	<source>asf.product.msg.error.category_duplicates</source>
+            	<target>There are categories in duplicates.</target>
+            </trans-unit>
             
             <!-- CATEGORY MESSAGES -->
             <trans-unit id="asf.product.msg.success.category_updated">
@@ -278,6 +282,10 @@
             	<source>asf.product.title.module.products_stats</source>
             	<target>Products stats</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.edit_product">
+            	<source>asf.product.title.edit_product</source>
+            	<target>Add/Edit product</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">
@@ -349,6 +357,10 @@
             <trans-unit id="asf.product.btn.check_documentation">
             	<source>asf.product.btn.check_documentation</source>
             	<target>Check the documentation</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.save">
+            	<source>asf.product.btn.save</source>
+            	<target>Save</target>
             </trans-unit>
             
             <!-- LINKS -->
