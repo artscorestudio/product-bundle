@@ -12,6 +12,7 @@ namespace ASF\ProductBundle\Model\Product;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ASF\ProductBundle\Validator\Constraints as ProductAssert;
 use ASF\ProductBundle\Model\Brand\BrandInterface;
 use ASF\ProductBundle\Model\Category\CategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -57,6 +58,7 @@ abstract class ProductModel implements ProductInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
+     * @ProductAssert\CheckProductName
      * 
      * @var string
      */
@@ -64,7 +66,6 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
      * 
      * @var string
      */
