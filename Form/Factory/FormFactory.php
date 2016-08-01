@@ -56,7 +56,7 @@ class FormFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see \ASF\ProductBundle\Form\Factory\FormFactoryInterface::createForm()
+     * @see \ASF\ProductBundle\Form\Factory\FactoryInterface::createForm()
      */
     public function createForm(array $options = array())
     {

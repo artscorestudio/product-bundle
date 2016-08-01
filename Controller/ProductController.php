@@ -127,7 +127,10 @@ class ProductController extends Controller
         } else {
             $product = $productManager->createInstance();
 
-            $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))->setState(ProductModel::STATE_PUBLISHED);
+            $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))
+                ->setState(ProductModel::STATE_PUBLISHED)
+                ->setType(ProductModel::TYPE_PRODUCT);
+            
             $success_message = $this->get('translator')->trans('asf.product.msg.success.product_created', array('%name%' => $product->getName()));
         }
 
@@ -137,18 +140,19 @@ class ProductController extends Controller
 
         $form = $formFactory->createForm();
         $form->setData($product);
-        $formHandler = new ProductFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.product.manager'));
+        $form->handleRequest($request);
 
-        if (true === $formHandler->process()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             try {
+                $product = $form->getData();
                 if (is_null($product->getId())) {
                     $this->get('asf_product.product.manager')->getEntityManager()->persist($product);
                 }
 
                 $this->get('asf_product.product.manager')->getEntityManager()->flush();
 
-                if ($this->has('asf_layout.flash_message')) {
-                    $this->get('asf_layout.flash_message')->success($success_message);
+                if ($this->has('asf_layout.flash_messages')) {
+                    $this->get('asf_layout.flash_messages')->success($success_message);
                 }
 
                 return $this->redirect($this->get('router')->generate('asf_product_product_edit', array('id' => $product->getId())));

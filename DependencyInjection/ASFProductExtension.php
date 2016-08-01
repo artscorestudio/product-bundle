@@ -12,10 +12,10 @@ namespace ASF\ProductBundle\DependencyInjection;
 
 use ASF\CoreBundle\DependencyInjection\ASFExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -34,7 +34,7 @@ class ASFProductExtension extends ASFExtension implements PrependExtensionInterf
 
         $this->mapsParameters($container, $this->getAlias(), $config);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $container->setParameter('asf_product.enable_brand_entity', $config['enable_brand_entity']);
         $container->setParameter('asf_product.enable_productPack_entity', $config['enable_productPack_entity']);
@@ -50,21 +50,21 @@ class ASFProductExtension extends ASFExtension implements PrependExtensionInterf
         $container->setParameter('asf_product.product.entity', $config['product']['entity']);
         $container->setParameter('asf_product.category.entity', $config['category']['entity']);
         
-        $loader->load('services/services.xml');
+        $loader->load('services/services.yml');
 
         if (isset($config['enable_brand_entity']) && true === $config['enable_brand_entity']) {
         	if ( $config['brand']['entity'] === null ) {
         		throw new InvalidConfigurationException('The asf_product.brand.entity parameter must be defined.');
         	}
         	$container->setParameter('asf_product.brand.entity', $config['brand']['entity']);
-            $loader->load('services/brand.xml');
+            $loader->load('services/brand.yml');
         }
 
         if (isset($config['enable_productPack_entity']) && true === $config['enable_productPack_entity']) {
         	if ( $config['product_pack']['entity'] === null ) {
         		throw new InvalidConfigurationException('The asf_product.product_pack.entity parameter must be defined.');
         	}
-            $loader->load('services/product_pack.xml');
+            $loader->load('services/product_pack.yml');
         }
     }
 

@@ -24,19 +24,12 @@ use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 class ProductFormHandler extends FormHandlerModel
 {
     /**
-     * @var ProductManagerInterface
-     */
-    protected $productManager;
-
-    /**
      * @param FormInterface           $form
      * @param Request                 $request
-     * @param ProductManagerInterface $product_manager
      */
-    public function __construct(FormInterface $form, Request $request, ProductManagerInterface $product_manager)
+    public function __construct(FormInterface $form, Request $request)
     {
         parent::__construct($form, $request);
-        $this->productManager = $product_manager;
     }
 
     /**
@@ -47,18 +40,8 @@ class ProductFormHandler extends FormHandlerModel
     public function processForm($model)
     {
         try {
-            $producManager = $this->productManager;
             $product = $model;
             $product->setType(ProductModel::TYPE_PRODUCT);
-
-            if (is_null($product->getId())) {
-                $isProductExist = $producManager->getRepository()->findOneBy(array('name' => $product->getName()));
-                if (!is_null($isProductExist)) {
-                    throw new \Exception($this->getTranslator()->trans('asf.product.msg.error.brand_already_exists'));
-
-                    return false;
-                }
-            }
 
             $categories = $product->getCategories();
             $passed_categories = array();

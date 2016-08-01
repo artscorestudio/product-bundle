@@ -110,6 +110,7 @@ abstract class ProductModel implements ProductInterface
      *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
      * @ORM\JoinColumn(name="brand_id", referencedColumnName="id", nullable=true)
+     * @ProductAssert\CategoryDuplicates
      * 
      * @var ArrayCollection
      */
