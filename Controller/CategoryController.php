@@ -16,8 +16,8 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Category\CategoryModel;
-use ASF\ProductBundle\Form\Handler\CategoryFormHandler;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\UserRole;
 
 /**
  * Artscore Studio Product Category Controller.
@@ -36,12 +36,24 @@ class CategoryController extends Controller
     public function listAction()
     {
         // Set Datagrid source
-        $source = new Entity($this->get('asf_product.category.manager')->getClassName());
+        $source = new Entity($this->getParameter('asf_product.category.entity'));
         $tableAlias = $source->getTableAlias();
-
-        $source->manipulateQuery(function ($query) use ($tableAlias) {
+        $user = $this->getUser();
+        $source->manipulateQuery(function ($query) use ($tableAlias, $user) {
             $query instanceof QueryBuilder;
 
+            $states = array(
+                CategoryModel::STATE_DRAFT,
+                CategoryModel::STATE_WAITING,
+                CategoryModel::STATE_PUBLISHED
+            );
+            
+            if ( in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles()) ) {
+                $states[] = CategoryModel::STATE_DELETED;
+            }
+            
+            $query->add('where', $query->expr()->in($tableAlias.'.state', $states));
+            
             if (count($query->getDQLPart('orderBy')) == 0) {
                 $query->orderBy($tableAlias.'.name', 'ASC');
             }
@@ -54,28 +66,19 @@ class CategoryController extends Controller
         // Attach the source to the grid
         $grid->setSource($source);
         $grid->setId('asf_categories_list');
-
+        
+        $source->manipulateRow(function($row) {
+            if ( CategoryModel::STATE_DELETED === $row->getField('state') ) {
+                $row->setClass('danger');
+            } else if ( CategoryModel::STATE_WAITING === $row->getField('state') ) {
+                $row->setClass('info');
+            } else if ( CategoryModel::STATE_DRAFT === $row->getField('state') ) {
+                $row->setClass('warning');
+            }
+            return $row;
+        });
+        
         // Columns configuration
-        $grid->hideColumns(array('id'));
-
-        $nameColumn = $grid->getColumn('name');
-        $nameColumn->setTitle($this->get('translator')->trans('asf.product.category_name'))
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false);
-
-        $stateColumn = $grid->getColumn('state');
-        $stateColumn->setTitle($this->get('translator')->trans('asf.product.state'))
-            ->setFilterType('select')
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false)
-            ->setSelectFrom('values')
-            ->setValues(array(
-                CategoryModel::STATE_DRAFT => $this->get('translator')->trans('asf.product.state.draft'),
-                CategoryModel::STATE_WAITING => $this->get('translator')->trans('asf.product.state.waiting'),
-                CategoryModel::STATE_PUBLISHED => $this->get('translator')->trans('asf.product.state.published'),
-                CategoryModel::STATE_DELETED => $this->get('translator')->trans('asf.product.state.deleted'),
-            ));
-
         $editAction = new RowAction('btn_edit', 'asf_product_category_edit');
         $editAction->setRouteParameters(array('id'));
         $grid->addRowAction($editAction);
@@ -107,12 +110,10 @@ class CategoryController extends Controller
         $categoryManager = $this->get('asf_product.category.manager');
 
         if (!is_null($id)) {
-            $category = $categoryManager->getRepository()->findOneBy(array('id' => $id));
-            $success_message = $this->get('translator')->trans('asf.product.msg.success.category_updated', array('%name%' => $category->getName()));
+            $category = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entty'))->findOneBy(array('id' => $id));
         } else {
             $category = $categoryManager->createInstance();
             $category->setName($this->get('translator')->trans('asf.product.default_value.category_name'));
-            $success_message = $this->get('translator')->trans('asf.product.msg.success.category_created', array('%name%' => $category->getName()));
         }
 
         if (is_null($category)) {
@@ -126,9 +127,12 @@ class CategoryController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ) {
             try {
                 if (is_null($category->getId())) {
-                    $categoryManager->getEntityManager()->persist($category);
+                    $this->get('doctrine.orm.default_entity_manager')->persist($category);
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.category_created', array('%name%' => $category->getName()));
+                } else {
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.category_updated', array('%name%' => $category->getName()));
                 }
-                $categoryManager->getEntityManager()->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->success($success_message);
@@ -162,11 +166,11 @@ class CategoryController extends Controller
      */
     public function deleteAction($id)
     {
-        $category = $this->get('asf_product.category.manager')->getRepository()->findOneBy(array('id' => $id));
+        $category = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entity'))->findOneBy(array('id' => $id));
 
         try {
             $category->setState(CategoryModel::STATE_DELETED);
-            $this->get('asf_product.category.manager')->getEntityManager()->flush();
+            $this->get('doctrine.orm.default_entity_manager')->flush();
 
             if ($this->has('asf_layout.flash_message')) {
                 $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('asf.product.msg.success.category_deleted', array('%name%' => $category->getName())));

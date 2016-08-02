@@ -48,7 +48,7 @@ abstract class ProductModel implements ProductInterface
      */
     const TYPE_PRODUCT = 'Product';
     const TYPE_PRODUCT_PACK = 'ProductPack';
-
+    
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -63,6 +63,7 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @GRID\Column(title="asf.product.product_name", defaultOperator="like", operatorsVisible=false)
+     * 
      * @var string
      */
     protected $name;
@@ -122,7 +123,7 @@ abstract class ProductModel implements ProductInterface
      * @ORM\ManyToMany(targetEntity="Category")
      * @ORM\JoinTable(name="asf_product_product_category",
      *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
      * )
      * 
      * @ProductAssert\CategoryDuplicates

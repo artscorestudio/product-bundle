@@ -42,6 +42,7 @@ abstract class CategoryModel implements CategoryInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @GRID\Column(visible=false)
      * 
      * @var int
      */
@@ -50,6 +51,8 @@ abstract class CategoryModel implements CategoryInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
+     * @GRID\Column(title="asf.product.category_name", defaultOperator="like", operatorsVisible=false)
+     * 
      * @var string
      */
     protected $name;
@@ -58,6 +61,12 @@ abstract class CategoryModel implements CategoryInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getStates")
+     * @GRID\Column(title="asf.product.state", filter="select",  selectFrom="values", values={
+     *     CategoryModel::STATE_DRAFT = "draft",
+     *     CategoryModel::STATE_WAITING = "waiting",
+     *     CategoryModel::STATE_PUBLISHED = "published",
+     *     CategoryModel::STATE_DELETED = "deleted"
+     * }, defaultOperator="eq", operatorsVisible=false)
      * 
      * @var string
      */
@@ -65,6 +74,7 @@ abstract class CategoryModel implements CategoryInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
+     * @GRID\Column(visible=false)
      * 
      * @var \ASF\ProductBundle\Model\Category\CategoryInterface
      */
@@ -72,6 +82,7 @@ abstract class CategoryModel implements CategoryInterface
 
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="parent", cascade={"persist", "remove"})
+     * @GRID\Column(visible=false)
      * 
      * @var ArrayCollection
      */

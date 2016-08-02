@@ -36,7 +36,7 @@ class BrandController extends Controller
     public function listAction()
     {
         // Set Datagrid source
-        $source = new Entity($this->get('asf_product.brand.manager')->getClassName());
+        $source = new Entity($this->getParameter('asf_product.brand.entity'));
         $tableAlias = $source->getTableAlias();
         $source->manipulateQuery(function ($query) use ($tableAlias) {
             $query instanceof QueryBuilder;
@@ -55,25 +55,6 @@ class BrandController extends Controller
         $grid->setId('asf_brands_list');
 
         // Columns configuration
-        $grid->hideColumns(array('id', 'content'));
-
-        $grid->getColumn('name')->setTitle($this->get('translator')->trans('asf.product.brand_name'))
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false);
-
-        $grid->getColumn('state')->setTitle($this->get('translator')->trans('asf.product.state'))
-            ->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
-            ->setDefaultOperator('eq')->setValues(array(
-                BrandModel::STATE_DRAFT => $this->get('translator')->trans('asf.product.state.draft'),
-                BrandModel::STATE_WAITING => $this->get('translator')->trans('asf.product.state.waiting'),
-                BrandModel::STATE_PUBLISHED => $this->get('translator')->trans('asf.product.state.published'),
-                BrandModel::STATE_DELETED => $this->get('translator')->trans('asf.product.state.deleted'),
-            ));
-
-        $grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.created_at'));
-        $grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.updated_at'));
-        $grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('asf.product.deleted_at'));
-
         $editAction = new RowAction('btn_edit', 'asf_product_brand_edit');
         $editAction->setRouteParameters(array('id'));
         $grid->addRowAction($editAction);
@@ -105,12 +86,10 @@ class BrandController extends Controller
         $brandManager = $this->get('asf_product.brand.manager');
 
         if (!is_null($id)) {
-            $brand = $brandManager->getRepository()->findOneBy(array('id' => $id));
-            $success_message = $this->get('translator')->trans('asf.product.msg.success.brand_updated', array('%name%' => $brand->getName()));
+            $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('id' => $id));
         } else {
             $brand = $brandManager->createInstance();
             $brand->setName($this->get('translator')->trans('asf.product.default_value.category_name'));
-            $success_message = $this->get('translator')->trans('asf.product.msg.success.brand_created', array('%name%' => $brand->getName()));
         }
 
         if (is_null($brand)) {
@@ -125,9 +104,12 @@ class BrandController extends Controller
         if (true === $formHandler->process()) {
             try {
                 if (is_null($brand->getId())) {
-                    $brandManager->getEntityManager()->persist($brand);
+                    $this->get('doctrine.orm.default_entity_manager')->persist($brand);
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.brand_created', array('%name%' => $brand->getName()));
+                } else {
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.brand_updated', array('%name%' => $brand->getName()));
                 }
-                $brandManager->getEntityManager()->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->success($success_message);
@@ -161,11 +143,11 @@ class BrandController extends Controller
      */
     public function deleteAction($id)
     {
-        $brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('id' => $id));
+        $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('id' => $id));
 
         try {
             $brand->setState(BrandModel::STATE_DELETED);
-            $this->get('asf_product.brand.manager')->getEntityManager()->flush();
+            $this->get('doctrine.orm.default_entity_manager')->flush();
 
             if ($this->has('asf_layout.flash_message')) {
                 $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('asf.product.msg.success.brand_deleted', array('%name%' => $brand->getName())));

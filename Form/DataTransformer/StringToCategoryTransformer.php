@@ -44,7 +44,7 @@ class StringToCategoryTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $category->getName();
+        return $category;
     }
 
     /**
@@ -54,8 +54,6 @@ class StringToCategoryTransformer implements DataTransformerInterface
      */
     public function reverseTransform($string)
     {
-        $category = $this->categoryManager->getRepository()->findOneBy(array('name' => $string));
-
-        return $category;
+        return $string;
     }
 }

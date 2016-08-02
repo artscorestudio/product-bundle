@@ -1,3 +1,13 @@
+{% block choice_label -%}
+	{% if form.vars.attr|length > 0 and form.vars.attr.class is defined and 'select2' in form.vars.attr.class %}
+	
+	{% else %}
+        {# remove the checkbox-inline and radio-inline class, it's only useful for embed labels #}
+        {%- set label_attr = label_attr|merge({class: label_attr.class|default('')|replace({'checkbox-inline': '', 'radio-inline': ''})|trim}) -%}
+        {{- block('form_label') -}}
+    {% endif %}
+{% endblock %}
+
 {# ---------------------------------- Search Form Types ---------------------------- #}
 {% block asf_search_field_widget %}
 {% spaceless %}

@@ -96,7 +96,8 @@ class ProductType extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
-            'containerId' => 'categories-collection', ))
+            'containerId' => 'categories-collection'
+        ))
 
         ->add('state', ChoiceType::class, array(
             'label' => 'asf.product.state',

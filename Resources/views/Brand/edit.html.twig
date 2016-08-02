@@ -1,5 +1,7 @@
 {% extends 'ASFProductBundle::layout.html.twig' %}
 
+{% form_theme form 'Form/fields.html.twig' %}
+
 {% block title %}{{ brand.getName() }}{% endblock %}
 
 {% trans_default_domain 'asf_product' %}

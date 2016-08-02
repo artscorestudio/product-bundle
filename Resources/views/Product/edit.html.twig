@@ -1,5 +1,7 @@
 {% extends 'ASFProductBundle::layout.html.twig' %}
 
+{% form_theme form 'Form/fields.html.twig' %}
+
 {% block title %}{{ product.getName() }}{% endblock %}
 
 {% block asf_product_content %}
