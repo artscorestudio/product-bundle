@@ -21,7 +21,6 @@ use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Product Form Type.
@@ -31,9 +30,9 @@ use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 class ProductType extends AbstractType
 {
     /**
-     * @var ProductManagerInterface
+     * @var string
      */
-    protected $productManager;
+    protected $className;
 
     /**
      * @var bool
@@ -41,13 +40,13 @@ class ProductType extends AbstractType
     protected $isBrandEntityEnabled;
 
     /**
-     * @param ProductManagerInterface $product_manager
-     * @param bool                    $is_brand_entity_enabled
+     * @param string  $className
+     * @param boolean $isBrandEntityEnabled
      */
-    public function __construct(ProductManagerInterface $product_manager, $is_brand_entity_enabled)
+    public function __construct($className, $isBrandEntityEnabled)
     {
-        $this->productManager = $product_manager;
-        $this->isBrandEntityEnabled = $is_brand_entity_enabled;
+        $this->className = $className;
+        $this->isBrandEntityEnabled = $isBrandEntityEnabled;
     }
 
     /**
@@ -118,7 +117,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->productManager->getClassName(),
+            'data_class' => $this->className
         ));
     }
 

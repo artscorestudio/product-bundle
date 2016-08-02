@@ -19,7 +19,7 @@ use ASF\ProductBundle\Model\Category\CategoryModel;
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  */
-class CategoryManager extends DefaultManager
+class CategoryManager extends DefaultManager implements DefaultManagerInterface
 {
     /**
      * @var DefaultManagerInterface

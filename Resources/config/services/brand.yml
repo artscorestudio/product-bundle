@@ -1,7 +1,7 @@
 services:
     # Entities Managers
     asf_product.brand.manager:
-        class: ASF\ProductBundle\Utils\Manager\BrandManager
+        class: ASF\ProductBundle\Utils\Manager\DefaultManager
         tags:
             - { name: asf_core.manager, entity: "%asf_product.brand.entity%" }
          
@@ -12,7 +12,7 @@ services:
         
     asf_product.form.type.brand:
         class: ASF\ProductBundle\Form\Type\BrandType
-        arguments: ["@asf_product.brand.manager"]
+        arguments: ["%asf_product.brand.entity%"]
         tags:
             - { name: form.type, alias: brand_type }
            

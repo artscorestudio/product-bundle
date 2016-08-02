@@ -14,7 +14,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use ASF\ProductBundle\Model\Category\CategoryModel;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -26,16 +25,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class CategoryType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $categoryManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $categoryManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $categoryManager)
+    public function __construct($className)
     {
-        $this->categoryManager = $categoryManager;
+        $this->className = $className;
     }
 
     /**
@@ -67,7 +66,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->categoryManager->getClassName(),
+            'data_class' => $this->className
         ));
     }
 

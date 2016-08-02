@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 use ASF\ProductBundle\Model\Brand\BrandModel;
 
 /**
@@ -26,16 +25,16 @@ use ASF\ProductBundle\Model\Brand\BrandModel;
 class BrandType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $brandManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $brandManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $brandManager)
+    public function __construct($className)
     {
-        $this->brandManager = $brandManager;
+        $this->brandclassName = $className;
     }
 
     /**
@@ -46,7 +45,6 @@ class BrandType extends AbstractType
     {
         $builder->add('name', TextType::class, array(
             'label' => 'asf.product.brand_name',
-            'max_length' => 255,
             'required' => true,
         ))
         ->add('state', ChoiceType::class, array(
@@ -68,7 +66,7 @@ class BrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->brandManager->getClassName()
+            'data_class' => $this->className
         ));
     }
 

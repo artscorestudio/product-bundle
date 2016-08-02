@@ -15,6 +15,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\Validator\Constraints as Assert;
 use ASF\ProductBundle\Validator\Constraints as BrandAssert;
 use ASF\ProductBundle\Model\Product\ProductInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Brand Model.
