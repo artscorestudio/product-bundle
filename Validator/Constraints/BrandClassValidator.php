@@ -52,15 +52,11 @@ class BrandClassValidator extends ConstraintValidator
      */
     public function validate($brand, Constraint $constraint)
     {
-        $criteria = new Criteria();
-        $criteria->where(new Comparison("name", Comparison::EQ, $brand->getName()));
-        $criteria->andWhere(new Comparison("state", Comparison::EQ, BrandModel::STATE_DRAFT));
-        $criteria->orWhere(new Comparison("state", Comparison::EQ, BrandModel::STATE_PUBLISHED));
-        $criteria->orWhere(new Comparison("state", Comparison::EQ, BrandModel::STATE_WAITING));
-        $criteria->setMaxResults(1);
-        
-        $result = $this->em->getRepository($this->entityClassName)->matching($criteria)->first();
-        
+    	$result = $this->em->getRepository($this->entityClassName)->findByName($brand->getName(), array(
+            BrandModel::STATE_DRAFT,
+            BrandModel::STATE_WAITING,
+            BrandModel::STATE_PUBLISHED
+        ));
         if ( null !== $result && $result->getId() !== $brand->getId() ) {
             $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }

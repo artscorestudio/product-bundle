@@ -98,7 +98,7 @@ class BrandController extends Controller
         
         $form = $formFactory->createForm();
         $form->setData($brand);
-		$form->handleReqest($request);
+		$form->handleRequest($request);
 		
         if ( $form->isSubmitted() && $form->isValid() ) {
             try {

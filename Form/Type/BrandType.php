@@ -34,7 +34,7 @@ class BrandType extends AbstractType
      */
     public function __construct($className)
     {
-        $this->brandclassName = $className;
+        $this->className = $className;
     }
 
     /**

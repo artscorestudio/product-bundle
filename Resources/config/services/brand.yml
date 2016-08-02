@@ -25,9 +25,9 @@ services:
        
     # Constraints Validators     
     asf_product.validator.unique.check_brand_name:
-        class: ASF\ProductBundle\Validator\Constraints\CheckBrandNameValidator
+        class: ASF\ProductBundle\Validator\Constraints\BrandClassValidator
         arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.brand.entity%"]
         tags:
-            - { name: validator.constraint_validator, alias: CheckBrandName }
+            - { name: validator.constraint_validator, alias: BrandClass }
 
             

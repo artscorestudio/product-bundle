@@ -44,7 +44,7 @@ class StringToBrandTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $brand->getName();
+        return $brand;
     }
 
     /**
@@ -54,8 +54,6 @@ class StringToBrandTransformer implements DataTransformerInterface
      */
     public function reverseTransform($string)
     {
-        $brand = $this->brandManager->getRepository()->findOneBy(array('name' => $string));
-
-        return $brand;
+        return $string;
     }
 }

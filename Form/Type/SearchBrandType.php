@@ -60,7 +60,7 @@ class SearchBrandType extends AbstractType
             'class' => $this->brandManager->getClassName(),
             'choice_label' => 'name',
             'placeholder' => 'asf.product.form.choose_a_brand',
-            'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_brand_ajax_request_brand_by_name'),
+            'attr' => array('class' => 'select2-entity'),
         ));
     }
 
