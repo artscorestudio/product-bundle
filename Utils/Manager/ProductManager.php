@@ -27,22 +27,22 @@ class ProductManager implements ProductManagerInterface
      * @var EntityManagerInterface
      */
     protected $em;
-    
+
     /**
      * @var string
      */
     protected $productClassName;
-    
+
     /**
      * @var string
      */
     protected $categoryClassName;
-    
+
     /**
      * @var string
      */
     protected $brandClassName;
-    
+
     /**
      * @param EntityManagerInterface $em
      * @param string                 $productClassname
@@ -56,7 +56,7 @@ class ProductManager implements ProductManagerInterface
         $this->categoryClassName = $categoryClassName;
         $this->brandClassName = $brandClassName;
     }
-    
+
     /**
      * Create a Product Instance.
      * 
@@ -65,9 +65,10 @@ class ProductManager implements ProductManagerInterface
     public function createProductInstance()
     {
         $class = new \ReflectionClass($this->productClassName);
+
         return $class->newInstanceArgs();
     }
-    
+
     /**
      * Create a Category Instance.
      * 
@@ -76,9 +77,10 @@ class ProductManager implements ProductManagerInterface
     public function createCategoryInstance()
     {
         $class = new \ReflectionClass($this->categoryClassName);
+
         return $class->newInstanceArgs();
     }
-    
+
     /**
      * Create a Brand Instance.
      * 
@@ -87,9 +89,10 @@ class ProductManager implements ProductManagerInterface
     public function createBrandInstance()
     {
         $class = new \ReflectionClass($this->brandClassName);
+
         return $class->newInstanceArgs();
     }
-    
+
     /**
      * Populate a new product.
      *

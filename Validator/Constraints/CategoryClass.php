@@ -13,7 +13,7 @@ namespace ASF\ProductBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Category Class Constraint
+ * Category Class Constraint.
  * 
  * @author Nicolas Claverie <nicolas.claverie@cd31.fr>
  * 
@@ -21,10 +21,11 @@ use Symfony\Component\Validator\Constraint;
  */
 class CategoryClass extends Constraint
 {
-public $alreadyExistsMessage = 'asf.product.msg.error.category_already_exists';
-    
+    public $alreadyExistsMessage = 'asf.product.msg.error.category_already_exists';
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Validator\Constraint::getTargets()
      */
     public function getTargets()

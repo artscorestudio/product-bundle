@@ -25,21 +25,21 @@ interface ProductManagerInterface
      * @return \ASF\ProductBundle\Model\Product\ProductInterface
      */
     public function createProductInstance();
-    
+
     /**
      * Create a Category Instance.
      *
      * @return \ASF\ProductBundle\Model\Category\CategoryInterface
      */
     public function createCategoryInstance();
-    
+
     /**
      * Create a Brand Instance.
      *
      * @return \ASF\ProductBundle\Model\Brand\BrandInterface
      */
     public function createBrandInstance();
-    
+
     /**
      * Populate a new product.
      *

@@ -48,14 +48,14 @@ abstract class ProductModel implements ProductInterface
      */
     const TYPE_PRODUCT = 'Product';
     const TYPE_PRODUCT_PACK = 'ProductPack';
-    
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @GRID\Column(visible=false)
      * 
-     * @var integer
+     * @var int
      */
     protected $id;
 
@@ -99,6 +99,7 @@ abstract class ProductModel implements ProductInterface
      *     ProductModel::TYPE_PRODUCT = "product",
      *     ProductModel::TYPE_PRODUCT_PACK = "product_pack"
      * }, defaultOperator="eq", operatorsVisible=false)
+     *
      * @var string
      */
     protected $type;
@@ -465,7 +466,7 @@ abstract class ProductModel implements ProductInterface
             self::STATE_DELETED,
         );
     }
-    
+
     /**
      * Returns types for validators.
      *
@@ -475,26 +476,24 @@ abstract class ProductModel implements ProductInterface
     {
         return array(
             self::TYPE_PRODUCT,
-            self::TYPE_PRODUCT_PACK
+            self::TYPE_PRODUCT_PACK,
         );
     }
 
     /**
      * @ORM\PrePersist
-     * @return void
      */
     public function onPrePersist()
     {
         $this->type = self::TYPE_PRODUCT;
     }
-    
+
     /**
      * @ORM\PreUpdate
-     * @return void
      */
     public function onPreUpdate()
     {
-        if ( self::STATE_DELETED === $this->state ) {
+        if (self::STATE_DELETED === $this->state) {
             $this->deletedAt = new \DateTime();
         }
         $this->updatedAt = new \DateTime();

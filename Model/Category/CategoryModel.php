@@ -95,7 +95,7 @@ abstract class CategoryModel implements CategoryInterface
      * @var \DateTime
      */
     protected $createdAt;
-    
+
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @GRID\Column(visible=false)
@@ -103,7 +103,7 @@ abstract class CategoryModel implements CategoryInterface
      * @var \DateTime
      */
     protected $updatedAt;
-    
+
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @GRID\Column(visible=false)
@@ -111,7 +111,7 @@ abstract class CategoryModel implements CategoryInterface
      * @var \DateTime
      */
     protected $deletedAt;
-    
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -236,7 +236,7 @@ abstract class CategoryModel implements CategoryInterface
     {
         return $this->createdAt;
     }
-    
+
     /**
      * (non-PHPdoc).
      *
@@ -245,10 +245,10 @@ abstract class CategoryModel implements CategoryInterface
     public function setCreatedAt(\DateTime $created_at)
     {
         $this->createdAt = $created_at;
-    
+
         return $this;
     }
-    
+
     /**
      * (non-PHPdoc).
      *
@@ -258,7 +258,7 @@ abstract class CategoryModel implements CategoryInterface
     {
         return $this->updatedAt;
     }
-    
+
     /**
      * (non-PHPdoc).
      *
@@ -267,10 +267,10 @@ abstract class CategoryModel implements CategoryInterface
     public function setUpdatedAt(\DateTime $updated_at)
     {
         $this->updatedAt = $updated_at;
-    
+
         return $this;
     }
-    
+
     /**
      * (non-PHPdoc).
      *
@@ -280,7 +280,7 @@ abstract class CategoryModel implements CategoryInterface
     {
         return $this->deletedAt;
     }
-    
+
     /**
      * (non-PHPdoc).
      *
@@ -289,10 +289,10 @@ abstract class CategoryModel implements CategoryInterface
     public function setDeletedAt(\DateTime $deleted_at)
     {
         $this->deletedAt = $deleted_at;
-    
+
         return $this;
     }
-    
+
     /**
      * Returns states for validators.
      *
@@ -310,11 +310,10 @@ abstract class CategoryModel implements CategoryInterface
 
     /**
      * @ORM\PreUpdate
-     * @return void
      */
     public function onPreUpdate()
     {
-        if ( self::STATE_DELETED === $this->state ) {
+        if (self::STATE_DELETED === $this->state) {
             $this->deletedAt = new \DateTime();
         }
         $this->updatedAt = new \DateTime();

@@ -38,6 +38,7 @@ class ASFProductBundleTest extends \PHPUnit_Framework_TestCase
     protected function getContainer()
     {
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+
         return $container;
     }
 }

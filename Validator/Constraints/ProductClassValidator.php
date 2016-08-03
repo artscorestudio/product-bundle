@@ -14,11 +14,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
 use ASF\ProductBundle\Model\Product\ProductModel;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
 
 /**
- * Product Class Validator
+ * Product Class Validator.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
@@ -30,20 +28,20 @@ class ProductClassValidator extends ConstraintValidator
      * @var EntityManagerInterface
      */
     protected $em;
-    
+
     /**
      * @var string
      */
     protected $entityClassName;
-    
+
     /**
-     * @var boolean
+     * @var bool
      */
     protected $brandEnabled;
-    
+
     /**
      * @param EntityManagerInterface $em
-     * @param string $entityClassName
+     * @param string                 $entityClassName
      */
     public function __construct(EntityManagerInterface $em, $entityClassName, $brandEnabled)
     {
@@ -51,31 +49,32 @@ class ProductClassValidator extends ConstraintValidator
         $this->entityClassName = $entityClassName;
         $this->brandEnabled = $brandEnabled;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
      */
     public function validate($product, Constraint $constraint)
     {
-        if ( true === $this->brandEnabled && null !== $product->getBrand() ) {
-            $result = $this->em->getRepository($this->entityClassName)->findProductsByNameAndBrand($product->getName(), 
-                $product->getBrand()->getName(), 
+        if (true === $this->brandEnabled && null !== $product->getBrand()) {
+            $result = $this->em->getRepository($this->entityClassName)->findProductsByNameAndBrand($product->getName(),
+                $product->getBrand()->getName(),
                 array(
                     ProductModel::STATE_DRAFT,
                     ProductModel::STATE_WAITING,
-                    ProductModel::STATE_PUBLISHED
+                    ProductModel::STATE_PUBLISHED,
                 )
             );
         } else {
             $result = $this->em->getRepository($this->entityClassName)->findProductsByNameAndBrand($product->getName(), null, array(
                 ProductModel::STATE_DRAFT,
                 ProductModel::STATE_WAITING,
-                ProductModel::STATE_PUBLISHED
+                ProductModel::STATE_PUBLISHED,
             ));
         }
-        
-        if ( null !== $result && $result->getId() !== $product->getId() ) {
+
+        if (null !== $result && $result->getId() !== $product->getId()) {
             $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }
     }

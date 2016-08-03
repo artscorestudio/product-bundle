@@ -93,12 +93,12 @@ class BrandController extends Controller
         if (is_null($brand)) {
             throw new \Exception($this->get('translator')->trans('asf.product.msg.error.brand_not_found'));
         }
-        
+
         $form = $formFactory->createForm();
         $form->setData($brand);
-		$form->handleRequest($request);
-		
-        if ( $form->isSubmitted() && $form->isValid() ) {
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (is_null($brand->getId())) {
                     $this->get('doctrine.orm.default_entity_manager')->persist($brand);

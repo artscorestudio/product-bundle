@@ -66,7 +66,7 @@ class BrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->className
+            'data_class' => $this->className,
         ));
     }
 

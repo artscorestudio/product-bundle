@@ -30,24 +30,24 @@ class DefaultController extends Controller
     }
 
     /**
-     * Show database statistics
+     * Show database statistics.
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showStatsAction($showProducts = true, $showCategories = true, $showBrands = true)
     {
-        if ( true === $showProducts ) {
+        if (true === $showProducts) {
             $productsNb = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->countProducts();
         }
-        
-        if ( true === $showCategories ) {
+
+        if (true === $showCategories) {
             $categoriesNb = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entity'))->countCategories();
         }
-        
-        if ( true === $this->getParameter(('asf_product.enable_brand_entity')) && true === $showBrands ) {
+
+        if (true === $this->getParameter(('asf_product.enable_brand_entity')) && true === $showBrands) {
             $brandsNb = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->countBrands();
         }
-        
+
         return $this->render('ASFProductBundle:Default:show-stats.html.twig', array(
             'productsNb' => true === $showProducts ? $productsNb : null,
             'categoriesNb' => true === $showCategories ? $categoriesNb : null,

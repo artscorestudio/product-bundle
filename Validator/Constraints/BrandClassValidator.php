@@ -14,11 +14,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
 use ASF\ProductBundle\Model\Brand\BrandModel;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
 
 /**
- * Brand Class Constraint
+ * Brand Class Constraint.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
@@ -30,34 +28,35 @@ class BrandClassValidator extends ConstraintValidator
      * @var EntityManagerInterface
      */
     private $em;
-    
+
     /**
      * @var string
      */
     private $entityClassName;
-    
+
     /**
      * @param EntityManagerInterface $em
-     * @param string $entityClassName
+     * @param string                 $entityClassName
      */
     public function __construct(EntityManagerInterface $em, $entityClassName)
     {
         $this->em = $em;
         $this->entityClassName = $entityClassName;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
      */
     public function validate($brand, Constraint $constraint)
     {
-    	$result = $this->em->getRepository($this->entityClassName)->findByName($brand->getName(), array(
+        $result = $this->em->getRepository($this->entityClassName)->findByName($brand->getName(), array(
             BrandModel::STATE_DRAFT,
             BrandModel::STATE_WAITING,
-            BrandModel::STATE_PUBLISHED
+            BrandModel::STATE_PUBLISHED,
         ));
-        if ( null !== $result && $result->getId() !== $brand->getId() ) {
+        if (null !== $result && $result->getId() !== $brand->getId()) {
             $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }
     }

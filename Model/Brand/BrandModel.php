@@ -311,7 +311,6 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\PrePersist
-     * @return void
      */
     public function onPrePersist()
     {
@@ -321,11 +320,10 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\PreUpdate
-     * @return void
      */
     public function onPreUpdate()
     {
-        if ( self::STATE_DELETED === $this->state ) {
+        if (self::STATE_DELETED === $this->state) {
             $this->deletedAt = new \DateTime();
         }
         $this->updatedAt = new \DateTime();

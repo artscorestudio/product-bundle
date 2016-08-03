@@ -45,15 +45,15 @@ class CategoryController extends Controller
             $states = array(
                 CategoryModel::STATE_DRAFT,
                 CategoryModel::STATE_WAITING,
-                CategoryModel::STATE_PUBLISHED
+                CategoryModel::STATE_PUBLISHED,
             );
-            
-            if ( in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles()) ) {
+
+            if (in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles())) {
                 $states[] = CategoryModel::STATE_DELETED;
             }
-            
+
             $query->add('where', $query->expr()->in($tableAlias.'.state', $states));
-            
+
             if (count($query->getDQLPart('orderBy')) == 0) {
                 $query->orderBy($tableAlias.'.name', 'ASC');
             }
@@ -66,18 +66,19 @@ class CategoryController extends Controller
         // Attach the source to the grid
         $grid->setSource($source);
         $grid->setId('asf_categories_list');
-        
-        $source->manipulateRow(function($row) {
-            if ( CategoryModel::STATE_DELETED === $row->getField('state') ) {
+
+        $source->manipulateRow(function ($row) {
+            if (CategoryModel::STATE_DELETED === $row->getField('state')) {
                 $row->setClass('danger');
-            } else if ( CategoryModel::STATE_WAITING === $row->getField('state') ) {
+            } elseif (CategoryModel::STATE_WAITING === $row->getField('state')) {
                 $row->setClass('info');
-            } else if ( CategoryModel::STATE_DRAFT === $row->getField('state') ) {
+            } elseif (CategoryModel::STATE_DRAFT === $row->getField('state')) {
                 $row->setClass('warning');
             }
+
             return $row;
         });
-        
+
         // Columns configuration
         $editAction = new RowAction('btn_edit', 'asf_product_category_edit');
         $editAction->setRouteParameters(array('id'));
@@ -123,7 +124,7 @@ class CategoryController extends Controller
         $form->setData($category);
         $form->handleRequest($request);
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (is_null($category->getId())) {
                     $this->get('doctrine.orm.default_entity_manager')->persist($category);
