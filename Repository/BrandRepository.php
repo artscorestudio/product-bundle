@@ -41,6 +41,20 @@ class BrandRepository extends EntityRepository
 	}
 	
 	/**
+	 * Return number of brands.
+	 *
+	 * @param array $states
+	 * @return number
+	 */
+	public function countBrands(array $states = null)
+	{
+	    $qb = $this->getQueryBuilder($states);
+	    $qb->select('COUNT(b.id)');
+	
+	    return $qb->getQuery()->getSingleScalarResult();
+	}
+	
+	/**
 	 * Find brands by exact name.
 	 * 
 	 * @param string $searched_term

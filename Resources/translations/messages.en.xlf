@@ -324,6 +324,18 @@
             	<source>asf.product.text.h4.product_pack</source>
             	<target>You can create, update or delete product categories from the products packs list.</target>
             </trans-unit>
+            <trans-unit id="asf.product.text.stats.products_nb">
+            	<source>asf.product.text.stats.products_nb</source>
+            	<target>%nb% products in your database.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.stats.categories_nb">
+            	<source>asf.product.text.stats.categories_nb</source>
+            	<target>%nb% categories in your database.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.stats.brands_nb">
+            	<source>asf.product.text.stats.brands_nb</source>
+            	<target>%nb% brands in your database.</target>
+            </trans-unit>
             
             <!-- BUTTONS -->
             <trans-unit id="asf.product.btn.add_product">

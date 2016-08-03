@@ -333,6 +333,18 @@
             	<source>asf.product.text.h4.product_pack</source>
             	<target>Vous pouvez gérer les packs de produits depuis la liste des packs de produits.</target>
             </trans-unit>
+            <trans-unit id="asf.product.text.stats.products_nb">
+            	<source>asf.product.text.stats.products_nb</source>
+            	<target>%nb% produits.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.stats.categories_nb">
+            	<source>asf.product.text.stats.categories_nb</source>
+            	<target>%nb% catégories.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.text.stats.brands_nb">
+            	<source>asf.product.text.stats.brands_nb</source>
+            	<target>%nb% marques.</target>
+            </trans-unit>
             
             <!-- BUTTONS -->
             <trans-unit id="asf.product.btn.add_product">

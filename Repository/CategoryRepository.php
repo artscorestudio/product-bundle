@@ -41,6 +41,20 @@ class CategoryRepository extends EntityRepository
     }
     
     /**
+     * Return number of categories.
+     *
+     * @param array $states
+     * @return number
+     */
+    public function countCategories(array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->select('COUNT(c.id)');
+    
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    /**
      * Find categories by exact name
      * 
      * @param unknown $searched_term

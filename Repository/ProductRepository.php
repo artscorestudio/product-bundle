@@ -42,6 +42,20 @@ class ProductRepository extends EntityRepository
     }
     
     /**
+     * Return number of products.
+     * 
+     * @param array $states
+     * @return number
+     */
+    public function countProducts(array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->select('COUNT(p.id)');
+        
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    /**
      * Find products by exact name.
      *
      * @param string     $searched_term
