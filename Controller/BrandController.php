@@ -17,7 +17,6 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Brand\BrandModel;
-use ASF\ProductBundle\Form\Handler\BrandFormHandler;
 
 /**
  * Artscore Studio Product Controller.
@@ -83,12 +82,11 @@ class BrandController extends Controller
     public function editAction(Request $request, $id = null)
     {
         $formFactory = $this->get('asf_product.form.factory.brand');
-        $brandManager = $this->get('asf_product.brand.manager');
 
         if (!is_null($id)) {
             $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('id' => $id));
         } else {
-            $brand = $brandManager->createInstance();
+            $brand = $this->get('asf_product.manager')->createBrandInstance();
             $brand->setName($this->get('translator')->trans('asf.product.default_value.category_name'));
         }
 

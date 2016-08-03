@@ -111,7 +111,7 @@ class ProductController extends Controller
         if (!is_null($id)) {
             $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
         } else {
-            $product = $this->get('asf_product.product.manager')->createInstance();
+            $product = $this->get('asf_product.manager')->createProductInstance();
             $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))
                 ->setState(ProductModel::STATE_PUBLISHED)
                 ->setType(ProductModel::TYPE_PRODUCT);

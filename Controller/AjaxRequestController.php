@@ -34,7 +34,7 @@ class AjaxRequestController extends Controller
     {
         $terms = $request->get('term');
         $result = array();
-        $productManager = $this->get('asf_product.product.manager');
+        $productManager = $this->get('asf_product.manager');
         $products = $productManager->getProductsByKeywords($terms);
 
         foreach ($products as $product) {
@@ -87,46 +87,27 @@ class AjaxRequestController extends Controller
             $response = new Response();
             $product_name = $request->get('productName');
             $brand_name = $request->get('brandName');
-            $weight = $this->get('asf_product.product.manager')->findWeightPropertyInString($request->get('weight'));
-            $capacity = $this->get('asf_product.product.manager')->findCapacityPropertyInString($request->get('capacity'));
-            $productManager = $this->get('asf_product.product.manager');
+            $weight = $this->get('asf_product.manager')->findWeightPropertyInString($request->get('weight'));
+            $capacity = $this->get('asf_product.manager')->findCapacityPropertyInString($request->get('capacity'));
+            $productManager = $this->get('asf_product.manager');
 
             $weight = is_null($weight) || $weight == '' ? null : $weight;
             $capacity = is_null($capacity) || $capacity == '' ? null : $capacity;
 
-            $product = $productManager->createInstance();
+            $product = $productManager->createProductInstance();
             $product->setName($product_name)->setState(ProductModel::STATE_PUBLISHED)->setWeight($weight)->setCapacity($capacity);
 
             if ($brand_name != '') {
-                $brand = $this->get('asf_product.brand.manager')->getRepository()->findOneBy(array('name' => $brand_name));
+                $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('name' => $brand_name));
                 if (is_null($brand)) {
-                    $update_brand_acl = true;
-                    $brand = $this->get('asf_product.brand.manager')->createInstance();
+                    $brand = $this->get('asf_product.manager')->createBrandInstance();
                     $brand->setName($brand_name)->setState(BrandModel::STATE_PUBLISHED);
                 }
                 $product->setBrand($brand);
             }
 
-            $productManager->getEntityManager()->persist($product);
-            $productManager->getEntityManager()->flush();
-
-            $object_identity = ObjectIdentity::fromDomainObject($product);
-            $acl = $this->get('security.acl.provider')->createAcl($object_identity);
-
-            $security_identity = UserSecurityIdentity::fromAccount($this->get('security.context')->getToken()->getUser());
-
-            $acl->insertObjectAce($security_identity, MaskBuilder::MASK_OWNER);
-            $this->get('security.acl.provider')->updateAcl($acl);
-
-            if (isset($update_brand_acl)) {
-                $object_identity = ObjectIdentity::fromDomainObject($brand);
-                $acl = $this->get('security.acl.provider')->createAcl($object_identity);
-
-                $security_identity = UserSecurityIdentity::fromAccount($this->get('security.context')->getToken()->getUser());
-
-                $acl->insertObjectAce($security_identity, MaskBuilder::MASK_OWNER);
-                $this->get('security.acl.provider')->updateAcl($acl);
-            }
+            $this->get('doctrine.orm.default_entity_manager')->persist($product);
+            $this->get('doctrine.orm.default_entity_manager')->flush();
 
             $response->setContent(json_encode(array('name' => $productManager->getFormattedProductName($product))));
         } catch (\Exception $e) {
@@ -147,10 +128,10 @@ class AjaxRequestController extends Controller
     {
         $terms = $request->get('term');
         $result = array();
-        $products = $this->get('asf_product.product.manager')->getProductsByKeywords($terms);
+        $products = $this->get('asf_product.manager')->getProductsByKeywords($terms);
 
         foreach ($products as $product) {
-            $result[$product->getId()] = $this->get('asf_product.product.manager')->getFormattedProductName($product);
+            $result[$product->getId()] = $this->get('asf_product.manager')->getFormattedProductName($product);
         }
 
         $response = new Response();
@@ -170,10 +151,10 @@ class AjaxRequestController extends Controller
     {
         $term = $request->get('term');
         $result = array();
-        $products = $this->get('asf_product.product.manager')->getRepository()->findBy(array('name' => $term));
+        $products = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findProductsByName($term);
 
         foreach ($products as $product) {
-            $result[$product->getId()] = $this->get('asf_product.product.manager')->getFormattedProductName($product);
+            $result[$product->getId()] = $this->get('asf_product.manager')->getFormattedProductName($product);
         }
 
         $response = new Response();
@@ -192,7 +173,7 @@ class AjaxRequestController extends Controller
    public function searchProductByNameAction(Request $request)
    {
        $term = $request->get('name');
-       $products = $this->get('asf_product.product.manager')->getRepository()->findProductsByNameContains($term);
+       $products = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findProductsByNameContains($term);
        $search = array();
 
        foreach ($products as $product) {
@@ -221,7 +202,7 @@ class AjaxRequestController extends Controller
    public function searchCategoryByNameAction(Request $request)
    {
        $term = $request->get('name');
-       $categories = $this->get('asf_product.category.manager')->getRepository()->findByNameContains($term);
+       $categories = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entity'))->findByNameContains($term);
        $search = array();
 
        foreach ($categories as $category) {
@@ -250,7 +231,7 @@ class AjaxRequestController extends Controller
    public function searchBrandByNameAction(Request $request)
    {
        $term = $request->get('name');
-       $brands = $this->get('asf_product.brand.manager')->getRepository()->findByNameContains($term);
+       $brands = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findByNameContains($term);
        $search = array();
 
        foreach ($brands as $brand) {

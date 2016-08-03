@@ -107,12 +107,11 @@ class CategoryController extends Controller
     public function editAction(Request $request, $id = null)
     {
         $formFactory = $this->get('asf_product.form.factory.category');
-        $categoryManager = $this->get('asf_product.category.manager');
 
         if (!is_null($id)) {
             $category = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entty'))->findOneBy(array('id' => $id));
         } else {
-            $category = $categoryManager->createInstance();
+            $category = $this->get('asf_product.manager')->createCategoryInstance();
             $category->setName($this->get('translator')->trans('asf.product.default_value.category_name'));
         }
 

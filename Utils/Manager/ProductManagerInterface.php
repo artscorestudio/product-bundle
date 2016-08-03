@@ -10,13 +10,36 @@
 
 namespace ASF\ProductBundle\Utils\Manager;
 
+use ASF\ProductBundle\Model\Product\ProductInterface;
+
 /**
- * Product Entity Manager.
+ * Product Bundle Manager.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  */
-interface ProductManagerInterface extends DefaultManagerInterface
+interface ProductManagerInterface
 {
+    /**
+     * Create a Product Instance.
+     *
+     * @return \ASF\ProductBundle\Model\Product\ProductInterface
+     */
+    public function createProductInstance();
+    
+    /**
+     * Create a Category Instance.
+     *
+     * @return \ASF\ProductBundle\Model\Category\CategoryInterface
+     */
+    public function createCategoryInstance();
+    
+    /**
+     * Create a Brand Instance.
+     *
+     * @return \ASF\ProductBundle\Model\Brand\BrandInterface
+     */
+    public function createBrandInstance();
+    
     /**
      * Populate a new product.
      *

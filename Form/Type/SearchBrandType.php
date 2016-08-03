@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use ASF\ProductBundle\Form\DataTransformer\StringToBrandTransformer;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Field for searching brand.
@@ -25,16 +24,16 @@ use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 class SearchBrandType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $brandManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $brandManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $brandManager)
+    public function __construct($className)
     {
-        $this->brandManager = $brandManager;
+        $this->className = $className;
     }
 
     /**
@@ -44,8 +43,8 @@ class SearchBrandType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $brand_transformer = new StringToBrandTransformer($this->brandManager);
-        $builder->addModelTransformer($brand_transformer);
+        //$brand_transformer = new StringToBrandTransformer($this->brandManager);
+        //$builder->addModelTransformer($brand_transformer);
     }
 
     /**
@@ -57,7 +56,7 @@ class SearchBrandType extends AbstractType
     {
         $resolver->setDefaults(array(
             'label' => 'asf.product.form.search_brand',
-            'class' => $this->brandManager->getClassName(),
+            'class' => $this->className,
             'choice_label' => 'name',
             'placeholder' => 'asf.product.form.choose_a_brand',
             'attr' => array('class' => 'select2-entity'),
