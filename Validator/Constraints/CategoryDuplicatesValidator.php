@@ -12,10 +12,9 @@ namespace ASF\ProductBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Check if duplicates exists in category lsit for a product constraint validator
+ * Check if duplicates exists in category lsit for a product constraint validator.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
@@ -24,14 +23,15 @@ use Doctrine\ORM\EntityManagerInterface;
 class CategoryDuplicatesValidator extends ConstraintValidator
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
      */
     public function validate($categories, Constraint $constraint)
     {
         $passed_categories = array();
         $duplicates_found = false;
-        
+
         foreach ($categories as $category) {
             if (!in_array($category->getName(), $passed_categories)) {
                 $passed_categories[] = $category->getName();
@@ -39,7 +39,7 @@ class CategoryDuplicatesValidator extends ConstraintValidator
                 $duplicates_found = true;
             }
         }
-        
+
         if (true === $duplicates_found) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }

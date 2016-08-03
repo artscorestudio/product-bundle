@@ -14,11 +14,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Doctrine\ORM\EntityManagerInterface;
 use ASF\ProductBundle\Model\Category\CategoryModel;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
 
 /**
- * Check Category name in DB
+ * Check Category name in DB.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
@@ -30,24 +28,25 @@ class CategoryClassValidator extends ConstraintValidator
      * @var EntityManagerInterface
      */
     private $em;
-    
+
     /**
      * @var string
      */
     private $entityClassName;
-    
+
     /**
      * @param EntityManagerInterface $em
-     * @param string $entityClassName
+     * @param string                 $entityClassName
      */
     public function __construct(EntityManagerInterface $em, $entityClassName)
     {
         $this->em = $em;
         $this->entityClassName = $entityClassName;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
      */
     public function validate($category, Constraint $constraint)
@@ -55,9 +54,9 @@ class CategoryClassValidator extends ConstraintValidator
         $result = $this->em->getRepository($this->entityClassName)->findByName($category->getName(), array(
             CategoryModel::STATE_DRAFT,
             CategoryModel::STATE_WAITING,
-            CategoryModel::STATE_PUBLISHED
+            CategoryModel::STATE_PUBLISHED,
         ));
-        if ( null !== $result && $result->getId() !== $category->getId() ) {
+        if (null !== $result && $result->getId() !== $category->getId()) {
             $this->context->buildViolation($constraint->alreadyExistsMessage)->atPath('name')->addViolation();
         }
     }

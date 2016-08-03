@@ -65,9 +65,9 @@ class Configuration implements ConfigurationInterface
             ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\ProductType")))
             ->addDefaultsIfNotSet()
             ->children()
-            	->scalarNode('entity')
-            		->defaultNull()
-            	->end()
+                ->scalarNode('entity')
+                    ->defaultNull()
+                ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -102,9 +102,9 @@ class Configuration implements ConfigurationInterface
             ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\CategoryType")))
             ->addDefaultsIfNotSet()
             ->children()
-	            ->scalarNode('entity')
-	            	->defaultNull()
-	            ->end()
+                ->scalarNode('entity')
+                    ->defaultNull()
+                ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -139,9 +139,9 @@ class Configuration implements ConfigurationInterface
             ->treatFalseLike(array('entity' => null, 'form' => array('type' => "ASF\ProductBundle\Form\Type\BrandType")))
             ->addDefaultsIfNotSet()
             ->children()
-	            ->scalarNode('entity')
-	            	->defaultNull()
-	            ->end()
+                ->scalarNode('entity')
+                    ->defaultNull()
+                ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -162,26 +162,26 @@ class Configuration implements ConfigurationInterface
 
         return $node;
     }
-    
+
     /**
      * Add ProductPack Entity Configuration.
      */
     protected function addProductPackParameterNode()
     {
-    	$builder = new TreeBuilder();
-    	$node = $builder->root('product_pack');
-    	
-    	$node
-	    	->treatTrueLike(array('entity' => null))
-	    	->treatFalseLike(array('entity' => null))
-	    	->addDefaultsIfNotSet()
-	    	->children()
-		    	->scalarNode('entity')
-		    		->defaultNull()
-		    	->end()
-	    	->end()
-    	;
-    	
-	    return $node;
+        $builder = new TreeBuilder();
+        $node = $builder->root('product_pack');
+
+        $node
+            ->treatTrueLike(array('entity' => null))
+            ->treatFalseLike(array('entity' => null))
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('entity')
+                    ->defaultNull()
+                ->end()
+            ->end()
+        ;
+
+        return $node;
     }
 }

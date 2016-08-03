@@ -13,7 +13,7 @@ namespace ASF\ProductBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Check if duplicates exists in category lsit for a product constraint
+ * Check if duplicates exists in category lsit for a product constraint.
  * 
  * @author Nicolas Claverie <nicolas.claverie@cd31.fr>
  * 

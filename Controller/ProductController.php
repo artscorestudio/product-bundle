@@ -45,15 +45,15 @@ class ProductController extends Controller
             $states = array(
                 ProductModel::STATE_DRAFT,
                 ProductModel::STATE_WAITING,
-                ProductModel::STATE_PUBLISHED
+                ProductModel::STATE_PUBLISHED,
             );
-            
-            if ( in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles()) ) {
+
+            if (in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles())) {
                 $states[] = ProductModel::STATE_DELETED;
             }
-            
+
             $query->add('where', $query->expr()->in($tableAlias.'.state', $states));
-            
+
             if (count($query->getDQLPart('orderBy')) == 0) {
                 $query->orderBy($tableAlias.'.name', 'ASC');
             }
@@ -67,17 +67,18 @@ class ProductController extends Controller
         $grid->setSource($source);
         $grid->setId('asf_products_list');
 
-        $source->manipulateRow(function($row) {
-            if ( ProductModel::STATE_DELETED === $row->getField('state') ) {
+        $source->manipulateRow(function ($row) {
+            if (ProductModel::STATE_DELETED === $row->getField('state')) {
                 $row->setClass('danger');
-            } else if ( ProductModel::STATE_WAITING === $row->getField('state') ) {
+            } elseif (ProductModel::STATE_WAITING === $row->getField('state')) {
                 $row->setClass('info');
-            } else if ( ProductModel::STATE_DRAFT === $row->getField('state') ) {
+            } elseif (ProductModel::STATE_DRAFT === $row->getField('state')) {
                 $row->setClass('warning');
             }
+
             return $row;
         });
-        
+
         // Columns configuration
         $editAction = new RowAction('btn_edit', 'asf_product_product_edit');
         $editAction->setRouteParameters(array('id'));
@@ -125,7 +126,7 @@ class ProductController extends Controller
         $form->setData($product);
         $form->handleRequest($request);
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $product = $form->getData();
                 if (is_null($product->getId())) {

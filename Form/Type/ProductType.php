@@ -40,8 +40,8 @@ class ProductType extends AbstractType
     protected $isBrandEntityEnabled;
 
     /**
-     * @param string  $className
-     * @param boolean $isBrandEntityEnabled
+     * @param string $className
+     * @param bool   $isBrandEntityEnabled
      */
     public function __construct($className, $isBrandEntityEnabled)
     {
@@ -95,7 +95,7 @@ class ProductType extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
-            'containerId' => 'categories-collection'
+            'containerId' => 'categories-collection',
         ))
 
         ->add('state', ChoiceType::class, array(
@@ -117,7 +117,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->className
+            'data_class' => $this->className,
         ));
     }
 

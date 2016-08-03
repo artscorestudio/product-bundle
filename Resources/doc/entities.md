@@ -115,6 +115,8 @@ interface BrandInterface
 
 ## [Optionnal] ProductPackInterface and ProductPackProductInterface
 
+> This feature was disabled (not tested).
+
 A product can be a "collection" of products, this is a pack. ASFProductBundle provides two interfaces that you can implements : ProductPackInterface which is a Product with additionnal parameters and ProductPackProductInterface which is an interface to implements for create an entity representing the relation between Product entities and ProductPack entity.
 
 ```php

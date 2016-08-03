@@ -32,46 +32,47 @@ class CategoryRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         $qb instanceof QueryBuilder;
-    
-        if ( null !== $states ) {
+
+        if (null !== $states) {
             $qb->add('where', $qb->expr()->in('c.state', $states));
         }
-    
+
         return $qb;
     }
-    
+
     /**
      * Return number of categories.
      *
      * @param array $states
+     *
      * @return number
      */
     public function countCategories(array $states = null)
     {
         $qb = $this->getQueryBuilder($states);
         $qb->select('COUNT(c.id)');
-    
+
         return $qb->getQuery()->getSingleScalarResult();
     }
-    
+
     /**
-     * Find categories by exact name
+     * Find categories by exact name.
      * 
      * @param unknown $searched_term
-     * @param array $states
+     * @param array   $states
      * 
-     * @return mixed|NULL|\Doctrine\DBAL\Driver\Statement
+     * @return mixed|null|\Doctrine\DBAL\Driver\Statement
      */
     public function findByName($searched_term, array $states = null)
     {
         $qb = $this->getQueryBuilder($states);
-    
+
         $qb->add('where', $qb->expr()->like('c.name', $qb->expr()->lower(':searched_term')))
             ->setParameter('searched_term', $searched_term);
-    
+
         return $qb->getQuery()->getOneOrNullResult();
     }
-    
+
     /**
      * Find categories by name.
      *
