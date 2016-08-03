@@ -19,9 +19,11 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-
-            new ASF\CoreBundle\ASFCoreBundle(),
             new ASF\ProductBundle\ASFProductBundle(),
+            new Hautelook\AliceBundle\HautelookAliceBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new APY\DataGridBundle\APYDataGridBundle(),
+            new ASF\LayoutBundle\ASFLayoutBundle(),
         );
 
         return $bundles;

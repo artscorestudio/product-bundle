@@ -11,8 +11,11 @@
 namespace ASF\ProductBundle\Model\Brand;
 
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use Symfony\Component\Validator\Constraints as Assert;
+use ASF\ProductBundle\Validator\Constraints as BrandAssert;
 use ASF\ProductBundle\Model\Product\ProductInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Brand Model.
@@ -22,6 +25,8 @@ use ASF\ProductBundle\Model\Product\ProductInterface;
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\BrandRepository")
  * @ORM\Table(name="asf_product_brand")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @BrandAssert\BrandClass
  */
 abstract class BrandModel implements BrandInterface
 {
@@ -38,6 +43,7 @@ abstract class BrandModel implements BrandInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @GRID\Column(visible=false)
      * 
      * @var int
      */
@@ -46,6 +52,7 @@ abstract class BrandModel implements BrandInterface
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
+     * @GRID\Column(title="asf.product.brand_name", defaultOperator="like", operatorsVisible=false)
      * 
      * @var string
      */
@@ -53,7 +60,7 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
+     * @GRID\Column(visible=false)
      * 
      * @var string
      */
@@ -63,6 +70,12 @@ abstract class BrandModel implements BrandInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getStates")
+     * @GRID\Column(title="asf.product.state", filter="select",  selectFrom="values", values={
+     *     BrandModel::STATE_DRAFT = "draft",
+     *     BrandModel::STATE_WAITING = "waiting",
+     *     BrandModel::STATE_PUBLISHED = "published",
+     *     BrandModel::STATE_DELETED = "deleted"
+     * }, defaultOperator="eq", operatorsVisible=false)
      * 
      * @var string
      */
@@ -71,6 +84,7 @@ abstract class BrandModel implements BrandInterface
     /**
      * @ORM\OneToMany(targetEntity="Product", mappedBy="brand", cascade={"persist"})
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)
+     * @GRID\Column(visible=false)
      * 
      * @var ArrayCollection
      */
@@ -78,6 +92,7 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -85,12 +100,16 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
     protected $updatedAt;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @GRID\Column(visible=false)
+     * 
      * @var \DateTime
      */
     protected $deletedAt;
@@ -292,7 +311,6 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\PrePersist
-     * @return void
      */
     public function onPrePersist()
     {
@@ -302,10 +320,12 @@ abstract class BrandModel implements BrandInterface
 
     /**
      * @ORM\PreUpdate
-     * @return void
      */
     public function onPreUpdate()
     {
+        if (self::STATE_DELETED === $this->state) {
+            $this->deletedAt = new \DateTime();
+        }
         $this->updatedAt = new \DateTime();
     }
 }

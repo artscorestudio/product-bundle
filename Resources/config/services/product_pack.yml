@@ -1,0 +1,6 @@
+#services:
+    # Entities Managers
+#    asf_product.product_pack.manager:
+#        class: ASF\ProductBundle\Utils\Manager\DefaultManager
+#        tags:
+#            - { name: asf_core.manager, entity: "%asf_product.product_pack.entity%" }

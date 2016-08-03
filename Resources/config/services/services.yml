@@ -1,0 +1,4 @@
+services:
+    asf_product.manager:
+        class: ASF\ProductBundle\Utils\Manager\ProductManager
+        arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.product.entity%", "%asf_product.category.entity%", "%asf_product.brand.entity%"]

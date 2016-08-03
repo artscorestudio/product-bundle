@@ -12,6 +12,8 @@ namespace ASF\ProductBundle\Model\Product;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ASF\ProductBundle\Validator\Constraints as ProductAssert;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 use ASF\ProductBundle\Model\Brand\BrandInterface;
 use ASF\ProductBundle\Model\Category\CategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,11 +24,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Nicolas Claverie <info@artscore-studio.fr>
  * 
  * @ORM\Entity(repositoryClass="ASF\ProductBundle\Repository\ProductRepository")
- * @ORM\Table(name="asf_product")
+ * @ORM\Table(name="asf_product_product")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"product"="Product", "ProductPack"="ProductPack"})
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @ProductAssert\ProductClass
  */
 abstract class ProductModel implements ProductInterface
 {
@@ -49,14 +53,16 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @GRID\Column(visible=false)
      * 
-     * @var integer
+     * @var int
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
+     * @GRID\Column(title="asf.product.product_name", defaultOperator="like", operatorsVisible=false)
      * 
      * @var string
      */
@@ -64,7 +70,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
+     * @GRID\Column(visible=false)
      * 
      * @var string
      */
@@ -74,6 +80,12 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getStates")
+     * @GRID\Column(title="asf.product.state", filter="select",  selectFrom="values", values={
+     *     ProductModel::STATE_DRAFT = "draft",
+     *     ProductModel::STATE_WAITING = "waiting",
+     *     ProductModel::STATE_PUBLISHED = "published",
+     *     ProductModel::STATE_DELETED = "deleted"
+     * }, defaultOperator="eq", operatorsVisible=false)
      * 
      * @var string
      */
@@ -83,13 +95,18 @@ abstract class ProductModel implements ProductInterface
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Choice(callback = "getTypes")
-     * 
+     * @GRID\Column(title="asf.product.type", filter="select",  selectFrom="values", values={
+     *     ProductModel::TYPE_PRODUCT = "product",
+     *     ProductModel::TYPE_PRODUCT_PACK = "product_pack"
+     * }, defaultOperator="eq", operatorsVisible=false)
+     *
      * @var string
      */
     protected $type;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="asf.product.weight", defaultOperator="like", operatorsVisible=false, size="50")
      * 
      * @var float
      */
@@ -97,6 +114,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @GRID\Column(title="asf.product.capacity", defaultOperator="like", operatorsVisible=false, size="50")
      * 
      * @var float
      */
@@ -104,11 +122,12 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="Category")
-     * @ORM\JoinTable(name="product_category",
-     *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     * @ORM\JoinTable(name="asf_product_product_category",
+     *     joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
      * )
-     * @ORM\JoinColumn(name="brand_id", referencedColumnName="id", nullable=true)
+     * 
+     * @ProductAssert\CategoryDuplicates
      * 
      * @var ArrayCollection
      */
@@ -124,6 +143,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -131,6 +151,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -138,6 +159,7 @@ abstract class ProductModel implements ProductInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @GRID\Column(visible=false)
      * 
      * @var \DateTime
      */
@@ -444,7 +466,7 @@ abstract class ProductModel implements ProductInterface
             self::STATE_DELETED,
         );
     }
-    
+
     /**
      * Returns types for validators.
      *
@@ -454,16 +476,26 @@ abstract class ProductModel implements ProductInterface
     {
         return array(
             self::TYPE_PRODUCT,
-            self::TYPE_PRODUCT_PACK
+            self::TYPE_PRODUCT_PACK,
         );
     }
 
     /**
      * @ORM\PrePersist
-     * @return void
      */
     public function onPrePersist()
     {
         $this->type = self::TYPE_PRODUCT;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        if (self::STATE_DELETED === $this->state) {
+            $this->deletedAt = new \DateTime();
+        }
+        $this->updatedAt = new \DateTime();
     }
 }

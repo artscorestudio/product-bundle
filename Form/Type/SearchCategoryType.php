@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use ASF\ProductBundle\Form\DataTransformer\StringToCategoryTransformer;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 
 /**
  * Field for searching product category.
@@ -25,16 +24,16 @@ use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 class SearchCategoryType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $categoryManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $categoryManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $categoryManager)
+    public function __construct($className)
     {
-        $this->categoryManager = $categoryManager;
+        $this->className = $className;
     }
 
     /**
@@ -44,8 +43,8 @@ class SearchCategoryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $category_transformer = new StringToCategoryTransformer($this->categoryManager);
-        $builder->addModelTransformer($category_transformer);
+        //$category_transformer = new StringToCategoryTransformer($this->categoryManager);
+        //$builder->addModelTransformer($category_transformer);
     }
 
     /**
@@ -56,10 +55,10 @@ class SearchCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'label' => 'Product Category',
-            'class' => $this->categoryManager->getClassName(),
+            'label' => 'asf.product.form.search_category',
+            'class' => $this->className,
             'choice_label' => 'name',
-            'placeholder' => 'Choose a product category',
+            'placeholder' => 'asf.product.form.choose_a_category',
             'attr' => array('class' => 'select2-entity'),
         ));
     }
@@ -71,7 +70,7 @@ class SearchCategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'search_product_category';
+        return 'search_category';
     }
 
     /**

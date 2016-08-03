@@ -1,8 +1,8 @@
 {% extends 'ASFProductBundle::layout.html.twig' %}
 
-{% block title %}{{ product.getName() }}{% endblock %}
+{% form_theme form 'Form/fields.html.twig' %}
 
-{% trans_default_domain 'asf_product' %}
+{% block title %}{{ product.getName() }}{% endblock %}
 
 {% block asf_product_content %}
 

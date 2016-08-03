@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use ASF\ProductBundle\Form\DataTransformer\StringToProductTransformer;
-use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Field for searching product.
@@ -25,16 +24,16 @@ use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 class SearchProductType extends AbstractType
 {
     /**
-     * @var ProductManagerInterface
+     * @var string
      */
-    protected $productManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $productManager
+     * @param string $className
      */
-    public function __construct(ProductManagerInterface $productManager)
+    public function __construct($className)
     {
-        $this->productManager = $productManager;
+        $this->className = $className;
     }
 
     /**
@@ -44,8 +43,8 @@ class SearchProductType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $product_transformer = new StringToProductTransformer($this->productManager);
-        $builder->addModelTransformer($product_transformer);
+        //$product_transformer = new StringToProductTransformer($this->productManager);
+        //$builder->addModelTransformer($product_transformer);
     }
 
     /**
@@ -56,10 +55,10 @@ class SearchProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'label' => 'Product',
-            'class' => $this->productManager->getClassName(),
+            'label' => 'asf.product.form.search_product',
+            'class' => $this->className,
             'choice_label' => 'name',
-            'placeholder' => 'Choose a product',
+            'placeholder' => 'asf.product.form.choose_a_product',
             'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_product_ajax_request_product_by_name'),
         ));
     }

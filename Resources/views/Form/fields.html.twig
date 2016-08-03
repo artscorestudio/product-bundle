@@ -4,52 +4,57 @@
     {{ block('choice_widget') }}
 
 	<script type="text/javascript">
-	(function($, window, document) {
-		$(function() {
-			$('.select2-entity').each(function(){
-				$(this).select2();
+	if ( "undefined" !== typeof jQuery ) {
+    	(function($, window, document) {
+    		$(function() {
+        		if ( $.fn.select2 ) {
+        			$('.select2-entity').each(function(){
+        				$(this).select2();
+        			});
+        			
+        			$('.select2-entity-ajax').each(function(){
+        				$(this).select2({
+        					ajax: {
+        						url: Routing.generate($(this).attr('data-route')),
+        						dataType: 'json',
+        						delay: 250,
+        						data: function(params) {
+        							return {
+        								q: params.term,
+        								page: params.page
+        							};
+        						},
+        						processResults: function(data, params) {
+        							params.page = params.page || 1;
+        							return {
+        								results: data.items,
+        								pagination: {
+        									more: (params.page * 30) > data.total_count
+        								}
+        							};
+        						},
+        						cache: true
+        					},
+        					escapeMarkup: function(markup){ return markup; },
+        					minimumInputLength: 3,
+        					templateResult: function(repo) {
+        						if (repo.loading) return repo.text;
+        						
+        						 var markup = "<div class='select2-result-repository clearfix'>" +
+        						 	"<div class='select2-result-repository__title'>" + repo.name + "</div>" +
+        						 	"</div>";
+        						 
+        						 return markup;
+        					},
+        					templateSelection: function(repo) {
+        						return repo.text;
+        					}
+        				});
+    				});
+    			}
 			});
-			$('.select2-entity-ajax').each(function(){
-				$(this).select2({
-					ajax: {
-						url: Routing.generate($(this).attr('data-route')),
-						dataType: 'json',
-						delay: 250,
-						data: function(params) {
-							return {
-								q: params.term,
-								page: params.page
-							};
-						},
-						processResults: function(data, params) {
-							params.page = params.page || 1;
-							return {
-								results: data.items,
-								pagination: {
-									more: (params.page * 30) > data.total_count
-								}
-							};
-						},
-						cache: true
-					},
-					escapeMarkup: function(markup){ return markup; },
-					minimumInputLength: 3,
-					templateResult: function(repo) {
-						if (repo.loading) return repo.text;
-						
-						 var markup = "<div class='select2-result-repository clearfix'>" +
-						 	"<div class='select2-result-repository__title'>" + repo.name + "</div>" +
-						 	"</div>";
-						 
-						 return markup;
-					},
-					templateSelection: function(repo) {
-						return repo.text;
-					}
-				});
-			});
-		});
-	}(window.jQuery, window, document));
+    	}(window.jQuery, window, document));
+	}
 	</script>
 {% endspaceless %}
 {% endblock %}
@@ -73,24 +78,28 @@
 {% endblock %}
 
 {# ---------------------------------- Product Form Type ---------------------------- #}
-{% block _product_type_errors %}
+{% block product_type_errors %}
 {% spaceless %}
 	{{ block('form_errors')  }}
 {% endspaceless %}
 {% endblock %}
 
-{% block _product_widget %}
+{% block product_widget %}
 {% spaceless %}
 
 	{{ form_errors(form) }}
 	
 	<div class="row">
-		<div class="col-sm-4">
+		{% if display_brand_field is defined and display_brand_field == true %}
+		<div class="col-sm-8">
 			{{ form_row(form.name) }}
 		</div>
-		{% if display_brand_field is defined and display_brand_field == true %}
 		<div class="col-sm-4">
 			{{ form_row(form.brand) }}
+		</div>
+		{% else %}
+		<div class="col-sm-12">
+			{{ form_row(form.name) }}
 		</div>
 		{% endif %}
 	</div>
@@ -112,7 +121,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			<input type="submit" value="{{ 'Save'|trans }}" class="btn btn-primary" />
+			<input type="submit" value="{{ 'asf.product.btn.save'|trans }}" class="btn btn-primary" />
 		</div>
 	</div>
 	
@@ -120,13 +129,13 @@
 {% endblock %}
 
 {# ---------------------------------- Brand Form Type ---------------------------- #}
-{% block _brand_form_errors %}
+{% block brand_form_errors %}
 {% spaceless %}
 	{{ block('form_errors')  }}
 {% endspaceless %}
 {% endblock %}
 
-{% block _brand_widget %}
+{% block brand_widget %}
 {% spaceless %}
 
 	{{ form_errors(form) }}
@@ -139,12 +148,17 @@
 			{{ form_row(form.state) }}
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<input type="submit" value="{{ 'asf.product.btn.save'|trans }}" class="btn btn-primary" />
+		</div>
+	</div>
 	
 {% endspaceless %}
 {% endblock %}
 
 {# ---------------------------------- Category Form Type ---------------------------- #}
-{% block _category_widget %}
+{% block category_widget %}
 {% spaceless %}
 
 	{{ form_errors(form) }}
@@ -160,7 +174,7 @@
 	
 	<div class="row">
 		<div class="col-sm-12">
-			<input type="submit" value="{{ 'Save'|trans }}" class="btn btn-primary" />
+			<input type="submit" value="{{ 'asf.product.btn.save'|trans }}" class="btn btn-primary" />
 		</div>
 	</div>
 	

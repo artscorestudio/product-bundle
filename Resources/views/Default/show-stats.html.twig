@@ -1,0 +1,11 @@
+{% if productsNb is not null %}
+	<p>{{ 'asf.product.text.stats.products_nb'|trans({'%nb%': productsNb}) }}</p>
+{% endif %}
+
+{% if categoriesNb is not null %}
+	<p>{{ 'asf.product.text.stats.categories_nb'|trans({'%nb%': categoriesNb}) }}</p>
+{% endif %}
+
+{% if brandsNb is not null %}
+	<p>{{ 'asf.product.text.stats.brands_nb'|trans({'%nb%': brandsNb}) }}</p>
+{% endif %}

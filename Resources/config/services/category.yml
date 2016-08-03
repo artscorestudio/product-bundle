@@ -1,0 +1,25 @@
+services:
+    # Forms   
+    asf_product.form.factory.category:
+        class: ASF\ProductBundle\Form\Factory\FormFactory
+        arguments: ["@form.factory", "%asf_product.category.form.name%", "%asf_product.category.form.type%"]
+        
+    asf_product.form.type.category:
+        class: ASF\ProductBundle\Form\Type\CategoryType
+        arguments: ["%asf_product.category.entity%"]
+        tags:
+            - { name: form.type, alias: category_type }
+
+    asf_product.form.type.search_category:
+        class: ASF\ProductBundle\Form\Type\SearchCategoryType
+        arguments: ["%asf_product.category.entity%"]
+        tags:
+            - { name: form.type, alias: search_category }
+       
+    # Constraints Validators
+    asf_product.validator.unique.check_categoryclass:
+        class: ASF\ProductBundle\Validator\Constraints\CategoryClassValidator
+        arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.category.entity%"]
+        tags:
+            - { name: validator.constraint_validator, alias: CategoryClass }
+            

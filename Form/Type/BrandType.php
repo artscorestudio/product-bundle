@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 use ASF\ProductBundle\Model\Brand\BrandModel;
 
 /**
@@ -26,16 +25,16 @@ use ASF\ProductBundle\Model\Brand\BrandModel;
 class BrandType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $brandManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $brandManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $brandManager)
+    public function __construct($className)
     {
-        $this->brandManager = $brandManager;
+        $this->className = $className;
     }
 
     /**
@@ -45,17 +44,16 @@ class BrandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-            'label' => 'Brand name',
-            'max_length' => 255,
+            'label' => 'asf.product.brand_name',
             'required' => true,
         ))
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                BrandModel::STATE_DRAFT => 'Draft',
-                BrandModel::STATE_WAITING => 'Waiting',
-                BrandModel::STATE_PUBLISHED => 'Published',
+                'asf.product.state.draft' => BrandModel::STATE_DRAFT,
+                'asf.product.state.waiting' => BrandModel::STATE_WAITING,
+                'asf.product.state.published' => BrandModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -68,8 +66,7 @@ class BrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->brandManager->getClassName(),
-            'translation_domain' => 'asf_product',
+            'data_class' => $this->className,
         ));
     }
 

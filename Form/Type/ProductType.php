@@ -21,7 +21,6 @@ use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
 use ASF\LayoutBundle\Form\Type\BaseCollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 
 /**
  * Product Form Type.
@@ -31,9 +30,9 @@ use ASF\ProductBundle\Utils\Manager\ProductManagerInterface;
 class ProductType extends AbstractType
 {
     /**
-     * @var ProductManagerInterface
+     * @var string
      */
-    protected $productManager;
+    protected $className;
 
     /**
      * @var bool
@@ -41,13 +40,13 @@ class ProductType extends AbstractType
     protected $isBrandEntityEnabled;
 
     /**
-     * @param ProductManagerInterface $product_manager
-     * @param bool                    $is_brand_entity_enabled
+     * @param string $className
+     * @param bool   $isBrandEntityEnabled
      */
-    public function __construct(ProductManagerInterface $product_manager, $is_brand_entity_enabled)
+    public function __construct($className, $isBrandEntityEnabled)
     {
-        $this->productManager = $product_manager;
-        $this->isBrandEntityEnabled = $is_brand_entity_enabled;
+        $this->className = $className;
+        $this->isBrandEntityEnabled = $isBrandEntityEnabled;
     }
 
     /**
@@ -72,17 +71,17 @@ class ProductType extends AbstractType
         $liter_transformer = new StringToLiterTransformer();
 
         $builder->add('name', TextType::class, array(
-            'label' => 'Product name',
+            'label' => 'asf.product.product_name',
             'required' => true,
         ))
 
         ->add($builder->create('weight', TextType::class, array(
-            'label' => 'Weight (Kg)',
+            'label' => 'asf.product.weight',
             'required' => false,
         ))->addModelTransformer($weight_transformer))
 
         ->add($builder->create('capacity', TextType::class, array(
-            'label' => 'Capacity (Liter)',
+            'label' => 'asf.product.capacity',
             'required' => false,
         ))->addModelTransformer($liter_transformer));
 
@@ -92,19 +91,20 @@ class ProductType extends AbstractType
 
         $builder->add('categories', BaseCollectionType::class, array(
             'entry_type' => SearchCategoryType::class,
-            'label' => 'List of categories',
+            'label' => 'asf.product.form.categories_list',
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
-            'containerId' => 'categories-collection', ))
+            'containerId' => 'categories-collection',
+        ))
 
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                ProductModel::STATE_DRAFT => 'Draft',
-                ProductModel::STATE_WAITING => 'Waiting',
-                ProductModel::STATE_PUBLISHED => 'Published',
+                'asf.product.state.draft' => ProductModel::STATE_DRAFT,
+                'asf.product.state.waiting' => ProductModel::STATE_WAITING,
+                'asf.product.state.published' => ProductModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -117,8 +117,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->productManager->getClassName(),
-            'translation_domain' => 'asf_product',
+            'data_class' => $this->className,
         ));
     }
 

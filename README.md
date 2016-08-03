@@ -4,10 +4,6 @@ Product Bundle is a Symfony 2/3 bundle for create and manage products in your Sy
 
 > IMPORTANT NOTICE: This bundle is still under development. Any changes will be done without prior notice to consumers of this package. Of course this code will become stable at a certain point, but for now, use at your own risk.
 
-| [Master](https://github.com/artscorestudio/product-bundle) | [Latest Release (1.0.6)](https://github.com/artscorestudio/product-bundle/releases/tag/1.0.6) |
-| ------ | -------------- |
-| [![Build Status](https://travis-ci.org/artscorestudio/product-bundle.svg?branch=master)](https://travis-ci.org/artscorestudio/product-bundle) | [![Build Status](https://travis-ci.org/artscorestudio/product-bundle.svg?branch=1.0.6)](https://travis-ci.org/artscorestudio/product-bundle) |
-
 ## Documentation
 
 The bulk of the documentation is stored in the Resources/docs/index.md file in bundle :

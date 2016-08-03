@@ -17,7 +17,7 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Product\ProductModel;
-use ASF\ProductBundle\Form\Handler\ProductFormHandler;
+use AppBundle\Entity\UserRole;
 
 /**
  * Artscore Studio Product Controller.
@@ -35,15 +35,24 @@ class ProductController extends Controller
      */
     public function listAction()
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         // Set Datagrid source
-        $source = new Entity($this->get('asf_product.product.manager')->getClassName());
+        $source = new Entity($this->getParameter('asf_product.product.entity'));
         $tableAlias = $source->getTableAlias();
-        $source->manipulateQuery(function ($query) use ($tableAlias) {
+        $user = $this->getUser();
+        $source->manipulateQuery(function ($query) use ($tableAlias, $user) {
             $query instanceof QueryBuilder;
+
+            $states = array(
+                ProductModel::STATE_DRAFT,
+                ProductModel::STATE_WAITING,
+                ProductModel::STATE_PUBLISHED,
+            );
+
+            if (in_array(UserRole::ROLE_SUPERADMIN, $user->getRoles())) {
+                $states[] = ProductModel::STATE_DELETED;
+            }
+
+            $query->add('where', $query->expr()->in($tableAlias.'.state', $states));
 
             if (count($query->getDQLPart('orderBy')) == 0) {
                 $query->orderBy($tableAlias.'.name', 'ASC');
@@ -58,53 +67,29 @@ class ProductController extends Controller
         $grid->setSource($source);
         $grid->setId('asf_products_list');
 
+        $source->manipulateRow(function ($row) {
+            if (ProductModel::STATE_DELETED === $row->getField('state')) {
+                $row->setClass('danger');
+            } elseif (ProductModel::STATE_WAITING === $row->getField('state')) {
+                $row->setClass('info');
+            } elseif (ProductModel::STATE_DRAFT === $row->getField('state')) {
+                $row->setClass('warning');
+            }
+
+            return $row;
+        });
+
         // Columns configuration
-        $grid->hideColumns(array('id', 'content', 'createdAt', 'updatedAt', 'deletedAt'));
-
-        $grid->getColumn('name')->setTitle($this->get('translator')->trans('Product name', array(), 'asf_product'))
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false);
-
-        $grid->getColumn('state')->setTitle($this->get('translator')->trans('State', array(), 'asf_product'))
-            ->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
-            ->setDefaultOperator('eq')->setValues(array(
-                ProductModel::STATE_DRAFT => $this->get('translator')->trans('Draft', array(), 'asf_product'),
-                ProductModel::STATE_WAITING => $this->get('translator')->trans('Waiting', array(), 'asf_product'),
-                ProductModel::STATE_PUBLISHED => $this->get('translator')->trans('Published', array(), 'asf_product'),
-                ProductModel::STATE_DELETED => $this->get('translator')->trans('Deleted', array(), 'asf_product'),
-            ));
-
-        $grid->getColumn('type')->setTitle($this->get('translator')->trans('Type', array(), 'asf_product'))
-            ->setFilterType('select')->setSelectFrom('values')->setOperatorsVisible(false)
-            ->setDefaultOperator('eq')->setValues(array(
-                ProductModel::TYPE_PRODUCT => $this->get('translator')->trans('Product', array(), 'asf_product'),
-                ProductModel::TYPE_PRODUCT_PACK => $this->get('translator')->trans('ProductPack', array(), 'asf_product'),
-            ));
-
-        $grid->getColumn('weight')->setTitle($this->get('translator')->trans('Weight (Kg)', array(), 'asf_product'))
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false)
-            ->setSize(100);
-
-        $grid->getColumn('capacity')->setTitle($this->get('translator')->trans('Capacity (Liter)', array(), 'asf_product'))
-            ->setDefaultOperator('like')
-            ->setOperatorsVisible(false)
-            ->setSize(100);
-
-        $grid->getColumn('createdAt')->setSize(100)->setTitle($this->get('translator')->trans('Created at', array(), 'asf_product'));
-        $grid->getColumn('updatedAt')->setSize(100)->setTitle($this->get('translator')->trans('Updated at', array(), 'asf_product'));
-        $grid->getColumn('deletedAt')->setSize(100)->setTitle($this->get('translator')->trans('Deleted at', array(), 'asf_product'));
-
         $editAction = new RowAction('btn_edit', 'asf_product_product_edit');
         $editAction->setRouteParameters(array('id'));
         $grid->addRowAction($editAction);
 
         $deleteAction = new RowAction('btn_delete', 'asf_product_product_delete', true);
         $deleteAction->setRouteParameters(array('id'))
-            ->setConfirmMessage($this->get('translator')->trans('Do you want to delete this product ?', array(), 'asf_product'));
+            ->setConfirmMessage($this->get('translator')->trans('asf.product.msg.delete.confirm', array('%name%' => $this->get('translator')->trans('asf.product.default_value.this_product'))));
         $grid->addRowAction($deleteAction);
 
-        $grid->setNoDataMessage($this->get('translator')->trans('No product was found.', array(), 'asf_product'));
+        $grid->setNoDataMessage($this->get('translator')->trans('asf.product.msg.list.no_product'));
 
         return $grid->getGridResponse('ASFProductBundle:Product:list.html.twig');
     }
@@ -122,38 +107,36 @@ class ProductController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         $formFactory = $this->get('asf_product.form.factory.product');
-        $productManager = $this->get('asf_product.product.manager');
 
         if (!is_null($id)) {
-            $product = $productManager->getRepository()->findOneBy(array('id' => $id));
-            $success_message = $this->get('translator')->trans('Updated successfully', array(), 'asf_product');
+            $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
         } else {
-            $product = $productManager->createInstance();
-
-            $product->setName($this->get('translator')->trans('New product', array(), 'asf_product'))->setState(ProductModel::STATE_PUBLISHED);
-            $success_message = $this->get('translator')->trans('Created successfully', array(), 'asf_product');
+            $product = $this->get('asf_product.manager')->createProductInstance();
+            $product->setName($this->get('translator')->trans('asf.product.default_value.product_name'))
+                ->setState(ProductModel::STATE_PUBLISHED)
+                ->setType(ProductModel::TYPE_PRODUCT);
         }
 
         if (is_null($product)) {
-            throw new \Exception($this->get('translator')->trans('An error occurs when generating or getting the product', array(), 'asf_product'));
+            throw new \Exception($this->get('translator')->trans('asf.product.msg.error.product_not_found'));
         }
 
         $form = $formFactory->createForm();
         $form->setData($product);
-        $formHandler = new ProductFormHandler($form, $this->get('request_stack')->getCurrentRequest(), $this->get('asf_product.product.manager'));
+        $form->handleRequest($request);
 
-        if (true === $formHandler->process()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $product = $form->getData();
                 if (is_null($product->getId())) {
-                    $this->get('asf_product.product.manager')->getEntityManager()->persist($product);
+                    $this->get('doctrine.orm.default_entity_manager')->persist($product);
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.product_created', array('%name%' => $product->getName()));
+                } else {
+                    $success_message = $this->get('translator')->trans('asf.product.msg.success.product_updated', array('%name%' => $product->getName()));
                 }
 
-                $this->get('asf_product.product.manager')->getEntityManager()->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->success($success_message);
@@ -163,6 +146,8 @@ class ProductController extends Controller
             } catch (\Exception $e) {
                 if ($this->has('asf_layout.flash_message')) {
                     $this->get('asf_layout.flash_message')->danger($e->getMessage());
+                } else {
+                    return $e;
                 }
             }
         }
@@ -185,22 +170,20 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
-        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        $product = $this->get('asf_product.product.manager')->getRepository()->findOneBy(array('id' => $id));
+        $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
 
         try {
-            $this->get('asf_product.product.manager')->getEntityManager()->remove($product);
-            $this->get('asf_product.product.manager')->getEntityManager()->flush();
+            $product->setState(ProductModel::STATE_DELETED);
+            $this->get('doctrine.orm.default_entity_manager')->flush();
 
             if ($this->has('asf_layout.flash_message')) {
-                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('The product "%name%" successfully deleted', array('%name%' => $product->getName()), 'asf_product'));
+                $this->get('asf_layout.flash_message')->success($this->get('translator')->trans('asf.product.msg.success.product_deleted', array('%name%' => $product->getName())));
             }
         } catch (\Exception $e) {
             if ($this->has('asf_layout.flash_message')) {
                 $this->get('asf_layout.flash_message')->danger($e->getMessage());
+            } else {
+                return $e;
             }
         }
 

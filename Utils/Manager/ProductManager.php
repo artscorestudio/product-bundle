@@ -10,13 +10,89 @@
 
 namespace ASF\ProductBundle\Utils\Manager;
 
+use ASF\ProductBundle\Model\Product\ProductInterface;
+use ASF\ProductBundle\Model\Product\ProductModel;
+use ASF\ProductBundle\Form\DataTransformer\StringToWeightTransformer;
+use ASF\ProductBundle\Form\DataTransformer\StringToLiterTransformer;
+use Doctrine\ORM\EntityManagerInterface;
+
 /**
  * Product Entity Manager.
  * 
  * @author Nicolas Claverie <info@artscore-studio.fr>
  */
-class ProductManager extends DefaultManager
+class ProductManager implements ProductManagerInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
+    /**
+     * @var string
+     */
+    protected $productClassName;
+
+    /**
+     * @var string
+     */
+    protected $categoryClassName;
+
+    /**
+     * @var string
+     */
+    protected $brandClassName;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param string                 $productClassname
+     * @param string                 $categoryClassName
+     * @param string                 $brandClassName
+     */
+    public function __construct(EntityManagerInterface $em, $productClassName, $categoryClassName, $brandClassName)
+    {
+        $this->em = $em;
+        $this->productClassName = $productClassName;
+        $this->categoryClassName = $categoryClassName;
+        $this->brandClassName = $brandClassName;
+    }
+
+    /**
+     * Create a Product Instance.
+     * 
+     * @return object
+     */
+    public function createProductInstance()
+    {
+        $class = new \ReflectionClass($this->productClassName);
+
+        return $class->newInstanceArgs();
+    }
+
+    /**
+     * Create a Category Instance.
+     * 
+     * @return object
+     */
+    public function createCategoryInstance()
+    {
+        $class = new \ReflectionClass($this->categoryClassName);
+
+        return $class->newInstanceArgs();
+    }
+
+    /**
+     * Create a Brand Instance.
+     * 
+     * @return object
+     */
+    public function createBrandInstance()
+    {
+        $class = new \ReflectionClass($this->brandClassName);
+
+        return $class->newInstanceArgs();
+    }
+
     /**
      * Populate a new product.
      *
@@ -51,7 +127,7 @@ class ProductManager extends DefaultManager
             }
         }
 
-        return $this->getRepository()->findProductByNameBrandWeightAndCapacity($product_name, $brand_name, $weight, $capacity);
+        return $this->em->getRepository($this->productClassName)->findProductByNameBrandWeightAndCapacity($product_name, $brand_name, $weight, $capacity);
     }
 
     /**
@@ -84,7 +160,7 @@ class ProductManager extends DefaultManager
             if (count($brand_by_name) > 0) {
                 foreach ($brand_by_name as $brand_names) {
                     foreach ($brand_names as $brand_name) {
-                        $products = $this->getRepository()->findProductsByNameAndBrandContains($product_name, $brand_name);
+                        $products = $this->em->getRepository($this->productClassName)->findProductsByNameAndBrandContains($product_name, $brand_name);
                         foreach ($products as $product) {
                             $result[$product->getId()] = $product;
                         }
@@ -93,7 +169,7 @@ class ProductManager extends DefaultManager
 
                 // Else if just product name, we search products by name
             } else {
-                $products = $this->getRepository()->findProductsByNameContains($product_name);
+                $products = $this->em->getRepository($this->productClassName)->findProductsByNameContains($product_name);
                 foreach ($products as $product) {
                     $result[$product->getId()] = $product;
                 }
@@ -175,7 +251,7 @@ class ProductManager extends DefaultManager
             if (!isset($result[$term])) {
                 $result[$term] = array();
             }
-            $products = $this->getRepository()->findProductsByNameContains($term);
+            $products = $this->em->getRepository($this->productClassName)->findProductsByNameContains($term);
             foreach ($products as $product) {
                 if (!in_array(strtolower($product->getName()), $result[$term])) {
                     $result[$term][] = strtolower($product->getName());
@@ -206,7 +282,7 @@ class ProductManager extends DefaultManager
     {
         $joined_terms = implode(' ', array_keys($keywords));
         $result = array($joined_terms => array());
-        $products = $this->getRepository()->findProductsByNameContains($joined_terms);
+        $products = $this->em->getRepository($this->productClassName)->findProductsByNameContains($joined_terms);
         foreach ($products as $product) {
             if (!in_array(strtolower($product->getName()), $result[$joined_terms])) {
                 $result[$joined_terms][] = strtolower($product->getName());
@@ -259,7 +335,7 @@ class ProductManager extends DefaultManager
         $result = array();
 
         foreach ($terms as $term) {
-            $products = $this->getRepository()->findProductsByBrandNameContains($term);
+            $products = $this->em->getRepository($this->productClassName)->findProductsByBrandNameContains($term);
             foreach ($products as $product) {
                 $result[$term][$product->getBrand()->getId()] = $product->getBrand()->getName();
             }
@@ -381,7 +457,7 @@ class ProductManager extends DefaultManager
 
         foreach ($terms as $term) {
             $term = preg_replace('/[^A-Za-z0-9 ]/', '', $term);
-            $products = $this->getRepository()->findProductsByBrand($term);
+            $products = $this->em->getRepository($this->productClassName)->findProductsByBrand($term);
             $result[$term] = $products;
         }
 

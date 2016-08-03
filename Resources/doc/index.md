@@ -8,7 +8,6 @@ Product Bundle is a Symfony 2/3 bundle for create and manage products in your Sy
 
 This version of the bundle requires :
 * Symfony >= 2.8 LTS / >= 3+
-* [ASFCoreBundle >= 1.0.3](https://packagist.org/packages/artscorestudio/core-bundle)
 * [artscorestudio/APYDatagridBundle >= 3.0.0](https://packagist.org/packages/artscorestudio/datagrid-bundle)
 
 ### Translations
@@ -61,6 +60,18 @@ By importing the routing files you will have ready made pages for things such as
 ```yaml
 asf_product:
     resource: "@ASFProductBundle/Resources/config/routing/default.yml"
+```
+
+### Step 4 : Configure Entities
+
+You have to set entities managed by the bundle via :
+
+```yaml
+asf_product:
+    product:
+    	entity: Acme\ProductBundle\Entity\Product
+    category: 
+    	entity: Acme\ProductBundle\Entity\Category
 ```
 
 ### Next Steps

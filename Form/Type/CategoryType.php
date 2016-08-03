@@ -14,7 +14,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use ASF\ProductBundle\Model\Category\CategoryModel;
-use ASF\ProductBundle\Utils\Manager\DefaultManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -26,16 +25,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class CategoryType extends AbstractType
 {
     /**
-     * @var DefaultManagerInterface
+     * @var string
      */
-    protected $categoryManager;
+    protected $className;
 
     /**
-     * @param DefaultManagerInterface $categoryManager
+     * @param string $className
      */
-    public function __construct(DefaultManagerInterface $categoryManager)
+    public function __construct($className)
     {
-        $this->categoryManager = $categoryManager;
+        $this->className = $className;
     }
 
     /**
@@ -45,16 +44,16 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, array(
-            'label' => 'Category name',
+            'label' => 'asf.product.category_name',
             'required' => true,
         ))
         ->add('state', ChoiceType::class, array(
-            'label' => 'State',
+            'label' => 'asf.product.state',
             'required' => true,
             'choices' => array(
-                'Draft' => CategoryModel::STATE_DRAFT,
-                'Waiting' => CategoryModel::STATE_WAITING,
-                'Published' => CategoryModel::STATE_PUBLISHED,
+                'asf.product.state.draft' => CategoryModel::STATE_DRAFT,
+                'asf.product.state.waiting' => CategoryModel::STATE_WAITING,
+                'asf.product.state.published' => CategoryModel::STATE_PUBLISHED,
             ),
         ));
     }
@@ -67,8 +66,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->categoryManager->getClassName(),
-            'translation_domain' => 'asf_product',
+            'data_class' => $this->className,
         ));
     }
 

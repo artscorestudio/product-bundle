@@ -1,2 +1,2 @@
 asf_product:
-    resource: "@ASFProductBundle/Resources/config/routing/routing.yml"
+    resource: "@ASFProductBundle/Resources/config/routing/all.yml"

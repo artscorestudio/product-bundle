@@ -1,0 +1,26 @@
+services:
+    # Forms
+    asf_product.form.factory.brand:
+        class: ASF\ProductBundle\Form\Factory\FormFactory
+        arguments: ["@form.factory", "%asf_product.brand.form.name%", "%asf_product.brand.form.type%"]
+        
+    asf_product.form.type.brand:
+        class: ASF\ProductBundle\Form\Type\BrandType
+        arguments: ["%asf_product.brand.entity%"]
+        tags:
+            - { name: form.type, alias: brand_type }
+
+    asf_product.form.type.search_brand:
+        class: ASF\ProductBundle\Form\Type\SearchBrandType
+        arguments: ["%asf_product.brand.entity%"]
+        tags:
+            - { name: form.type, alias: search_brand }
+       
+    # Constraints Validators     
+    asf_product.validator.unique.check_brand_name:
+        class: ASF\ProductBundle\Validator\Constraints\BrandClassValidator
+        arguments: ["@doctrine.orm.default_entity_manager", "%asf_product.brand.entity%"]
+        tags:
+            - { name: validator.constraint_validator, alias: BrandClass }
+
+            

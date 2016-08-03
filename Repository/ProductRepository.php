@@ -23,55 +23,149 @@ use ASF\ProductBundle\Model\Category\CategoryInterface;
 class ProductRepository extends EntityRepository
 {
     /**
-     * Find products by name.
-     *
-     * @param string $searched_term
+     * Return a Query Builder with states filter.
+     * 
+     * @param array|null $states
+     * 
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function findProductsByNameContains($searched_term)
+    public function getQueryBuilder($states)
     {
         $qb = $this->createQueryBuilder('p');
         $qb instanceof QueryBuilder;
 
-        $qb->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':searched_term')))
-        ->setParameter('searched_term', '%'.$searched_term.'%');
+        if (null !== $states) {
+            $qb->add('where', $qb->expr()->in('p.state', $states));
+        }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 
     /**
-     * Get products by brand name.
+     * Return number of products.
+     * 
+     * @param array $states
      *
-     * @param string $brand_name
+     * @return number
+     */
+    public function countProducts(array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->select('COUNT(p.id)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Find products by exact name.
+     *
+     * @param string     $searched_term
+     * @param array|null $states
      *
      * @return array
      */
-    public function findProductsByBrandNameContains($brand_name)
+    public function findProductsByName($searched_term, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
-        $qb->leftJoin('p.brand', 'b')
-        ->where($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
-        ->setParameter(':brand_name', '%'.$brand_name.'%');
+        $qb = $this->getQueryBuilder($states);
+        $qb->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':searched_term')))
+            ->setParameter('searched_term', $searched_term);
 
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * Find products by name and brand name.
+     * Find products with name containing searched terms.
      *
-     * @param string $searched_term
+     * @param string     $searched_term
+     * @param array|null $states
+     * 
+     * @return array
      */
-    public function findProductsByNameAndBrandContains($product_name, $brand_name)
+    public function findProductsByNameContains($searched_term, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
+        $qb = $this->getQueryBuilder($states);
+        $qb->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':searched_term')))
+            ->setParameter('searched_term', '%'.$searched_term.'%');
 
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Get products by brand exact name.
+     *
+     * @param string     $brand_name
+     * @param array|null $states
+     *
+     * @return array
+     */
+    public function findProductsByBrandName($brand_name, array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
         $qb->leftJoin('p.brand', 'b')
-        ->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':product_name')))
-        ->andWhere($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
-        ->setParameter('product_name', '%'.$product_name.'%')
-        ->setParameter(':brand_name', '%'.$brand_name.'%');
+            ->where($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
+            ->setParameter(':brand_name', $brand_name);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Get products by brand name containing searched terms.
+     *
+     * @param string     $brand_name
+     * @param array|null $states
+     * 
+     * @return array
+     */
+    public function findProductsByBrandNameContains($brand_name, array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->leftJoin('p.brand', 'b')
+            ->where($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
+            ->setParameter(':brand_name', '%'.$brand_name.'%');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find products by exact product name and brand name.
+     * 
+     * @param unknown $product_name
+     * @param unknown $brand_name
+     * @param array   $states
+     * 
+     * @return mixed|null|\Doctrine\DBAL\Driver\Statement
+     */
+    public function findProductsByNameAndBrand($product_name, $brand_name = null, array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->leftJoin('p.brand', 'b')
+            ->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':product_name')))
+            ->setParameter('product_name', $product_name);
+
+        if (null !== $brand_name) {
+            $qb->andWhere($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
+                ->setParameter(':brand_name', $brand_name);
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Find products by name and brand name containg searched terms.
+     *
+     * @param string     $searched_term
+     * @param array|null $states
+     * 
+     * @return array
+     */
+    public function findProductsByNameAndBrandContains($product_name, $brand_name, array $states = null)
+    {
+        $qb = $this->getQueryBuilder($states);
+        $qb->leftJoin('p.brand', 'b')
+            ->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':product_name')))
+            ->andWhere($qb->expr()->like('b.name', $qb->expr()->lower(':brand_name')))
+            ->setParameter('product_name', '%'.$product_name.'%')
+            ->setParameter(':brand_name', '%'.$brand_name.'%');
 
         return $qb->getQuery()->getResult();
     }
@@ -80,25 +174,29 @@ class ProductRepository extends EntityRepository
      * Find products by category.
      *
      * @param CategoryInterface $category
+     * @param array|null        $states
+     * 
+     * @return array
      */
-    public function findProductsByCategory(CategoryInterface $category)
+    public function findProductsByCategory(CategoryInterface $category, array $states = null)
     {
         $categories = array();
         $categories[] = $category->getId();
 
-        return $this->findProductsByCategoriesArray($categories);
+        return $this->findProductsByCategoriesArray($categories, $states);
     }
 
     /**
      * Find products by a list of categories.
      *
-     * @param array $categories
+     * @param array      $categories
+     * @param array|null $states
+     * 
+     * @return array
      */
-    public function findProductsByCategoriesArray($categories)
+    public function findProductsByCategoriesArray($categories, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
+        $qb = $this->getQueryBuilder($states);
         $qb->select('COUNT(p.id)')->join('p.categories', 'c')->where($qb->expr()->in('c.id', $categories));
 
         return $qb->getQuery()->getScalarResult();
@@ -107,19 +205,18 @@ class ProductRepository extends EntityRepository
     /**
      * Find products by weight and capacity properties.
      *
-     * @param string $weight
-     * @param string $capacity
+     * @param string     $weight
+     * @param string     $capacity
+     * @param array|null $states
      *
      * @return array
      */
-    public function findProductsByWeightAndCapacity($weight, $capacity)
+    public function findProductsByWeightAndCapacity($weight, $capacity, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
+        $qb = $this->getQueryBuilder($states);
         $qb->add('where', 'weight=:weight AND capacity=:capacity')
-        ->setParameter(':weight', $weight)
-        ->setParameter(':capacity', $capacity);
+            ->setParameter(':weight', $weight)
+            ->setParameter(':capacity', $capacity);
 
         return $qb->getQuery()->getResult();
     }
@@ -127,15 +224,14 @@ class ProductRepository extends EntityRepository
     /**
      * Find products by weight property.
      *
-     * @param string $weight
+     * @param string     $weight
+     * @param array|null $states
      *
      * @return array
      */
-    public function findProductsByWeight($weight)
+    public function findProductsByWeight($weight, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
+        $qb = $this->getQueryBuilder($states);
         $qb->add('where', 'weight=:weight')->setParameter(':weight', $weight);
 
         return $qb->getQuery()->getResult();
@@ -144,15 +240,14 @@ class ProductRepository extends EntityRepository
     /**
      * Find products by capacity property.
      *
-     * @param string $capacity
+     * @param string     $capacity
+     * @param array|null $states
      *
      * @return array
      */
-    public function findProductsByCapacity($capacity)
+    public function findProductsByCapacity($capacity, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
+        $qb = $this->getQueryBuilder($states);
         $qb->add('where', 'capacity=:capacity')->setParameter(':capacity', $capacity);
 
         return $qb->getQuery()->getResult();
@@ -161,18 +256,19 @@ class ProductRepository extends EntityRepository
     /**
      * Find product by name, brand name, weight and capacity.
      *
-     * @param string $product_name
-     * @param string $brand_name
-     * @param string $weight
-     * @param string $capacity
+     * @param string     $product_name
+     * @param string     $brand_name
+     * @param string     $weight
+     * @param string     $capacity
+     * @param array|null $states
+     * 
+     * @return array
      */
-    public function findProductByNameBrandWeightAndCapacity($product_name, $brand_name, $weight, $capacity)
+    public function findProductByNameBrandWeightAndCapacity($product_name, $brand_name, $weight, $capacity, array $states = null)
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb instanceof QueryBuilder;
-
+        $qb = $this->getQueryBuilder($states);
         $qb->add('where', $qb->expr()->like('p.name', $qb->expr()->lower(':product_name')))
-        ->setParameter(':product_name', '%'.$product_name.'%');
+            ->setParameter(':product_name', '%'.$product_name.'%');
 
         if (is_null($brand_name)) {
             $qb->andWhere('p.brand IS NULL');
