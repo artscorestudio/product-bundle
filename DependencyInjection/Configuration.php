@@ -36,9 +36,9 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('enable_brand_entity')
                     ->defaultFalse()
                 ->end()
-                ->booleanNode('enable_productPack_entity')
-                  ->defaultFalse()
-                ->end()
+                //->booleanNode('enable_productPack_entity')
+                //  ->defaultFalse()
+                //->end()
                 ->scalarNode('form_theme')
                   ->defaultValue('ASFProductBundle:Form:fields.html.twig')
                 ->end()
@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addProductParameterNode())
                 ->append($this->addCategoryParameterNode())
                 ->append($this->addBrandParameterNode())
-                ->append($this->addProductPackParameterNode())
+                //->append($this->addProductPackParameterNode())
             ->end();
 
         return $treeBuilder;

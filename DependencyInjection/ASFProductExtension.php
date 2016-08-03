@@ -35,14 +35,14 @@ class ASFProductExtension extends Extension implements PrependExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         
         $container->setParameter('asf_product.enable_brand_entity', $config['enable_brand_entity']);
-        $container->setParameter('asf_product.enable_productPack_entity', $config['enable_productPack_entity']);
+        //$container->setParameter('asf_product.enable_productPack_entity', $config['enable_productPack_entity']);
         
         $loader->load('services/services.yml');
         
         $this->setProductParameters($container, $loader, $config);
         $this->setCategoryParameters($container, $loader, $config);
         $this->setBrandParameters($container, $loader, $config);
-        $this->setProductPackParameters($container, $loader, $config);
+        //$this->setProductPackParameters($container, $loader, $config);
     }
 
     /**
