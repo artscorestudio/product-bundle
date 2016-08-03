@@ -25,7 +25,7 @@
 		"friendsofsymfony/jsrouting-bundle": "^1.6"
 	},
 	"suggest": {
-	    "select2/select2": "Select2 is a jQuery based replacement for select boxes."
+	    "select2/select2": "Select2 is a jQuery based replacement for select boxes.",
 	    "friendsofsymfony/jsrouting-bundle": "A pretty nice way to expose your Symfony2 routing to client applications."
 	},
 	"autoload" : {
