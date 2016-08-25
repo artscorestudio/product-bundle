@@ -18,6 +18,8 @@ use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Product\ProductModel;
 use AppBundle\Entity\UserRole;
+use Symfony\Component\EventDispatcher\Event;
+use ASF\ProductBundle\Event\ProductEvents;
 
 /**
  * Artscore Studio Product Controller.
@@ -29,12 +31,12 @@ class ProductController extends Controller
     /**
      * List all products.
      *
-     * @throws AccessDeniedException If authenticate user is not allowed to access to this resource (minimum ROLE_ADMIN)
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listAction()
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::LIST_PRODUCTS, new Event());
+        
         // Set Datagrid source
         $source = new Entity($this->getParameter('asf_product.product.entity'));
         $tableAlias = $source->getTableAlias();
@@ -107,6 +109,8 @@ class ProductController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::EDIT_PRODUCT, new Event());
+        
         $formFactory = $this->get('asf_product.form.factory.product');
 
         if (!is_null($id)) {
@@ -170,6 +174,8 @@ class ProductController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::DELETE_PRODUCT, new Event());
+        
         $product = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findOneBy(array('id' => $id));
 
         try {

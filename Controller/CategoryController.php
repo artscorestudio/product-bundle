@@ -18,6 +18,8 @@ use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Category\CategoryModel;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\UserRole;
+use Symfony\Component\EventDispatcher\Event;
+use ASF\ProductBundle\Event\ProductEvents;
 
 /**
  * Artscore Studio Product Category Controller.
@@ -35,6 +37,8 @@ class CategoryController extends Controller
      */
     public function listAction()
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::LIST_CATEGORIES, new Event());
+        
         // Set Datagrid source
         $source = new Entity($this->getParameter('asf_product.category.entity'));
         $tableAlias = $source->getTableAlias();
@@ -107,6 +111,8 @@ class CategoryController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::EDIT_CATEGORY, new Event());
+        
         $formFactory = $this->get('asf_product.form.factory.category');
 
         if (!is_null($id)) {
@@ -166,6 +172,8 @@ class CategoryController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::DELETE_CATEGORY, new Event());
+        
         $category = $this->getDoctrine()->getRepository($this->getParameter('asf_product.category.entity'))->findOneBy(array('id' => $id));
 
         try {
