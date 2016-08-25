@@ -17,6 +17,8 @@ use Doctrine\ORM\QueryBuilder;
 use APY\DataGridBundle\Grid\Action\RowAction;
 use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Brand\BrandModel;
+use ASF\ProductBundle\Event\ProductEvents;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Artscore Studio Product Controller.
@@ -34,6 +36,8 @@ class BrandController extends Controller
      */
     public function listAction()
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::LIST_BRANDS, new Event());
+        
         // Set Datagrid source
         $source = new Entity($this->getParameter('asf_product.brand.entity'));
         $tableAlias = $source->getTableAlias();
@@ -81,6 +85,8 @@ class BrandController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::EDIT_BRAND, new Event());
+        
         $formFactory = $this->get('asf_product.form.factory.brand');
 
         if (!is_null($id)) {
@@ -140,6 +146,8 @@ class BrandController extends Controller
      */
     public function deleteAction($id)
     {
+        $this->get('event_dispatcher')->dispatch(ProductEvents::DELETE_BRAND, new Event());
+        
         $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('id' => $id));
 
         try {
