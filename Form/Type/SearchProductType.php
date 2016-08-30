@@ -35,18 +35,7 @@ class SearchProductType extends AbstractType
     {
         $this->className = $className;
     }
-
-    /**
-     * (non-PHPdoc).
-     *
-     * @see \Symfony\Component\Form\AbstractType::buildForm()
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        //$product_transformer = new StringToProductTransformer($this->productManager);
-        //$builder->addModelTransformer($product_transformer);
-    }
-
+    
     /**
      * {@inheritdoc}
      *
@@ -68,9 +57,17 @@ class SearchProductType extends AbstractType
      *
      * @see \Symfony\Component\Form\FormTypeInterface::getName()
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'search_product';
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
     }
 
     /**
