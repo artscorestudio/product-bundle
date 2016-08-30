@@ -8,3 +8,6 @@ af_product_default:
 asf_product_brand:
     prefix: /brand
     resource: "@ASFProductBundle/Resources/config/routing/brand.yml"
+
+asf_product_ajax:
+    resource: "@ASFProductBundle/Resources/config/routing/ajax_request.yml"
