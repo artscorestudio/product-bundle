@@ -35,17 +35,25 @@
                                 },
                                 cache: true
                             },
+                            tags: true,
+                            createTag: function(params) {
+                                return {
+                                    id: params.term,
+                                    name: params.term,
+                                    newOption: true
+                                }
+                            },
                             language: "fr",
                             escapeMarkup: function(markup){ return markup; },
                             minimumInputLength: 3,
                             templateResult: function(repo) {
                                 if (repo.loading) return repo.text;
-                                
-                                 var markup = "<div class='select2-result-repository clearfix'>" +
-                                     "<div class='select2-result-repository__title'>" + repo.name + "</div>" +
-                                     "</div>";
-                                 
-                                 return markup;
+                                var $markup = $('<span></span>');
+                                $markup.text(repo.name);
+                                if ( repo.newOption ) {
+                                    $markup.prepend('{{ label_info("new") }} ');
+                                }
+                                return $markup;
                             },
                             templateSelection: function(repo) {
                                 return repo.name || repo.text;
@@ -63,6 +71,17 @@
 {% block search_product_widget %}
 {% spaceless %}
     {{ block('asf_search_field_widget') }}
+    <script type="text/javascript">
+    if ( "undefined" !== typeof jQuery ) {
+        (function($, window, document) {
+            $(function() {
+                $('#{{ form.vars.id }}').change(function(){
+                    console.debug('CHNAGE');
+                });
+            });
+        }(window.jQuery, window, document));
+    }
+    </script>
 {% endspaceless %}
 {% endblock %}
 
