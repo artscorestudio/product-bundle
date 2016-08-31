@@ -172,7 +172,7 @@ class AjaxRequestController extends Controller
     */
    public function searchProductByNameAction(Request $request)
    {
-       $term = $request->get('name');
+       $term = $request->get('q');
        $products = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findProductsByNameContains($term);
        $search = array();
 
@@ -182,7 +182,7 @@ class AjaxRequestController extends Controller
                'name' => $product->getName(),
            );
        }
-
+       
        $response = new Response();
        $response->setContent(json_encode(array(
            'total_count' => count($search),
