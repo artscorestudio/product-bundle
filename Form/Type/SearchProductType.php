@@ -11,10 +11,8 @@
 namespace ASF\ProductBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use ASF\ProductBundle\Form\DataTransformer\StringToProductTransformer;
 
 /**
  * Field for searching product.
