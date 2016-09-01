@@ -46,7 +46,7 @@ class SearchProductType extends AbstractType
             'class' => $this->className,
             'choice_label' => 'name',
             'placeholder' => 'asf.product.form.choose_a_product',
-            'attr' => array('class' => 'select2-entity-ajax', 'data-route' => 'asf_product_ajax_request_product_by_name'),
+            'attr' => array('class' => 'select2-entity-ajax'),
         ));
     }
 

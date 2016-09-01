@@ -13,3 +13,21 @@ asf_product_product_add:
 asf_product_product_delete:
     path: /delete/{id}
     defaults: { _controller: "ASFProductBundle:Product:delete" }
+    
+asf_product_product_ajax_request:
+    path: /ajax/request
+    defaults: { _controller: "ASFProductBundle:Product:ajaxRequest" }
+    options:
+        expose: true
+        
+asf_product_product_suggest_ajax_request:
+    path: /suggest/ajax/request
+    defaults: { _controller: "ASFProductBundle:Product:suggestProductAjaxRequest" }
+    options:
+        expose: true
+        
+asf_product_product_create_ajax_request:
+    path: /create/ajax/request
+    defaults: { _controller: "ASFProductBundle:Product:createProductAjaxRequest" }
+    options:
+        expose: true 

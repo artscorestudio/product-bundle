@@ -146,7 +146,6 @@
             	<source>asf.product.msg.delete.confirm</source>
             	<target>Êtes-vous sûr de vouloir supprimer %name% ?</target>
             </trans-unit>
-            
             <trans-unit id="asf.product.msg.list.no_category">
             	<source>asf.product.msg.list.no_category</source>
             	<target>Acune catégorie.</target>
@@ -158,6 +157,14 @@
             <trans-unit id="asf.product.msg.list.no_brand">
             	<source>asf.product.msg.list.no_brand</source>
             	<target>Aucune marque.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.loading_please_wait">
+                <source>asf.product.msg.loading_please_wait</source>
+                <target>Chargement, veuillez patienter...</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.just_one_product">
+                <source>asf.product.msg.just_one_product</source>
+                <target>Vous ne pouvez choisir qu'un seul produit.</target>
             </trans-unit>
             
             <!-- PRODUCT MESSAGES -->
@@ -295,6 +302,10 @@
             	<source>asf.product.title.edit_brand</source>
             	<target>Ajouter/Editer une marque</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.suggested_products">
+                <source>asf.product.link.suggested_products</source>
+                <target>Produits suggérés</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">
@@ -382,6 +393,10 @@
             <trans-unit id="asf.product.btn.save">
             	<source>asf.product.btn.save</source>
             	<target>Enregistrer</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.close">
+                <source>asf.product.btn.close</source>
+                <target>Fermer</target>
             </trans-unit>
             
             <!-- LINKS -->

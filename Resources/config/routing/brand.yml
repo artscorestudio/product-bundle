@@ -13,3 +13,9 @@ asf_product_brand_add:
 asf_product_brand_delete:
     path: /delete/{id}
     defaults: { _controller: "ASFProductBundle:Brand:delete" }
+    
+asf_product_brand_ajax_request:
+    path: /ajax/request
+    defaults: { _controller: "ASFProductBundle:Brand:ajaxRequest" }
+    options:
+        expose: true

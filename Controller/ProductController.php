@@ -20,6 +20,8 @@ use ASF\ProductBundle\Model\Product\ProductModel;
 use AppBundle\Entity\UserRole;
 use Symfony\Component\EventDispatcher\Event;
 use ASF\ProductBundle\Event\ProductEvents;
+use Symfony\Component\HttpFoundation\Response;
+use ASF\ProductBundle\Model\Brand\BrandModel;
 
 /**
  * Artscore Studio Product Controller.
@@ -194,5 +196,141 @@ class ProductController extends Controller
         }
 
         return $this->redirect($this->get('router')->generate('asf_product_product_list'));
+    }
+    
+    /**
+     * Return a list of product according to a search
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxRequestAction(Request $request)
+    {
+        $terms = $request->get('term'); $result = array();
+        $products = $this->get('asf_product.manager')->getProductsByKeywords($terms);
+    
+        foreach($products as $product) {
+            $result[] = array(
+                'id' => $product->getId(),
+                'name' => $this->get('asf_product.manager')->getFormattedProductName($product)
+            );
+        }
+    
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'total_count' => count($result),
+            'items' => $result,
+        )));
+    
+        return $response;
+    }
+    
+    /**
+     * Return list of products via an ajax request for search on exactly term
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxRequestNameAction(Request $request)
+    {
+        $term = $request->get('term'); $result = array();
+        $products = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findBy(array('name' => $term));
+    
+        foreach($products as $product) {
+            $result[$product->getId()] = $this->get('asf_product.manager')->getFormattedProductName($product);
+        }
+    
+        $response = new Response();
+        $response->setContent(json_encode($result));
+    
+        return $response;
+    }
+    
+    /**
+     * Return a list of suggested product according to a search
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function suggestProductAjaxRequestAction(Request $request)
+    {
+        $terms = $request->get('term'); $result = array(); $productManager = $this->get('asf_product.manager');
+        $products = $productManager->getProductsByKeywords($terms);
+    
+        foreach($products as $product) {
+            $result[$product->getId()] = $productManager->getFormattedProductName($product);
+        }
+    
+        $explterms = explode(' ', $terms); $brand_name = null;
+        $brand_names = $productManager->findBrandNameInString($terms, true);
+        foreach($explterms as $term) {
+            if ( $term == in_array($term, $brand_names) ) {
+                $brand_name = $term;
+            }
+        }
+    
+        $weight = $productManager->findWeightPropertyInString($terms);
+        $capacity = $productManager->findCapacityPropertyInString($terms);
+    
+        $weight = is_null($weight) ? null : $weight . 'kg';
+        $capacity = is_null($capacity) ? null : $capacity . 'L';
+    
+        $product_name = '';
+        foreach($explterms as $term) {
+            $is_weight = $productManager->findWeightPropertyInString($term);
+            $is_capacity = $productManager->findCapacityPropertyInString($term);
+            if ( $term != $brand_name && is_null($is_weight) && is_null($is_capacity) ) {
+                $product_name .= ' ' . $term;
+            }
+        }
+    
+        return $this->render('ASFProductBundle:Product:suggest-product.html.twig', array(
+            'products' => $result,
+            'product_name' => trim($product_name),
+            'brand_name' => $brand_name,
+            'weight' => $weight,
+            'capacity' => $capacity
+        ));
+    }
+    
+    /**
+     * Create product according to a search
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function createProductAjaxRequestAction(Request $request)
+    {
+        try {
+            $response = new Response();
+            $product_name = $request->get('productName');
+            $brand_name = $request->get('brandName');
+            $weight = $this->get('asf_product.manager')->findWeightPropertyInString($request->get('weight'));
+            $capacity = $this->get('asf_product.manager')->findCapacityPropertyInString($request->get('capacity'));
+            $productManager = $this->get('asf_product.manager');
+            	
+            $weight = is_null($weight) || $weight == '' ? null : $weight;
+            $capacity = is_null($capacity) || $capacity == '' ? null : $capacity;
+            	
+            $product = $productManager->createProductInstance();
+            $product->setName($product_name)->setState(ProductModel::STATE_PUBLISHED)->setWeight($weight)->setCapacity($capacity);
+            	
+            if ( $brand_name != '' ) {
+                $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('name' => $brand_name));
+                if ( is_null($brand) ) {
+                    $brand = $this->get('asf_product.manager')->createBrandInstance();
+                    $brand->setName($brand_name)->setState(BrandModel::STATE_PUBLISHED);
+                }
+                $product->setBrand($brand);
+            }
+            	
+            $this->get('doctrine.orm.default_entity_manager')->persist($product);
+            $this->get('doctrine.orm.default_entity_manager')->flush();
+            
+            $response->setContent(json_encode(array('name' => $productManager->getFormattedProductName($product))));
+        } catch (\Exception $e) {
+            $response->setContent(json_encode(array('error' => $e->getMessage())));
+        }
+        return $response;
     }
 }

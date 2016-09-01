@@ -19,6 +19,7 @@ use APY\DataGridBundle\Grid\Source\Entity;
 use ASF\ProductBundle\Model\Brand\BrandModel;
 use ASF\ProductBundle\Event\ProductEvents;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Artscore Studio Product Controller.
@@ -166,5 +167,49 @@ class BrandController extends Controller
         }
 
         return $this->redirect($this->get('router')->generate('asf_product_brand_list'));
+    }
+
+    /**
+     * Return a list of brand according to a search
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxRequestAction(Request $request)
+    {
+        $term = $request->get('term');
+        $brands = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findByNameContains($term);
+        $search = array();
+    
+        foreach($brands as $brand) {
+            $search[] = $brand->getName();
+        }
+    
+        $response = new Response();
+        $response->setContent(json_encode($search));
+    
+        return $response;
+    }
+    
+    /**
+     * Return list of brand via an ajax request for search on exactly term
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxRequestNameAction(Request $request)
+    {
+        $term = $request->get('term');
+        $brands = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findBy(array('name' => $term));
+        $search = array();
+    
+        foreach($brands as $brand) {
+            $search[] = $brand->getName();
+        }
+    
+        $response = new Response();
+        $response->setContent(json_encode($search));
+    
+        return $response;
     }
 }

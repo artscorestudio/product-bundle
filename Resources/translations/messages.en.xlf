@@ -156,7 +156,15 @@
             </trans-unit>
             <trans-unit id="asf.product.msg.list.no_brand">
             	<source>asf.product.msg.list.no_brand</source>
-            	<target>Aucune marque.</target>
+            	<target>No brands.</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.loading_please_wait">
+                <source>asf.product.msg.loading_please_wait</source>
+                <target>Loading, please wait...</target>
+            </trans-unit>
+            <trans-unit id="asf.product.msg.just_one_product">
+                <source>asf.product.msg.just_one_product</source>
+                <target>You can have only one checked Product.</target>
             </trans-unit>
             
             <!-- PRODUCT MESSAGES -->
@@ -286,6 +294,10 @@
             	<source>asf.product.title.edit_brand</source>
             	<target>Add/Edit brand</target>
             </trans-unit>
+            <trans-unit id="asf.product.title.suggested_products">
+                <source>asf.product.link.suggested_products</source>
+                <target>Suggested products</target>
+            </trans-unit>
             
             <!-- TEXTS -->
             <trans-unit id="asf.product.text.product_from_db">
@@ -373,6 +385,10 @@
             <trans-unit id="asf.product.btn.save">
             	<source>asf.product.btn.save</source>
             	<target>Save</target>
+            </trans-unit>
+            <trans-unit id="asf.product.btn.close">
+                <source>asf.product.btn.close</source>
+                <target>Close</target>
             </trans-unit>
             
             <!-- LINKS -->

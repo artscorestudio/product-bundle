@@ -10,10 +10,6 @@ asf_product_category:
     prefix: /product-category
     resource: "@ASFProductBundle/Resources/config/routing/category.yml"
     
-asf_product_ajax_request:
-    prefix: /ajax
-    resource: "@ASFProductBundle/Resources/config/routing/ajax_request.yml"
-    
 asf_product_doc:
     prefix: /doc
     resource: "@ASFProductBundle/Resources/config/routing/doc.yml"

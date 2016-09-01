@@ -2,69 +2,6 @@
 {% block asf_search_field_widget %}
 {% spaceless %}
     {{ block('choice_widget') }}
-
-    <script type="text/javascript">
-    if ( "undefined" !== typeof jQuery ) {
-        (function($, window, document) {
-            $(function() {
-                if ( $.fn.select2 ) {
-                    $('.select2-entity').each(function(){
-                        $(this).select2();
-                    });
-                    
-                    $('.select2-entity-ajax').each(function(){
-                        $(this).select2({
-                            ajax: {
-                                url: Routing.generate($(this).attr('data-route')),
-                                dataType: 'json',
-                                delay: 250,
-                                data: function(params) {
-                                    return {
-                                        q: params.term,
-                                        page: params.page
-                                    };
-                                },
-                                processResults: function(data, params) {
-                                    params.page = params.page || 1;
-                                    return {
-                                        results: data.items,
-                                        pagination: {
-                                            more: (params.page * 30) > data.total_count
-                                        }
-                                    };
-                                },
-                                cache: true
-                            },
-                            tags: true,
-                            createTag: function(params) {
-                                return {
-                                    id: params.term,
-                                    name: params.term,
-                                    newOption: true
-                                }
-                            },
-                            language: "fr",
-                            escapeMarkup: function(markup){ return markup; },
-                            minimumInputLength: 3,
-                            templateResult: function(repo) {
-                                if (repo.loading) return repo.text;
-                                var $markup = $('<span></span>');
-                                $markup.text(repo.name);
-                                if ( repo.newOption ) {
-                                    $markup.prepend('{{ label_info("new") }} ');
-                                }
-                                return $markup;
-                            },
-                            templateSelection: function(repo) {
-                                return repo.name || repo.text;
-                            }
-                        });
-                    });
-                }
-            });
-        }(window.jQuery, window, document));
-    }
-    </script>
 {% endspaceless %}
 {% endblock %}
 
@@ -75,9 +12,7 @@
     if ( "undefined" !== typeof jQuery ) {
         (function($, window, document) {
             $(function() {
-                $('#{{ form.vars.id }}').change(function(){
-                    console.debug('CHNAGE');
-                });
+                $('#{{ form.vars.id }}').asfSearchProduct();
             });
         }(window.jQuery, window, document));
     }
