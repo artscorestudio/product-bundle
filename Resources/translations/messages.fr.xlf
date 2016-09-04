@@ -242,10 +242,6 @@
             	<source>asf.product.title.product_from_db</source>
             	<target>Produit dans la base de données</target>
             </trans-unit>
-            <trans-unit id="asf.product.title.suggested_product_name">
-            	<source>asf.product.title.suggested_product_name</source>
-            	<target>Suggestions de produits</target>
-            </trans-unit>
             <trans-unit id="asf.product.title.product_list">
             	<source>asf.product.title.product_list</source>
             	<target>Liste des produits</target>
@@ -303,8 +299,12 @@
             	<target>Ajouter/Editer une marque</target>
             </trans-unit>
             <trans-unit id="asf.product.title.suggested_products">
-                <source>asf.product.link.suggested_products</source>
-                <target>Produits suggérés</target>
+                <source>asf.product.title.suggested_products</source>
+                <target>Suggestion de produits</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.suggested_product_name">
+                <source>asf.product.title.suggested_product_name</source>
+                <target>Suggested product name</target>
             </trans-unit>
             
             <!-- TEXTS -->

@@ -206,7 +206,7 @@ class ProductController extends Controller
      */
     public function ajaxRequestAction(Request $request)
     {
-        $terms = $request->get('term'); $result = array();
+        $terms = $request->get('q'); $result = array();
         $products = $this->get('asf_product.manager')->getProductsByKeywords($terms);
     
         foreach($products as $product) {
@@ -233,7 +233,7 @@ class ProductController extends Controller
      */
     public function ajaxRequestNameAction(Request $request)
     {
-        $term = $request->get('term'); $result = array();
+        $term = $request->get('q'); $result = array();
         $products = $this->getDoctrine()->getRepository($this->getParameter('asf_product.product.entity'))->findBy(array('name' => $term));
     
         foreach($products as $product) {
@@ -254,7 +254,7 @@ class ProductController extends Controller
      */
     public function suggestProductAjaxRequestAction(Request $request)
     {
-        $terms = $request->get('term'); $result = array(); $productManager = $this->get('asf_product.manager');
+        $terms = $request->get('q'); $result = array(); $productManager = $this->get('asf_product.manager');
         $products = $productManager->getProductsByKeywords($terms);
     
         foreach($products as $product) {
@@ -313,7 +313,8 @@ class ProductController extends Controller
             $capacity = is_null($capacity) || $capacity == '' ? null : $capacity;
             	
             $product = $productManager->createProductInstance();
-            $product->setName($product_name)->setState(ProductModel::STATE_PUBLISHED)->setWeight($weight)->setCapacity($capacity);
+            $product->setName($product_name)->setState(ProductModel::STATE_PUBLISHED)
+                ->setWeight($weight)->setCapacity($capacity)->setType(ProductModel::TYPE_PRODUCT);
             	
             if ( $brand_name != '' ) {
                 $brand = $this->getDoctrine()->getRepository($this->getParameter('asf_product.brand.entity'))->findOneBy(array('name' => $brand_name));

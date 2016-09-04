@@ -234,10 +234,6 @@
             	<source>asf.product.title.product_from_db</source>
             	<target>Products from our database</target>
             </trans-unit>
-            <trans-unit id="asf.product.title.suggested_product_name">
-            	<source>asf.product.title.suggested_product_name</source>
-            	<target>Suggested product name</target>
-            </trans-unit>
             <trans-unit id="asf.product.title.product_list">
             	<source>asf.product.title.product_list</source>
             	<target>Products list</target>
@@ -295,8 +291,12 @@
             	<target>Add/Edit brand</target>
             </trans-unit>
             <trans-unit id="asf.product.title.suggested_products">
-                <source>asf.product.link.suggested_products</source>
+                <source>asf.product.title.suggested_products</source>
                 <target>Suggested products</target>
+            </trans-unit>
+            <trans-unit id="asf.product.title.suggested_product_name">
+                <source>asf.product.title.suggested_product_name</source>
+                <target>Suggested product name</target>
             </trans-unit>
             
             <!-- TEXTS -->

@@ -39,13 +39,17 @@
             // Autocompletion
             plugin.autocomplete.init();
             
-            console.debug($.fn.select2.defaults);
+            $element.on('select2:select', function(event){
+                if ( true === event.params.data.newOption ) {
+                    plugin.onChange();
+                }
+            });
         }
         
         // Autocomplete field
         // ======================================================================
         plugin.autocomplete = {
-        	init: function(){
+            init: function(){
                 $element.select2({
                     ajax: {
                         url: Routing.generate(plugin.settings.productRequestRoute),
@@ -69,7 +73,7 @@
                 });
             },
             escapeMarkup: function(markup) {
-            	return markup;
+                return markup;
             },
             processResult: function(data, params) {
                 params.page = params.page || 1;
@@ -88,6 +92,7 @@
                 }
             },
             templateSelection: function(data) {
+                console.debug(data);
                 return data.name || data.text;
             },
             templateResult: function(response) {
@@ -104,14 +109,12 @@
         // Check the search against the db
         // ======================================================================
         plugin.onChange = function(event, ui) {
-            if ( ui.item == null && $element.val() != '' ) {
-                $modal.find('.modal-title').text(Translator.trans('asf.product.title.suggested_products'));
-                $modal.modal('show');
-                $.ajax({
-                    url: Routing.generate(plugin.settings.productSuggestRoute, {term: $element.val()}),
-                    success: plugin.suggestedProductWindow
-                });
-            }
+            $modal.find('.modal-title').text(Translator.trans('asf.product.title.suggested_products'));
+            $modal.modal('show');
+            $.ajax({
+                url: Routing.generate(plugin.settings.productSuggestRoute, {term: $element.val()}),
+                success: plugin.suggestedProductWindow
+            });
         }
 
         plugin.suggestedProductWindow = function(response){
@@ -122,7 +125,7 @@
                     return;
                 }
                 
-                $(this).addClass('btn-waiting').text(Translator.trans('asf.product.msg.loading_please_wait');
+                $(this).addClass('btn-waiting').text(Translator.trans('asf.product.msg.loading_please_wait'));
                 
                 var db_product = $modal.find('input[name=selected_product]:checked'), product_name;
                 if ( db_product.length > 1 ) {
@@ -170,18 +173,18 @@
         plugin.createModal = function() {
             
             if ( $('body').find(plugin.settings.modalId).length == 0 ) {
-                $modal = $('<div class="modal fade" id="'+plugin.settings.modalId+'" tabindex="-1" role="dialog" aria-labelledby="Suggested product dialog window"></div>');
+                $modal = $('<div class="modal fade" id="'+plugin.settings.modalId+'" tabindex="-1" role="dialog" aria-labelledby="'+Translator.trans('asf.product.title.suggested_products')+'"></div>');
                 var $modal_diag = $('<div class="modal-dialog modal-lg" role="document"></div>')
                     , $modal_content = $('<div class="modal-content"></div>')
                     
                     , $modal_header = $('<div class="modal-header"></div>')
-                    , $header_btn_close = $('<button type="button" class="close" data-dismiss="modal" aria-label="'+Translator.trans('Close', {}, 'asf_product')+'"><span aria-hidden="true">&times;</span></button>')
+                    , $header_btn_close = $('<button type="button" class="close" data-dismiss="modal" aria-label="'+Translator.trans('asf.product.btn.close')+'"><span aria-hidden="true">&times;</span></button>')
                     , $modal_title = $('<h4 class="modal-title" id="myModalLabel"></h4>')
                         
                     , $modal_body = $('<div class="modal-body"><div class="text-center">'+Translator.trans('asf.product.msg.loading_please_wait')+'</div></div>')        
                     
                     , $modal_footer = $('<div class="modal-footer">')
-                    , $btn_close = $('<button type="button" class="btn btn-default" data-dismiss="modal">'+Translator.trans('asf.product.btn.close')+'</button>')
+                    , $btn_close = $('<button type="button" class="btn btn-danger" data-dismiss="modal">'+Translator.trans('asf.product.btn.close')+'</button>')
                     , $btn_save = $('<button type="button" class="btn btn-primary btn-submit">'+Translator.trans('asf.product.btn.save')+'</button>');
                 
                 $modal_header.append($header_btn_close, $modal_title);

@@ -44,7 +44,12 @@ class SearchProductType extends AbstractType
         $resolver->setDefaults(array(
             'label' => 'asf.product.form.search_product',
             'class' => $this->className,
-            'choice_label' => 'name',
+            'choice_label' => function($product) {
+                return $product->getName().
+                    (!is_null($product->getBrand()) ? ' '.$product->getBrand()->getName() : '').
+                    (!is_null($product->getWeight()) ? ' '.$product->getWeight().'Kg' : '').
+                    (!is_null($product->getCapacity()) ? ' '.$product->getCapacity().'L' : ''); 
+            },
             'placeholder' => 'asf.product.form.choose_a_product',
             'attr' => array('class' => 'select2-entity-ajax'),
         ));
