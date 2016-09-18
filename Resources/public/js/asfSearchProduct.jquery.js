@@ -92,7 +92,6 @@
                 }
             },
             templateSelection: function(data) {
-                console.debug(data);
                 return data.name || data.text;
             },
             templateResult: function(response) {

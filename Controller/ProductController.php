@@ -254,7 +254,7 @@ class ProductController extends Controller
      */
     public function suggestProductAjaxRequestAction(Request $request)
     {
-        $terms = $request->get('q'); $result = array(); $productManager = $this->get('asf_product.manager');
+        $terms = $request->get('term'); $result = array(); $productManager = $this->get('asf_product.manager');
         $products = $productManager->getProductsByKeywords($terms);
     
         foreach($products as $product) {
